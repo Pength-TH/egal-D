@@ -3,7 +3,6 @@
 
 #include <list>
 
-
 /** Simple pool, use to store and retrieve precreated objects.
 @remarks
 	This templated pool stores objects in a list and offers a few functions to retrieve objects and traverse through the 

@@ -3,7 +3,6 @@
 
 #include <map>
 
-
 /** The PoolMap is an extention of the regular Pool. The PoolMap contains objects that can be found by name.
 */
 template <typename T>

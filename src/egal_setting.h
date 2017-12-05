@@ -7,6 +7,9 @@
 
 #define RENDER_TYPE 0
 
+#define MAX_LOG_LENGTH 2048
+
+
 
 
 
