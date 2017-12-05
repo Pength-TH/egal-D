@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{678761aa-b96a-4d21-877a-662129dee487}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="head">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="src\OIS">
+      <UniqueIdentifier>{452357f5-462c-490a-ac72-8694701b3cab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\OIS\win32">
+      <UniqueIdentifier>{28e3d09e-3b14-4f7d-89db-954a635da17a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>head</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>head</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>head</Filter>
+    </ClInclude>
+    <ClInclude Include="egal-d-win32.h">
+      <Filter>head</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OIS\includes\OIS.h">
+      <Filter>src\OIS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OIS\includes\OISConfig.h">
+      <Filter>src\OIS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OIS\includes\OISEffect.h">
+      <Filter>src\OIS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OIS\includes\OISEvents.h">
+      <Filter>src\OIS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OIS\includes\OISException.h">
+      <Filter>src\OIS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OIS\includes\OISFactoryCreator.h">
+      <Filter>src\OIS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OIS\includes\OISForceFeedback.h">
+      <Filter>src\OIS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OIS\includes\OISInputManager.h">
+      <Filter>src\OIS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OIS\includes\OISInterface.h">
+      <Filter>src\OIS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OIS\includes\OISKeyboard.h">
+      <Filter>src\OIS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OIS\includes\OISMouse.h">
+      <Filter>src\OIS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OIS\includes\OISMultiTouch.h">
+      <Filter>src\OIS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OIS\includes\OISObject.h">
+      <Filter>src\OIS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OIS\includes\OISPrereqs.h">
+      <Filter>src\OIS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Client.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OIS\includes\win32\Win32ForceFeedback.h">
+      <Filter>src\OIS\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OIS\includes\win32\Win32InputManager.h">
+      <Filter>src\OIS\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OIS\includes\win32\Win32KeyBoard.h">
+      <Filter>src\OIS\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OIS\includes\win32\Win32Mouse.h">
+      <Filter>src\OIS\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OIS\includes\win32\Win32Prereqs.h">
+      <Filter>src\OIS\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework_listener.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="egal-d-win32.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Client.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OIS\src\OISEffect.cpp">
+      <Filter>src\OIS</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OIS\src\OISException.cpp">
+      <Filter>src\OIS</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OIS\src\OISForceFeedback.cpp">
+      <Filter>src\OIS</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OIS\src\OISInputManager.cpp">
+      <Filter>src\OIS</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OIS\src\OISKeyboard.cpp">
+      <Filter>src\OIS</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OIS\src\OISObject.cpp">
+      <Filter>src\OIS</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OIS\src\win32\Win32ForceFeedback.cpp">
+      <Filter>src\OIS\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OIS\src\win32\Win32InputManager.cpp">
+      <Filter>src\OIS\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OIS\src\win32\Win32KeyBoard.cpp">
+      <Filter>src\OIS\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OIS\src\win32\Win32Mouse.cpp">
+      <Filter>src\OIS\win32</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="egal-d-win32.rc">
+      <Filter>resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="egal-d-win32.ico">
+      <Filter>resource</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
