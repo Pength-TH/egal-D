@@ -1,0 +1,280 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Build">
+      <UniqueIdentifier>{c5c995e4-e2ba-4f00-8291-2c63788ac930}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{ce405851-0614-4455-8b25-7e20af604acb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Documentation">
+      <UniqueIdentifier>{ec3578af-3cf1-4bd1-b763-fe22bd832011}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins">
+      <UniqueIdentifier>{ea93b14f-78c1-4d9d-82a8-81999534be0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{82f51a76-2d53-449f-9ec0-9fccb16d2a42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{a5a3e6ea-2923-444f-bfd3-8c32f3df83a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\api">
+      <UniqueIdentifier>{3ae2ff9b-020a-4556-8ae8-9671df05e157}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\particle">
+      <UniqueIdentifier>{e86f08ec-d67d-49d4-a9db-92a7b3ea033c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Editor">
+      <UniqueIdentifier>{ce1c445e-ea16-4ca5-8d11-2c764f8cee3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Runtime">
+      <UniqueIdentifier>{4a6f5388-d027-484a-a591-c3ad48d5ebae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ThirdParty">
+      <UniqueIdentifier>{f6a98ec3-d65c-49d5-9e0a-92bdc4053600}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ThirdParty\FBX">
+      <UniqueIdentifier>{47c20bdd-ba30-4f67-8751-f575eabf33d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ThirdParty\SDL2">
+      <UniqueIdentifier>{7254067f-aabf-4d55-bd10-12d22721899e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ThirdParty\Windows">
+      <UniqueIdentifier>{61bfa49e-9b7f-48fc-84e9-169a0ed84161}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ThirdParty\Windows\DX9">
+      <UniqueIdentifier>{7cf8daf3-11c3-48c4-8769-acdcee546fb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ThirdParty\Windows\DX11">
+      <UniqueIdentifier>{4021b2aa-5c51-4fdb-be64-4cbd49324185}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ThirdParty\Windows\DX12">
+      <UniqueIdentifier>{d5f6244a-5f76-4aff-9058-594cee58fb57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Runtime\Engine">
+      <UniqueIdentifier>{a6170721-5f12-41fe-90fb-e6e4f5013dc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Runtime\Engine\Classes">
+      <UniqueIdentifier>{4fc391f1-c9dd-4627-bacf-798cb00c10c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Runtime\Engine\Classes\AI">
+      <UniqueIdentifier>{5ee51661-93c8-4189-98bc-ed9d921e6e62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Runtime\Engine\Classes\Animation">
+      <UniqueIdentifier>{bdfe62f5-9ef8-496f-b853-88d8cc51a640}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Runtime\Engine\Classes\Camera">
+      <UniqueIdentifier>{c34c8efa-a898-46a6-b723-3a1056607a29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Runtime\Engine\Classes\Components">
+      <UniqueIdentifier>{b66cd352-00ee-48f2-aa74-fd85e6516ca4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Runtime\Engine\Classes\Curves">
+      <UniqueIdentifier>{08d081e2-7661-4d7e-a311-01378a8938e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Runtime\Engine\Classes\Debug">
+      <UniqueIdentifier>{5c6bc419-feb5-41b8-b89a-a7e05a08b980}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Runtime\Engine\Classes\EditorFramework">
+      <UniqueIdentifier>{f94c69f0-27c8-4410-9abf-958654476eee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Runtime\Engine\Classes\GameFramework">
+      <UniqueIdentifier>{3ca2254c-a0d0-4e91-92f4-4975051d5699}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Runtime\Engine\Classes\Engine">
+      <UniqueIdentifier>{8c8b91cf-12f8-493a-ba26-414123f5f0d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Runtime\Engine\Classes\Particles">
+      <UniqueIdentifier>{06c67841-3e0d-44ee-b29e-4bb8554cd533}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Runtime\Engine\Classes\Sound">
+      <UniqueIdentifier>{ba8af3f4-e990-4cfc-94d5-275bfd30ca32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Runtime\Engine\Classes\Base">
+      <UniqueIdentifier>{da1dadff-3b43-4633-b106-1280467cee15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ThirdParty\imgui">
+      <UniqueIdentifier>{b77221c3-47e2-4ef3-8d0f-7d5a95278749}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\common">
+      <UniqueIdentifier>{d6277fcb-91f0-4ec1-a1a2-f28b949f226b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\common\unitly">
+      <UniqueIdentifier>{5f9217fa-1d0b-4931-988e-b965f24524d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\common\math">
+      <UniqueIdentifier>{a5337031-d6da-408b-b7e4-cf2a950c60c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\common\math\mathful">
+      <UniqueIdentifier>{4dc2e540-c245-46eb-a4a2-35bfe9ebb4c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\common\math\mathful\vectorial">
+      <UniqueIdentifier>{a15cf6c6-eb77-4e76-ab5b-ee51d8ce596e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\common\math\mathful\internal">
+      <UniqueIdentifier>{6ae5a54e-fb88-4304-9c15-96aedcdffb77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\common\math\vfpmath">
+      <UniqueIdentifier>{aa518985-7607-40e4-a798-05eff15b0f43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\common\math\neonmath">
+      <UniqueIdentifier>{4bac9ba7-17f6-41dc-b1e3-c2fe4fd0c268}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\pool_template.h">
+      <Filter>Source\common\unitly</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pool_map.h">
+      <Filter>Source\common\unitly</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\egal_math.h">
+      <Filter>Source\common\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\vector.h">
+      <Filter>Source\common\math\mathful</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\glsl_mappings.h">
+      <Filter>Source\common\math\mathful</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\hlsl_mappings.h">
+      <Filter>Source\common\math\mathful</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\io.h">
+      <Filter>Source\common\math\mathful</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\matrix.h">
+      <Filter>Source\common\math\mathful</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\matrix_4x4.h">
+      <Filter>Source\common\math\mathful</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\quaternion.h">
+      <Filter>Source\common\math\mathful</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\rect.h">
+      <Filter>Source\common\math\mathful</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\utilities.h">
+      <Filter>Source\common\math\mathful</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\constants.h">
+      <Filter>Source\common\math\mathful</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\vectorial\config.h">
+      <Filter>Source\common\math\mathful\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\vectorial\mat4f.h">
+      <Filter>Source\common\math\mathful\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd2f.h">
+      <Filter>Source\common\math\mathful\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd2f_common.h">
+      <Filter>Source\common\math\mathful\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd2f_neon.h">
+      <Filter>Source\common\math\mathful\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd4f.h">
+      <Filter>Source\common\math\mathful\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd4f_common.h">
+      <Filter>Source\common\math\mathful\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd4f_gnu.h">
+      <Filter>Source\common\math\mathful\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd4f_neon.h">
+      <Filter>Source\common\math\mathful\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd4f_scalar.h">
+      <Filter>Source\common\math\mathful\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd4f_sse.h">
+      <Filter>Source\common\math\mathful\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd4x4f.h">
+      <Filter>Source\common\math\mathful\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd4x4f_gnu.h">
+      <Filter>Source\common\math\mathful\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd4x4f_neon.h">
+      <Filter>Source\common\math\mathful\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd4x4f_scalar.h">
+      <Filter>Source\common\math\mathful\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd4x4f_sse.h">
+      <Filter>Source\common\math\mathful\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\vectorial\vec_convert.h">
+      <Filter>Source\common\math\mathful\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\vectorial\vec2f.h">
+      <Filter>Source\common\math\mathful\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\vectorial\vec3f.h">
+      <Filter>Source\common\math\mathful\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\vectorial\vec4f.h">
+      <Filter>Source\common\math\mathful\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\vectorial\vectorial.h">
+      <Filter>Source\common\math\mathful\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\internal\disable_warnings_begin.h">
+      <Filter>Source\common\math\mathful\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\internal\disable_warnings_end.h">
+      <Filter>Source\common\math\mathful\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\internal\matrix_4x4_simd.h">
+      <Filter>Source\common\math\mathful\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\internal\vector_2.h">
+      <Filter>Source\common\math\mathful\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\internal\vector_2_simd.h">
+      <Filter>Source\common\math\mathful\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\internal\vector_3.h">
+      <Filter>Source\common\math\mathful\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\internal\vector_3_simd.h">
+      <Filter>Source\common\math\mathful\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\internal\vector_4.h">
+      <Filter>Source\common\math\mathful\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\mathfu\internal\vector_4_simd.h">
+      <Filter>Source\common\math\mathful\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\egal_type.h">
+      <Filter>Source\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\egal.h">
+      <Filter>Source\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\egal_alloc.h">
+      <Filter>Source\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\egal_base.h">
+      <Filter>Source\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\egal_setting.h">
+      <Filter>Source\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\egal-d.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\math\egal_math.cpp">
+      <Filter>Source\common\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\egal_base.cpp">
+      <Filter>Source\common</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
