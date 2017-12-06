@@ -267,7 +267,6 @@
     <ClInclude Include="..\..\src\egal_setting.h">
       <Filter>Source\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\egal-d.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\math\egal_math.cpp">
