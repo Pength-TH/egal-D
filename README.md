@@ -1,6 +1,6 @@
 [egal-d] - egal-d is a page game engine
 ======================================================================================
-<img src="https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true" alt="Project Badge" width="300">
+[![Build status](https://ci.appveyor.com/api/projects/status/4klt1oj6x80xkc5x?svg=true)](https://ci.appveyor.com/project/Pength-TH/egal-d-engine)
 
 [AppVeyor](https://ci.appveyor.com/project/Pength-TH/egal-d-engine)
 
