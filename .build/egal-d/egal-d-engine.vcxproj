@@ -89,12 +89,15 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level2</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../../src/;../../src/api/;../../src/math/;../../src/particle/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <SDLCheck>false</SDLCheck>
+      <AdditionalIncludeDirectories>../../src/;../../src/api/;../../src/common/;../../src/common/math/;../../src/runtime/;../../crown/;../../crown/lua/include/;../../crown/bgfx/include/;D:\svn\bgfx_build\bx\include;D:\svn\crown-master\3rdparty\bullet3\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -115,60 +118,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\src\egal.h" />
-    <ClInclude Include="..\..\src\egal_alloc.h" />
-    <ClInclude Include="..\..\src\egal_base.h" />
-    <ClInclude Include="..\..\src\egal_setting.h" />
-    <ClInclude Include="..\..\src\egal_type.h" />
-    <ClInclude Include="..\..\src\math\egal_math.h" />
-    <ClInclude Include="..\..\src\math\mathfu\constants.h" />
-    <ClInclude Include="..\..\src\math\mathfu\glsl_mappings.h" />
-    <ClInclude Include="..\..\src\math\mathfu\hlsl_mappings.h" />
-    <ClInclude Include="..\..\src\math\mathfu\internal\disable_warnings_begin.h" />
-    <ClInclude Include="..\..\src\math\mathfu\internal\disable_warnings_end.h" />
-    <ClInclude Include="..\..\src\math\mathfu\internal\matrix_4x4_simd.h" />
-    <ClInclude Include="..\..\src\math\mathfu\internal\vector_2.h" />
-    <ClInclude Include="..\..\src\math\mathfu\internal\vector_2_simd.h" />
-    <ClInclude Include="..\..\src\math\mathfu\internal\vector_3.h" />
-    <ClInclude Include="..\..\src\math\mathfu\internal\vector_3_simd.h" />
-    <ClInclude Include="..\..\src\math\mathfu\internal\vector_4.h" />
-    <ClInclude Include="..\..\src\math\mathfu\internal\vector_4_simd.h" />
-    <ClInclude Include="..\..\src\math\mathfu\io.h" />
-    <ClInclude Include="..\..\src\math\mathfu\matrix.h" />
-    <ClInclude Include="..\..\src\math\mathfu\matrix_4x4.h" />
-    <ClInclude Include="..\..\src\math\mathfu\quaternion.h" />
-    <ClInclude Include="..\..\src\math\mathfu\rect.h" />
-    <ClInclude Include="..\..\src\math\mathfu\utilities.h" />
-    <ClInclude Include="..\..\src\math\mathfu\vector.h" />
-    <ClInclude Include="..\..\src\math\mathfu\vectorial\config.h" />
-    <ClInclude Include="..\..\src\math\mathfu\vectorial\mat4f.h" />
-    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd2f.h" />
-    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd2f_common.h" />
-    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd2f_neon.h" />
-    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd4f.h" />
-    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd4f_common.h" />
-    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd4f_gnu.h" />
-    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd4f_neon.h" />
-    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd4f_scalar.h" />
-    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd4f_sse.h" />
-    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd4x4f.h" />
-    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd4x4f_gnu.h" />
-    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd4x4f_neon.h" />
-    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd4x4f_scalar.h" />
-    <ClInclude Include="..\..\src\math\mathfu\vectorial\simd4x4f_sse.h" />
-    <ClInclude Include="..\..\src\math\mathfu\vectorial\vec2f.h" />
-    <ClInclude Include="..\..\src\math\mathfu\vectorial\vec3f.h" />
-    <ClInclude Include="..\..\src\math\mathfu\vectorial\vec4f.h" />
-    <ClInclude Include="..\..\src\math\mathfu\vectorial\vectorial.h" />
-    <ClInclude Include="..\..\src\math\mathfu\vectorial\vec_convert.h" />
-    <ClInclude Include="..\..\src\pool_map.h" />
-    <ClInclude Include="..\..\src\pool_template.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\src\egal_base.cpp" />
-    <ClCompile Include="..\..\src\math\egal_math.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

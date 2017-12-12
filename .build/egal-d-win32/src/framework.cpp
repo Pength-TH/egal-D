@@ -2,6 +2,8 @@
 #include "framework.hpp"
 #include <sstream>
 
+
+
 bool g_key_board[KC_BOARD_END];
 bool g_mouse_board[MB_END];
 
@@ -54,6 +56,7 @@ bool framework::init(HWND wnd, OIS::KeyListener *pKeyListener, OIS::MouseListene
     else
         m_pMouse->setEventCallback(pMouseListener);
 
+	m_p_application = new egal::application();
     return true;
 }
 
@@ -143,6 +146,8 @@ void framework::update(double timeSinceLastFrame)
 	{
 		(*i)->update(timeSinceLastFrame);
 	}
+
+	m_p_application->run();
 
 	m_pKeyboard->capture();
 	m_pMouse->capture();

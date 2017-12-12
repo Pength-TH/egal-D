@@ -10,12 +10,8 @@
 #include <windows.h>
 
 #include "framework_listener.h"
-
+#include "application.h"
 typedef std::vector<framework_listener*> FrameWorkListenerList;
-
-extern void add_frame_work_listener(framework_listener* fram_listener);
-
-extern void remove_frame_work_listener(framework_listener* fram_listener);
 
 class framework : OIS::KeyListener, OIS::MouseListener
 {
@@ -42,5 +38,7 @@ private:
 	OIS::Mouse*					m_pMouse;
 
 	FrameWorkListenerList       m_frame_work_listener;
+
+	egal::application*   m_p_application;
 };
 #endif
