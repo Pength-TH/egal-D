@@ -23,7 +23,7 @@ namespace egal
 			}
 		}
 
-		~FreeList()
+		~PoolAllocator()
 		{
 			m_allocator.deallocate_aligned(m_heap);
 		}
