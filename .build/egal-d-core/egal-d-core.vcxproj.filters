@@ -1,0 +1,474 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="common">
+      <UniqueIdentifier>{fa7f7f2e-9ae9-43ca-ab71-88863f6b6795}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\lua">
+      <UniqueIdentifier>{6f13676a-90f7-466f-9a21-f6e27e97acfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="test">
+      <UniqueIdentifier>{ad08d71d-026f-43c5-a818-8c17a63977d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\0.build_setting">
+      <UniqueIdentifier>{833283df-6706-4191-a35a-923adf2fff6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\stl">
+      <UniqueIdentifier>{8c57009e-b93f-4f46-a667-06a6c4832e7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\base">
+      <UniqueIdentifier>{18973302-3a00-40ba-b7fe-af17831f254f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\allocator">
+      <UniqueIdentifier>{6da48ed9-a162-4230-bdfb-ab00520667c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\debug">
+      <UniqueIdentifier>{bdd1766f-c49a-4e08-9773-943b4baa1889}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\framework">
+      <UniqueIdentifier>{3deec075-f2ad-4a6d-9497-014a46af6566}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\thread">
+      <UniqueIdentifier>{9118b065-8563-45ad-88b1-330de8622573}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\utils">
+      <UniqueIdentifier>{ce648b42-8d41-4d49-bfa4-75c46a00cdb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\file_system">
+      <UniqueIdentifier>{48cc5854-323a-417d-a452-29a5e1e491d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\math">
+      <UniqueIdentifier>{c82c7258-5271-421b-a45b-f4ad9ce21799}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\math\mathfu">
+      <UniqueIdentifier>{f045fd45-9215-409d-88e0-73bb722571e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\math\mathfu\internal">
+      <UniqueIdentifier>{b8704b8b-e6c0-4e58-a53d-f19dee6770cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\math\mathfu\vectorial">
+      <UniqueIdentifier>{f1562b47-6e10-4166-8ea8-b2e538de1095}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\resource">
+      <UniqueIdentifier>{22fe40cd-755e-4fc3-9faf-061b6033ee53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\serializer">
+      <UniqueIdentifier>{381b7e59-f310-4ec3-aba0-d900d52c1e14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\math\default">
+      <UniqueIdentifier>{311b479a-8c11-4e3c-a744-cf782a3155f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\framework\buffer">
+      <UniqueIdentifier>{79bc18a4-b841-4dff-84b8-b8ceea009f21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\input">
+      <UniqueIdentifier>{6b799670-57a6-4ab6-86fc-f4555b41f270}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\common\egal-d_test.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\egal_string.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\debug\debug.cpp">
+      <Filter>common\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\debug\profiler.cpp">
+      <Filter>common\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\thread\job_system.cpp">
+      <Filter>common\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\thread\windows\atomic.cpp">
+      <Filter>common\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\thread\windows\fibers.cpp">
+      <Filter>common\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\thread\windows\sync.cpp">
+      <Filter>common\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\thread\windows\task.cpp">
+      <Filter>common\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\thread\windows\thread.cpp">
+      <Filter>common\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\utils\crc32.cpp">
+      <Filter>common\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\utils\logger.cpp">
+      <Filter>common\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\filesystem\binary.cpp">
+      <Filter>common\file_system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\filesystem\file_device.cpp">
+      <Filter>common\file_system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\filesystem\windows\os_file.cpp">
+      <Filter>common\file_system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\resource\material_manager.cpp">
+      <Filter>common\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\resource\resource_manager.cpp">
+      <Filter>common\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\resource\resource_public.cpp">
+      <Filter>common\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\resource\shader_manager.cpp">
+      <Filter>common\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\resource\texture_manager.cpp">
+      <Filter>common\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\serializer\json_serializer.cpp">
+      <Filter>common\serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\serializer\serializer.cpp">
+      <Filter>common\serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\resource\entity_manager.cpp">
+      <Filter>common\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\framework\buffer_generator.cpp">
+      <Filter>common\framework\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\math\default\matrix.cpp">
+      <Filter>common\math\default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\math\default\float_x.cpp">
+      <Filter>common\math\default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\math\default\math_utils.cpp">
+      <Filter>common\math\default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\math\default\quaternion.cpp">
+      <Filter>common\math\default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\input\input_system.cpp">
+      <Filter>common\input</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\common\config.h">
+      <Filter>common\0.build_setting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\stl\queue.h">
+      <Filter>common\stl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\stl\map.h">
+      <Filter>common\stl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\stl\vector.h">
+      <Filter>common\stl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\stl\delegate.h">
+      <Filter>common\stl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\stl\hash_map.h">
+      <Filter>common\stl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\type.h">
+      <Filter>common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\platform.h">
+      <Filter>common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\define.h">
+      <Filter>common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\template.h">
+      <Filter>common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\struct.h">
+      <Filter>common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\egal-d.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\constants.h">
+      <Filter>common\math\mathfu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\glsl_mappings.h">
+      <Filter>common\math\mathfu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\hlsl_mappings.h">
+      <Filter>common\math\mathfu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\io.h">
+      <Filter>common\math\mathfu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\matrix.h">
+      <Filter>common\math\mathfu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\matrix_4x4.h">
+      <Filter>common\math\mathfu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\quaternion.h">
+      <Filter>common\math\mathfu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\rect.h">
+      <Filter>common\math\mathfu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\utilities.h">
+      <Filter>common\math\mathfu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\vector.h">
+      <Filter>common\math\mathfu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\internal\disable_warnings_begin.h">
+      <Filter>common\math\mathfu\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\internal\disable_warnings_end.h">
+      <Filter>common\math\mathfu\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\internal\matrix_4x4_simd.h">
+      <Filter>common\math\mathfu\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\internal\vector_2.h">
+      <Filter>common\math\mathfu\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\internal\vector_2_simd.h">
+      <Filter>common\math\mathfu\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\internal\vector_3.h">
+      <Filter>common\math\mathfu\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\internal\vector_3_simd.h">
+      <Filter>common\math\mathfu\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\internal\vector_4.h">
+      <Filter>common\math\mathfu\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\internal\vector_4_simd.h">
+      <Filter>common\math\mathfu\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\vectorial\config.h">
+      <Filter>common\math\mathfu\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\vectorial\mat4f.h">
+      <Filter>common\math\mathfu\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\vectorial\simd2f.h">
+      <Filter>common\math\mathfu\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\vectorial\simd2f_common.h">
+      <Filter>common\math\mathfu\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\vectorial\simd2f_neon.h">
+      <Filter>common\math\mathfu\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\vectorial\simd4f.h">
+      <Filter>common\math\mathfu\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\vectorial\simd4f_common.h">
+      <Filter>common\math\mathfu\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\vectorial\simd4f_gnu.h">
+      <Filter>common\math\mathfu\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\vectorial\simd4f_neon.h">
+      <Filter>common\math\mathfu\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\vectorial\simd4f_scalar.h">
+      <Filter>common\math\mathfu\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\vectorial\simd4f_sse.h">
+      <Filter>common\math\mathfu\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\vectorial\simd4x4f.h">
+      <Filter>common\math\mathfu\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\vectorial\simd4x4f_gnu.h">
+      <Filter>common\math\mathfu\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\vectorial\simd4x4f_neon.h">
+      <Filter>common\math\mathfu\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\vectorial\simd4x4f_scalar.h">
+      <Filter>common\math\mathfu\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\vectorial\simd4x4f_sse.h">
+      <Filter>common\math\mathfu\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\vectorial\vec_convert.h">
+      <Filter>common\math\mathfu\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\vectorial\vec2f.h">
+      <Filter>common\math\mathfu\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\vectorial\vec3f.h">
+      <Filter>common\math\mathfu\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\vectorial\vec4f.h">
+      <Filter>common\math\mathfu\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\vectorial\vectorial.h">
+      <Filter>common\math\mathfu\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\allocator\allocator.h">
+      <Filter>common\allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\allocator\proxy_allocator.h">
+      <Filter>common\allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\egal_math.h">
+      <Filter>common\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\egal_string.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\debug\debug.h">
+      <Filter>common\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\debug\profiler.h">
+      <Filter>common\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\thread\atomic.h">
+      <Filter>common\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\thread\fibers.h">
+      <Filter>common\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\thread\job_system.h">
+      <Filter>common\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\thread\lock_free_fixed_queue.h">
+      <Filter>common\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\thread\sync.h">
+      <Filter>common\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\thread\task.h">
+      <Filter>common\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\thread\thread.h">
+      <Filter>common\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\thread\transaction.h">
+      <Filter>common\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\utils\crc32.h">
+      <Filter>common\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\utils\geometry.h">
+      <Filter>common\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\utils\logger.h">
+      <Filter>common\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\utils\perf_timer.h">
+      <Filter>common\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\utils\sharedptr.h">
+      <Filter>common\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\utils\singleton.h">
+      <Filter>common\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\filesystem\binary.h">
+      <Filter>common\file_system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\filesystem\file_device.h">
+      <Filter>common\file_system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\filesystem\ifile_device.h">
+      <Filter>common\file_system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\filesystem\os_file.h">
+      <Filter>common\file_system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\resource\material_manager.h">
+      <Filter>common\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\resource\resource_define.h">
+      <Filter>common\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\resource\resource_manager.h">
+      <Filter>common\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\resource\resource_public.h">
+      <Filter>common\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\resource\shader_manager.h">
+      <Filter>common\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\resource\texture_manager.h">
+      <Filter>common\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\serializer\json_serializer.h">
+      <Filter>common\serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\serializer\serializer.h">
+      <Filter>common\serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\framework\renderer.h">
+      <Filter>common\framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\framework\pipeline.h">
+      <Filter>common\framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\resource\entity_manager.h">
+      <Filter>common\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\framework\buffer_generator.h">
+      <Filter>common\framework\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\default\matrix.h">
+      <Filter>common\math\default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\default\simd.h">
+      <Filter>common\math\default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\default\float_x.h">
+      <Filter>common\math\default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\math_const.h">
+      <Filter>common\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\default\math_utils.h">
+      <Filter>common\math\default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\default\quaternion.h">
+      <Filter>common\math\default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\framework\culling_system.h">
+      <Filter>common\framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\framework\engine.h">
+      <Filter>common\framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\framework\plugin_manager.h">
+      <Filter>common\framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\framework\render_scene.h">
+      <Filter>common\framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\framework\universe.h">
+      <Filter>common\framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\framework\frame_buffer.h">
+      <Filter>common\framework\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\lua\lua_function.h">
+      <Filter>common\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\lua\lua_manager.h">
+      <Filter>common\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\input\input_system.h">
+      <Filter>common\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\input\keycode.h">
+      <Filter>common\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\input\scancode.h">
+      <Filter>common\input</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
