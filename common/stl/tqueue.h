@@ -3,7 +3,7 @@
 #pragma once
 
 #include "common/type.h"
-#include "common/allocator/allocator.h"
+#include "common/allocator/egal_allocator.h"
 namespace egal
 {
 	template <typename T, e_uint32 count>
@@ -39,7 +39,7 @@ namespace egal
 		Iterator begin() { return {this, m_rd}; }
 		Iterator end() { return {this, m_wr}; }
 
-		void push(const T& item)
+		void push_back(const T& item)
 		{
 			ASSERT(m_wr - m_rd < count);
 

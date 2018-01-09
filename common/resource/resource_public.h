@@ -1,44 +1,20 @@
 #ifndef _resource_public_h_
 #define _resource_public_h_
 
-#include "common/egal-d.h"
+#include "common/type.h"
+#include "common/allocator/egal_allocator.h"
+#include "common/math/egal_math.h"
+#include "common/stl/delegate.h"
+#include "common/stl/thash_map.h"
+#include "common/template.h"
 #include "common/thread/sync.h"
+
+#include "common/utils/singleton.h"
+#include "common/utils/logger.h"
+#include "common/egal_string.h"
 
 namespace egal
 {
-	enum ResourceTypeDefine
-	{
-		RTD_DEFAULT = 0,
-		RTD_TEXTURE,
-		RTD_MATERIAL,
-		RTD_MESH,
-		RTD_SKELETON,
-		RTD_ANIMATION,
-		RTD_TERRAIN,
-		RTD_PARTICLE,
-		RTD_TAG,
-		RTD_LEVEL,
-		RTD_COLLISION,
-		RTD_SHADER,
-		RTD_MODEL,
-
-		RTD_EDITOR,
-		RTD_END
-	};
-
-	struct ResourceType
-	{
-		ResourceType() : type(0) {}
-		explicit ResourceType(const e_char* type_name);
-		e_uint32 type;
-
-		e_bool operator !=(const ResourceType& rhs) const { return rhs.type != type; }
-		e_bool operator ==(const ResourceType& rhs) const { return rhs.type == type; }
-
-		inline e_bool isValid(ResourceType type) { return type.type != 0; }
-	};
-	const ResourceType INVALID_RESOURCE_TYPE("");
-
 	struct Archive
 	{
 	public:
@@ -81,6 +57,7 @@ namespace egal
 
 		~ArchivePath();
 
+		e_uint32 getHash() const { return m_data->m_id; }
 		const e_char* c_str() const { return m_data->m_path; }
 
 		e_int32 length() const;
@@ -115,4 +92,5 @@ namespace egal
 		ArchivePath* m_empty_path;
 	};
 }
+
 #endif

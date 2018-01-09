@@ -8,11 +8,10 @@
 
 #include "common/type.h"
 #include "common/config.h"
+#include "common/allocator/egal_allocator.h"
 
 #if PLATFORM_WINDOWS
-
-#include <windows.h>
-
+ #include <windows.h>
 #endif
 
 namespace egal
@@ -22,72 +21,41 @@ namespace egal
 	public:
 		virtual ~Timer() {}
 
-		virtual e_float Tick()
-		{
-			LARGE_INTEGER tick;
-			QueryPerformanceCounter(&tick);
-			e_float delta = static_cast<e_float>((double)(tick.QuadPart - m_last_tick.QuadPart) / (double)m_frequency.QuadPart);
-			m_last_tick = tick;
-			return delta;
-		}
-		virtual e_float Start()
-		{
-			LARGE_INTEGER tick;
-			QueryPerformanceCounter(&tick);
-			e_float delta =
-				static_cast<e_float>((double)(tick.QuadPart - m_first_tick.QuadPart) / (double)m_frequency.QuadPart);
-			return delta;
-		}
-		e_float Stop()
-		{
-			LARGE_INTEGER stopCycles;
-			QueryPerformanceCounter(&stopCycles);
-			e_float delta =
-				static_cast<e_float>(((double)(stopCycles.QuadPart - m_first_tick.QuadPart) / m_frequency.QuadPart));
-			return delta;
-		}
+		virtual float tick() = 0;
+		virtual float getTimeSinceStart() = 0;
+		virtual float getTimeSinceTick() = 0;
+		virtual e_uint64 getRawTimeSinceStart() = 0;
+		virtual e_uint64 getFrequency() = 0;
 
-		virtual e_float SinceTick()
-		{
-			LARGE_INTEGER tick;
-			QueryPerformanceCounter(&tick);
-			e_float delta = static_cast<e_float>((double)(tick.QuadPart - m_last_tick.QuadPart) / (double)m_frequency.QuadPart);
-			return delta;
-		}
-		virtual e_uint64 SinceStart()
-		{
-			LARGE_INTEGER tick;
-			QueryPerformanceCounter(&tick);
-			return tick.QuadPart - m_first_tick.QuadPart;
-		}
-		virtual e_uint64 getFrequency()
-		{
-			return m_frequency.QuadPart;
-		}
-	private:
-		LARGE_INTEGER m_frequency;
-		LARGE_INTEGER m_last_tick;
-		LARGE_INTEGER m_first_tick;
+		static Timer* create(IAllocator& allocator);
+		static void destroy(Timer* timer);
 	};
 
-	// -------------------------------------------------------------------------------------------------------------
 	class ScopedTimer
 	{
 	public:
-		ScopedTimer(const e_char* message)
+		ScopedTimer(const char* name, IAllocator& allocator)
+			: m_name(name)
+			, m_timer(Timer::create(allocator))
 		{
-			m_message = message;
-			m_timer.Start();
-		}
-		~ScopedTimer()
-		{
-			m_timer.Stop();
+
 		}
 
+		~ScopedTimer()
+		{
+			Timer::destroy(m_timer);
+		}
+
+		float getTimeSinceStart()
+		{
+			return m_timer->getTimeSinceStart();
+		}
+
+		const char* getName() const { return m_name; }
+
 	private:
-		ScopedTimer() {};
-		Timer m_timer;
-		const e_char * m_message;
+		const char* m_name;
+		Timer* m_timer;
 	};
 
 }

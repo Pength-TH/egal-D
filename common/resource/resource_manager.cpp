@@ -130,8 +130,10 @@ namespace egal
 		ASSERT(m_desired_state != State::EMPTY);
 
 		dependent_resource.m_cb.bind<Resource, &Resource::onStateChanged>(this);
-		if (dependent_resource.isEmpty()) ++m_empty_dep_count;
-		if (dependent_resource.isFailure()) ++m_failed_dep_count;
+		if (dependent_resource.isEmpty()) 
+			++m_empty_dep_count;
+		if (dependent_resource.isFailure()) 
+			++m_failed_dep_count;
 
 		checkState();
 	}
@@ -222,7 +224,9 @@ namespace egal
 
 	Resource* ResourceManagerBase::load(const ArchivePath& path)
 	{
-		if (!path.isValid()) return nullptr;
+		if (!path.isValid()) 
+			return nullptr;
+		
 		Resource* resource = get(path);
 
 		if (nullptr == resource)
@@ -254,7 +258,7 @@ namespace egal
 		TVector<Resource*> to_remove(m_allocator);
 		for (auto* i : m_resources)
 		{
-			if (i->getRefCount() == 0) to_remove.push(i);
+			if (i->getRefCount() == 0) to_remove.push_back(i);
 		}
 
 		for (auto* i : to_remove)

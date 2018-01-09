@@ -1,7 +1,7 @@
-#include "common/reflection.h"
-#include "common/define.h"
-#include "common/egal_string.h"
-
+#include "common/input/reflection.h"
+#include "common/filesystem/binary.h"
+#include "common/resource/resource_public.h"
+#include "common/egal-d.h"
 namespace egal
 {
 	namespace Reflection
@@ -204,10 +204,10 @@ namespace egal
 		}
 
 
-		static Array<ComponentTypeData>& getComponentTypes()
+		static TVector<ComponentTypeData>& getComponentTypes()
 		{
 			static DefaultAllocator allocator;
-			static Array<ComponentTypeData> types(allocator);
+			static TVector<ComponentTypeData> types(allocator);
 			return types;
 		}
 

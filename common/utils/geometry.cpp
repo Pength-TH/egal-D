@@ -1,6 +1,8 @@
 #include "common/utils/geometry.h"
 #include "common/egal-d.h"
 
+#include "common/math/default/simd.h"
+
 #include <cmath>
 
 namespace egal
@@ -82,16 +84,16 @@ namespace egal
 
 	bool Frustum::isSphereInside(const float3& center, float radius) const
 	{
-		float4 px = f4Load(xs);
-		float4 py = f4Load(ys);
-		float4 pz = f4Load(zs);
-		float4 pd = f4Load(ds);
+		simd4 px = f4Load(xs);
+		simd4 py = f4Load(ys);
+		simd4 pz = f4Load(zs);
+		simd4 pd = f4Load(ds);
 
-		float4 cx = f4Splat(center.x);
-		float4 cy = f4Splat(center.y);
-		float4 cz = f4Splat(center.z);
+		simd4 cx = f4Splat(center.x);
+		simd4 cy = f4Splat(center.y);
+		simd4 cz = f4Splat(center.z);
 
-		float4 t = f4Mul(cx, px);
+		simd4 t = f4Mul(cx, px);
 		t = f4Add(t, f4Mul(cy, py));
 		t = f4Add(t, f4Mul(cz, pz));
 		t = f4Add(t, pd);
@@ -132,15 +134,15 @@ namespace egal
 
 		float3 normal_near = -crossProduct(points[0] - points[1], points[0] - points[2]).normalized();
 		float3 normal_far = crossProduct(points[4] - points[5], points[4] - points[6]).normalized();
-		frustum.setPlane(Frustum::Planes::EXTRA0, normal_near, points[0]);
-		frustum.setPlane(Frustum::Planes::EXTRA1, normal_near, points[0]);
-		frustum.setPlane(Frustum::Planes::NEAR, normal_near, points[0]);
-		frustum.setPlane(Frustum::Planes::FAR, normal_far, points[4]);
+		frustum.setPlane(Frustum::Planes::EP_EXTRA0, normal_near, points[0]);
+		frustum.setPlane(Frustum::Planes::EP_EXTRA1, normal_near, points[0]);
+		frustum.setPlane(Frustum::Planes::EP_NEAR, normal_near, points[0]);
+		frustum.setPlane(Frustum::Planes::EP_FAR, normal_far, points[4]);
 
-		frustum.setPlane(Frustum::Planes::LEFT, crossProduct(points[1] - points[2], points[1] - points[5]).normalized(), points[1]);
-		frustum.setPlane(Frustum::Planes::RIGHT, -crossProduct(points[0] - points[3], points[0] - points[4]).normalized(), points[0]);
-		frustum.setPlane(Frustum::Planes::TOP, crossProduct(points[0] - points[1], points[0] - points[4]).normalized(), points[0]);
-		frustum.setPlane(Frustum::Planes::BOTTOM, crossProduct(points[2] - points[3], points[2] - points[6]).normalized(), points[2]);
+		frustum.setPlane(Frustum::Planes::EP_LEFT, crossProduct(points[1] - points[2], points[1] - points[5]).normalized(), points[1]);
+		frustum.setPlane(Frustum::Planes::EP_RIGHT, -crossProduct(points[0] - points[3], points[0] - points[4]).normalized(), points[0]);
+		frustum.setPlane(Frustum::Planes::EP_TOP, crossProduct(points[0] - points[1], points[0] - points[4]).normalized(), points[0]);
+		frustum.setPlane(Frustum::Planes::EP_BOTTOM, crossProduct(points[2] - points[3], points[2] - points[6]).normalized(), points[2]);
 	}
 
 
@@ -197,19 +199,19 @@ namespace egal
 
 	void Frustum::setPlane(Planes side, const float3& normal, const float3& point)
 	{
-		xs[(u32)side] = normal.x;
-		ys[(u32)side] = normal.y;
-		zs[(u32)side] = normal.z;
-		ds[(u32)side] = -dotProduct(point, normal);
+		xs[(e_uint32)side] = normal.x;
+		ys[(e_uint32)side] = normal.y;
+		zs[(e_uint32)side] = normal.z;
+		ds[(e_uint32)side] = -dotProduct(point, normal);
 	}
 
 
 	void Frustum::setPlane(Planes side, const float3& normal, float d)
 	{
-		xs[(u32)side] = normal.x;
-		ys[(u32)side] = normal.y;
-		zs[(u32)side] = normal.z;
-		ds[(u32)side] = d;
+		xs[(e_uint32)side] = normal.x;
+		ys[(e_uint32)side] = normal.y;
+		zs[(e_uint32)side] = normal.z;
+		ds[(e_uint32)side] = d;
 	}
 
 

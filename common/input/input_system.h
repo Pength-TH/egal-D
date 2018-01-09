@@ -3,7 +3,7 @@
 #pragma once
 
 #include "common/type.h"
-#include "common/allocator/allocator.h"
+#include "common/allocator/egal_allocator.h"
 #include "common/math/egal_math.h"
 
 #include "common/input/keycode.h"
@@ -11,7 +11,7 @@
 
 namespace egal
 {
-	class Engine;
+	class EngineRoot;
 	class InputSystem
 	{
 	public:
@@ -82,7 +82,7 @@ namespace egal
 		};
 
 	public:
-		static InputSystem* create(Engine& engine);
+		static InputSystem* create(EngineRoot& engine);
 		static void destroy(InputSystem& system);
 
 		virtual ~InputSystem() {}

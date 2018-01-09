@@ -28,13 +28,14 @@ namespace egal
 		void init()
 		{
 			if (!mLogFile)
-				mLogFile = g_file_system->open(g_file_system->getDefaultDevice(), "./egal.log", FS::Mode::CREATE_AND_WRITE);
+				mLogFile = g_file_system->open(g_file_system->getDefaultDevice(), "./egal-d.log", FS::Mode::CREATE_AND_WRITE);
 		}
 		e_void write(const e_char * pcszLog)
 		{
 			init();
 #if PLATFORM_WINDOWS
 			mLogFile->write(pcszLog, StringUnitl::stringLength(pcszLog));
+			mLogFile->flush();
 #elif PLATFORM_ANDROID
 
 #elif PLATFORM_APPLE
@@ -116,4 +117,5 @@ namespace egal
 		logger.write(szBuf);
 		//printf("%s\n", szLog);
 	}
+
 }

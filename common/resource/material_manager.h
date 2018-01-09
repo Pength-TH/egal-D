@@ -1,14 +1,18 @@
 #ifndef _material_manager_h_
 #define _material_manager_h_
 
+#include "common/egal_const.h"
+
 #include "common/resource/resource_manager.h"
 #include "common/resource/resource_define.h"
+#include "common/serializer/json_serializer.h"
 
 namespace egal
 {
 	class Renderer;
 	class Texture;
 	struct ShaderInstance;
+	class Shader;
 
 	class Material : public Resource
 	{
@@ -97,25 +101,23 @@ namespace egal
 		e_void deserializeCustomFlags(JsonSerializer& serializer);
 
 	private:
-		static const e_int32 MAX_TEXTURE_COUNT = 16;
-
-		Shader* m_shader;
+		Shader*			m_shader;
 		ShaderInstance* m_shader_instance;
-		Texture* m_textures[MAX_TEXTURE_COUNT];
-		e_int32 m_texture_count;
+		Texture*		m_textures[MAX_TEXTURE_COUNT];
+		e_int32			m_texture_count;
 		TVector<Uniform> m_uniforms;
-		IAllocator& m_allocator;
-		e_uint64 m_render_states;
-		float4 m_color;
-		e_float m_alpha_ref;
-		e_float m_metallic;
-		e_float m_roughness;
-		e_uint32 m_define_mask;
-		e_uint8* m_command_buffer;
-		e_uint32 m_custom_flags;
-		e_int32 m_render_layer;
-		e_uint64 m_render_layer_mask;
-		e_int32 m_layers_count;
+		IAllocator&		m_allocator;
+		e_uint64		m_render_states;
+		float4			m_color;
+		e_float			m_alpha_ref;
+		e_float			m_metallic;
+		e_float			m_roughness;
+		e_uint32		m_define_mask;
+		e_uint8*		m_command_buffer;
+		e_uint32		m_custom_flags;
+		e_int32			m_render_layer;
+		e_uint64		m_render_layer_mask;
+		e_int32			m_layers_count;
 	};
 }
 
@@ -140,7 +142,7 @@ namespace egal
 
 	private:
 		IAllocator& m_allocator;
-		Renderer& m_renderer;
+		Renderer&	m_renderer;
 	};
 }
 #endif

@@ -3,7 +3,8 @@
 #pragma once
 
 #include "common/type.h"
-#include "common/allocator/allocator.h"
+#include "common/allocator/egal_allocator.h"
+#include "common/egal_string.h"
 
 namespace egal
 {
@@ -22,17 +23,29 @@ namespace egal
 
 		struct LambdaJob : JobDecl
 		{
-			LambdaJob() { data = pool; }
-			~LambdaJob() { if (data != pool) allocator->deallocate(data); }
-			e_uint8 pool[64];
+			LambdaJob()
+			{ 
+				StringUnitl::setMemory(pool, 0, 64);
+				data		= pool;
+				allocator	= NULL;
+			}
+			~LambdaJob() 
+			{ 
+				if (data != pool && allocator)
+					allocator->deallocate(data); 
+			}
+			
+			byte		pool[64];
 			IAllocator* allocator;
 		};
 
-		template <typename T> e_void lambdaInvoker(e_void* data)
+		template <typename T> 
+		e_void lambdaInvoker(e_void* data)
 		{
 			(*(T*)data)();
 		}
 
+		/**ÄäÃûº¯Êý*/
 		template<typename T>
 		e_void fromLambda(T lambda, LambdaJob* job, JobDecl* job_decl, IAllocator* allocator)
 		{
@@ -41,11 +54,16 @@ namespace egal
 			{
 				job->data = job->pool;
 			}
-			else
+			else if(allocator)
 			{
 				ASSERT(allocator);
 				job->data = allocator->allocate(sizeof(T));
 			}
+			else
+			{
+				job->data = nullptr;
+			}
+
 			_new(job->data) T(lambda);
 			job->task = &lambdaInvoker<T>;
 			*job_decl = *job;

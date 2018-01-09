@@ -10,7 +10,7 @@
 
 namespace egal
 {
-	class Engine;
+	class EngineRoot;
 	namespace Fiber
 	{
 #ifdef _WIN32

@@ -2,8 +2,10 @@
 #define _reflection_h_
 #pragma once
 
-#include "common/egal.h"
-#include "runtime/Resource/resource_public.h"
+#include "common/type.h"
+#include "common/struct.h"
+#include "common/math/egal_math.h"
+#include "common/filesystem/binary.h"
 #include "common/metaprogramming.h"
 
 #define PROPERITY(Scene, Getter, Setter) \
@@ -13,10 +15,7 @@
 
 namespace egal
 {
-
-	template <typename T> class Array;
-	class PropertyDescriptorBase;
-
+	class ArchivePath;
 	namespace Reflection
 	{
 		struct IAttribute
@@ -159,7 +158,7 @@ namespace egal
 			e_int32 getType() const override { return RESOURCE; }
 
 			const e_char* file_type;
-			ResourceType type;
+			ResourceType  type;
 		};
 
 
@@ -235,7 +234,7 @@ namespace egal
 			virtual e_void begin(const ComponentBase&) {}
 			virtual e_void visit(const Property<e_float>& prop) = 0;
 			virtual e_void visit(const Property<e_int32>& prop) = 0;
-			virtual e_void visit(const Property<Entity>& prop) = 0;
+			virtual e_void visit(const Property<GameObject>& prop) = 0;
 			virtual e_void visit(const Property<Int2>& prop) = 0;
 			virtual e_void visit(const Property<float2>& prop) = 0;
 			virtual e_void visit(const Property<float3>& prop) = 0;
@@ -257,7 +256,7 @@ namespace egal
 
 			e_void visit(const Property<e_float>& prop) override { visitProperty(prop); }
 			e_void visit(const Property<e_int32>& prop) override { visitProperty(prop); }
-			e_void visit(const Property<Entity>& prop) override { visitProperty(prop); }
+			e_void visit(const Property<GameObject>& prop) override { visitProperty(prop); }
 			e_void visit(const Property<Int2>& prop) override { visitProperty(prop); }
 			e_void visit(const Property<float2>& prop) override { visitProperty(prop); }
 			e_void visit(const Property<float3>& prop) override { visitProperty(prop); }
@@ -776,7 +775,7 @@ namespace egal
 
 		namespace internal
 		{
-			static const e_uint32 FRONT_SIZE = sizeof("Lumix::Reflection::internal::GetTypeNameHelper<") - 1u;
+			static const e_uint32 FRONT_SIZE = sizeof("Reflection::internal::GetTypeNameHelper<") - 1u;
 			static const e_uint32 BACK_SIZE = sizeof(">::GetTypeName") - 1u;
 
 			template <typename T>

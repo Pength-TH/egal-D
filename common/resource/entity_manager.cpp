@@ -8,7 +8,6 @@
 
 namespace egal
 {
-	static const ResourceType MATERIAL_TYPE("material");
 	e_bool Entity::force_keep_skin = false;
 
 	Mesh::Mesh
@@ -77,6 +76,80 @@ namespace egal
 	}
 
 
+	Pose::Pose(IAllocator& allocator)
+		: allocator(allocator)
+	{
+		positions = nullptr;
+		rotations = nullptr;
+		count = 0;
+		is_absolute = false;
+	}
+
+	Pose::~Pose()
+	{
+		allocator.deallocate(positions);
+		allocator.deallocate(rotations);
+	}
+
+	e_void Pose::blend(Pose& rhs, e_float weight)
+	{
+		ASSERT(count == rhs.count);
+		if (weight <= 0.001f)
+			return;
+		weight = Math::clamp(weight, 0.0f, 1.0f);
+		e_float inv = 1.0f - weight;
+		for (e_int32 i = 0, c = count; i < c; ++i)
+		{
+			positions[i] = positions[i] * inv + rhs.positions[i] * weight;
+			nlerp(rotations[i], rhs.rotations[i], &rotations[i], weight);
+		}
+	}
+
+	e_void Pose::resize(e_int32 count)
+	{
+		is_absolute = false;
+		allocator.deallocate(positions);
+		allocator.deallocate(rotations);
+		this->count = count;
+		if (count)
+		{
+			positions = static_cast<float3*>(allocator.allocate(sizeof(float3) * count));
+			rotations = static_cast<Quaternion*>(allocator.allocate(sizeof(Quaternion) * count));
+		}
+		else
+		{
+			positions = nullptr;
+			rotations = nullptr;
+		}
+	}
+
+	e_void Pose::computeAbsolute(Entity& entity)
+	{
+		//PROFILE_FUNCTION();
+		if (is_absolute)
+			return;
+		for (e_int32 i = entity.getFirstNonrootBoneIndex(); i < count; ++i)
+		{
+			e_int32 parent = entity.getBone(i).parent_idx;
+			positions[i] = rotations[parent].rotate(positions[i]) + positions[parent];
+			rotations[i] = rotations[parent] * rotations[i];
+		}
+		is_absolute = true;
+	}
+
+	e_void Pose::computeRelative(Entity& entity)
+	{
+		//PROFILE_FUNCTION();
+		if (!is_absolute) return;
+		for (e_int32 i = count - 1; i >= entity.getFirstNonrootBoneIndex(); --i)
+		{
+			e_int32 parent = entity.getBone(i).parent_idx;
+			positions[i] = -rotations[parent].rotate(positions[i] - positions[parent]);
+			rotations[i] = rotations[i] * -rotations[parent];
+		}
+		is_absolute = false;
+	}
+
 	Entity::Entity(const ArchivePath& path, ResourceManagerBase& resource_manager, Renderer& renderer, IAllocator& allocator)
 		: Resource(path, resource_manager, allocator)
 		, m_bounding_radius()
@@ -123,9 +196,9 @@ namespace egal
 	}
 
 
-	RayCastModelHit Entity::castRay(const float3& origin, const float3& dir, const Matrix& model_transform, const Pose* pose)
+	RayCastEntityHit Entity::castRay(const float3& origin, const float3& dir, const Matrix& model_transform, const Pose* pose)
 	{
-		RayCastModelHit hit;
+		RayCastEntityHit hit;
 		hit.m_is_hit = false;
 		if (!isReady()) return hit;
 
@@ -535,7 +608,7 @@ namespace egal
 			StringUnitl::catString(material_path, material_name);
 			StringUnitl::catString(material_path, ".mat");
 
-			auto* material_manager = m_resource_manager.getOwner().get(MATERIAL_TYPE);
+			auto* material_manager = m_resource_manager.getOwner().get(RESOURCE_MATERIAL_TYPE);
 			Material* material = static_cast<Material*>(material_manager->load(ArchivePath(material_path)));
 
 			file.read(&str_size, sizeof(str_size));
@@ -641,7 +714,7 @@ namespace egal
 			StringUnitl::catString(material_path, material_name);
 			StringUnitl::catString(material_path, ".mat");
 
-			auto* material_manager = m_resource_manager.getOwner().get(MATERIAL_TYPE);
+			auto* material_manager = m_resource_manager.getOwner().get(RESOURCE_MATERIAL_TYPE);
 			Material* material = static_cast<Material*>(material_manager->load(ArchivePath(material_path)));
 
 			Offsets& offsets = mesh_offsets.emplace();
@@ -801,7 +874,6 @@ namespace egal
 		return true;
 	}
 
-
 	e_bool Entity::load(FS::IFile& file)
 	{
 		//PROFILE_FUNCTION();
@@ -843,49 +915,10 @@ namespace egal
 		log_error("Renderer Error loading Entity %s.", getPath().c_str());
 		return false;
 	}
-
-
-	static float3 getBonePosition(Entity* Entity, e_int32 bone_index)
-	{
-		return Entity->getBone(bone_index).transform.pos;
-	}
-
-
-	static e_int32 getBoneParent(Entity* Entity, e_int32 bone_index)
-	{
-		return Entity->getBone(bone_index).parent_idx;
-	}
-
-
-	e_void Entity::registerLuaAPI(lua_State* L)
-	{
-#define REGISTER_FUNCTION(F)\
-		do { \
-			auto f = &lua_manager::wrapMethod<Entity, decltype(&Entity::F), &Entity::F>; \
-			lua_manager::createSystemFunction(L, "Entity", #F, f); \
-		} while(false) \
-
-		REGISTER_FUNCTION(getBoneCount);
-
-#undef REGISTER_FUNCTION
-
-
-#define REGISTER_FUNCTION(F)\
-		do { \
-			auto f = &lua_manager::wrap<decltype(&F), &F>; \
-			lua_manager::createSystemFunction(L, "Entity", #F, f); \
-		} while(false) \
-
-		REGISTER_FUNCTION(getBonePosition);
-		REGISTER_FUNCTION(getBoneParent);
-
-#undef REGISTER_FUNCTION
-	}
-
-
+	
 	e_void Entity::unload()
 	{
-		auto* material_manager = m_resource_manager.getOwner().get(MATERIAL_TYPE);
+		auto* material_manager = m_resource_manager.getOwner().get(RESOURCE_MATERIAL_TYPE);
 		for (e_int32 i = 0; i < m_meshes.size(); ++i)
 		{
 			removeDependency(*m_meshes[i].material);
@@ -912,4 +945,17 @@ namespace egal
 	{
 		_delete(m_allocator, static_cast<Entity*>(&resource));
 	}
+
+
+	static float3 getBonePosition(Entity* Entity, e_int32 bone_index)
+	{
+		return Entity->getBone(bone_index).transform.pos;
+	}
+
+
+	static e_int32 getBoneParent(Entity* Entity, e_int32 bone_index)
+	{
+		return Entity->getBone(bone_index).parent_idx;
+	}
+
 }

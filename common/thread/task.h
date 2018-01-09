@@ -2,7 +2,7 @@
 #define _task_h_
 
 #include "common/type.h"
-#include "common/allocator/allocator.h"
+#include "common/allocator/egal_allocator.h"
 
 namespace egal
 {

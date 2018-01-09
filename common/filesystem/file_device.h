@@ -7,7 +7,7 @@
 #include "common/filesystem/stb/mf_resource.h"
 
 #include "common/stl/delegate.h"
-#include "common/stl/hash_map.h"
+#include "common/stl/thash_map.h"
 
 namespace egal
 {

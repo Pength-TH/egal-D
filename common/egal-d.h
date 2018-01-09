@@ -13,11 +13,26 @@
 #include "common/platform.h"
 #include "common/struct.h"
 #include "common/template.h"
-
 #include "common/egal_string.h"
+
+/**allocal*/
+#include "common/allocator/egal_allocator.h"
 
 /**math*/
 #include "common/math/egal_math.h"
+
+/**stl*/
+#if EGAL_USER_STL == 1
+
+#include "common/stl/tmap.h"
+#include "common/stl/tqueue.h"
+#include "common/stl/tvector.h"
+
+#endif
+
+#include "common/stl/delegate.h"
+#include "common/stl/delegate_list.h"
+#include "common/stl/thash_map.h"
 
 /**utils*/
 #include "common/utils/crc32.h"
@@ -34,13 +49,6 @@
 /**thread*/
 #include "common/thread/job_system.h"
 
-/**stl*/
-#include "common/stl/delegate.h"
-#include "common/stl/hash_map.h"
-#include "common/stl/map.h"
-#include "common/stl/queue.h"
-#include "common/stl/vector.h"
-
 /**debug*/
 #include "common/debug/debug.h"
 #include "common/debug/profiler.h"
@@ -49,12 +57,21 @@
 #include "common/serializer/serializer.h"
 #include "common/serializer/json_serializer.h"
 
+/**input*/
+#include "common/input/reflection.h"
+#include "common/input/input_system.h"
+
+/**framework*/
+#include "runtime/EngineFramework/renderer.h"
+#include "runtime/EngineFramework/buffer.h"
+
+/**const*/
+#include "common/egal_const.h"
+
 /**lua*/
 #include <lua.hpp>
 #include <lauxlib.h>
 
-/**framework*/
-#include "common/framework/renderer.h"
-#include "common/framework/buffer_generator.h"
+
 
 #endif

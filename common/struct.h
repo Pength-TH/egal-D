@@ -57,6 +57,7 @@ namespace egal
 	};
 	const ComponentHandle INVALID_COMPONENT = { -1 };
 
+
 	struct GameObject
 	{
 		e_int32 index;
@@ -66,20 +67,20 @@ namespace egal
 		e_bool operator!=(const GameObject& rhs) const { return rhs.index != index; }
 		e_bool isValid() const { return index >= 0; }
 	};
-	const GameObject INVALID_ENTITY = { -1 };
+	const GameObject INVALID_GAME_OBJECT = { -1 };
 
-	struct IScene;
+	class SceneManager;
 	struct ComponentUID final
 	{
 		ComponentUID()
 		{
 			handle = INVALID_COMPONENT;
 			scene = nullptr;
-			entity = INVALID_ENTITY;
+			entity = INVALID_GAME_OBJECT;
 			type = { -1 };
 		}
 
-		ComponentUID(GameObject _entity, ComponentType _type, IScene* _scene, ComponentHandle _handle)
+		ComponentUID(GameObject _entity, ComponentType _type, SceneManager* _scene, ComponentHandle _handle)
 			: entity(_entity)
 			, type(_type)
 			, scene(_scene)
@@ -89,7 +90,7 @@ namespace egal
 
 		GameObject entity;
 		ComponentType type;
-		IScene* scene;
+		SceneManager* scene;
 		ComponentHandle handle;
 
 		static const ComponentUID INVALID;
@@ -101,6 +102,38 @@ namespace egal
 		bool isValid() const { return handle.isValid(); }
 	};
 
+	enum ResourceTypeDefine
+	{
+		RTD_DEFAULT = 0,
+		RTD_TEXTURE,
+		RTD_MATERIAL,
+		RTD_MESH,
+		RTD_SKELETON,
+		RTD_ANIMATION,
+		RTD_TERRAIN,
+		RTD_PARTICLE,
+		RTD_TAG,
+		RTD_LEVEL,
+		RTD_COLLISION,
+		RTD_SHADER,
+		RTD_MODEL,
+
+		RTD_EDITOR,
+		RTD_END
+	};
+
+	struct ResourceType
+	{
+		ResourceType() : type(0) {}
+		explicit ResourceType(const e_char* type_name);
+		e_uint32 type;
+
+		e_bool operator !=(const ResourceType& rhs) const { return rhs.type != type; }
+		e_bool operator ==(const ResourceType& rhs) const { return rhs.type == type; }
+
+		inline e_bool isValid(ResourceType type) { return type.type != 0; }
+	};
+	const ResourceType INVALID_RESOURCE_TYPE("");
 
 }
 #endif

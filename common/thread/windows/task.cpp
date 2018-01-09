@@ -1,6 +1,7 @@
 #include "common/type.h"
 #include "common/thread/task.h"
 #include "common/thread/thread.h"
+#include "common/debug/profiler.h"
 
 namespace egal 
 {
@@ -32,7 +33,7 @@ namespace egal
 			e_uint32 ret = 0xffffFFFF;
 			struct TaskImpl* impl = reinterpret_cast<TaskImpl*>(ptr);
 			setThreadName(impl->m_thread_id, impl->m_thread_name);
-			//Profiler::setThreadName(impl->m_thread_name); todo
+			Profiler::setThreadName(impl->m_thread_name);
 			if (!impl->m_force_exit)
 			{
 				ret = impl->m_owner->task();

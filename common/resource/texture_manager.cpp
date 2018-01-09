@@ -562,15 +562,15 @@ namespace egal
 	static e_bool loadDDSorKTX(Texture& texture, FS::IFile& file)
 	{
 		bgfx::TextureInfo info;
-		const auto* mem = bgfx::copy(file.getBuffer(), (e_uint32)file.size());
-		texture.handle = bgfx::createTexture(mem, texture.bgfx_flags, 0, &info);
+		const auto* mem		= bgfx::copy(file.getBuffer(), (e_uint32)file.size());
+		texture.handle		= bgfx::createTexture(mem, texture.bgfx_flags, 0, &info);
 		bgfx::setName(texture.handle, texture.getPath().c_str());
-		texture.width = info.width;
-		texture.mips = info.numMips;
-		texture.height = info.height;
-		texture.depth = info.depth;
-		texture.layers = info.numLayers;
-		texture.is_cubemap = info.cubeMap;
+		texture.width		= info.width;
+		texture.mips		= info.numMips;
+		texture.height		= info.height;
+		texture.depth		= info.depth;
+		texture.layers		= info.numLayers;
+		texture.is_cubemap	= info.cubeMap;
 		return bgfx::isValid(texture.handle);
 	}
 
@@ -578,9 +578,10 @@ namespace egal
 	{
 		//PROFILE_FUNCTION();
 
-		const e_char* path = getPath().c_str();
-		size_t len = getPath().length();
-		e_bool loaded = false;
+		const e_char* path	= getPath().c_str();
+		size_t len			= getPath().length();
+		e_bool loaded		= false;
+
 		if (len > 3 && (StringUnitl::equalStrings(path + len - 4, ".dds") || StringUnitl::equalStrings(path + len - 4, ".ktx")))
 		{
 			loaded = loadDDSorKTX(*this, file);

@@ -8,7 +8,7 @@
 
 namespace egal
 {
-	template <typename T> class DelegateList;
+	template <typename T> class TDelegateList;
 	namespace Profiler
 	{
 		struct Block;

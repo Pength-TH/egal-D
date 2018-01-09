@@ -2,7 +2,7 @@
 #define _map_h_
 
 #include "common/type.h"
-#include "common/allocator/allocator.h"
+#include "common/allocator/egal_allocator.h"
 namespace egal
 {
 	template <typename Key, typename Value>
@@ -30,8 +30,8 @@ namespace egal
 
 			e_int32 i = index(key);
 			ASSERT(i >= 0 && ((i < m_size && m_keys[i] != key) || i == m_size));
-			moveMemory(m_keys + i + 1, m_keys + i, sizeof(Key) * (m_size - i));
-			moveMemory(m_values + i + 1, m_values + i, sizeof(Value) * (m_size - i));
+			StringUnitl::moveMemory(m_keys + i + 1, m_keys + i, sizeof(Key) * (m_size - i));
+			StringUnitl::moveMemory(m_values + i + 1, m_values + i, sizeof(Value) * (m_size - i));
 			_new(&m_values[i]) Value();
 			_new(&m_keys[i]) Key(key);
 			++m_size;
@@ -65,8 +65,8 @@ namespace egal
 			e_int32 i = index(key);
 			ASSERT(i >= 0 && ((i < m_size && m_keys[i] != key) || i == m_size));
 
-			moveMemory(m_keys + i + 1, m_keys + i, sizeof(Key) * (m_size - i));
-			moveMemory(m_values + i + 1, m_values + i, sizeof(Value) * (m_size - i));
+			StringUnitl::moveMemory(m_keys + i + 1, m_keys + i, sizeof(Key) * (m_size - i));
+			StringUnitl::moveMemory(m_values + i + 1, m_values + i, sizeof(Value) * (m_size - i));
 			_new (&m_values[i]) Value(myforward<Params>(params)...);
 			_new (&m_keys[i]) Key(key);
 			++m_size;

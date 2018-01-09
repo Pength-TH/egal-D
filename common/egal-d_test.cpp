@@ -11,3 +11,7 @@ namespace egal
 	}
 }
 
+#include <queue>
+#include <map>
+#include <vector>
+

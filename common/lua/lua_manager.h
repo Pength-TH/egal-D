@@ -18,22 +18,27 @@ namespace egal
 		{
 			return (T)lua_touserdata(L, index);
 		}
+
 		template <> inline int toType(lua_State* L, int index)
 		{
 			return (int)lua_tointeger(L, index);
 		}
+
 		template <> inline e_uint16 toType(lua_State* L, int index)
 		{
 			return (e_uint16)lua_tointeger(L, index);
 		}
+
 		template <> inline GameObject toType(lua_State* L, int index)
 		{
 			return { (int)lua_tointeger(L, index) };
 		}
+
 		template <> inline ComponentHandle toType(lua_State* L, int index)
 		{
 			return { (int)lua_tointeger(L, index) };
 		}
+
 		template <> inline float3 toType(lua_State* L, int index)
 		{
 			float3 v;
@@ -48,6 +53,7 @@ namespace egal
 			lua_pop(L, 1);
 			return v;
 		}
+
 		template <> inline float4 toType(lua_State* L, int index)
 		{
 			float4 v;
@@ -146,7 +152,7 @@ namespace egal
 
 		template <typename T> inline const char* typeToString()
 		{
-			return "userdata";
+			return "user_data";
 		}
 		template <> inline const char* typeToString<int>()
 		{
@@ -451,11 +457,11 @@ namespace egal
 			case LUA_TNUMBER: return "number";
 			case LUA_TBOOLEAN: return "boolean";
 			case LUA_TFUNCTION: return "function";
-			case LUA_TLIGHTUSERDATA: return "light userdata";
+			case LUA_TLIGHTUSERDATA: return "light user_data";
 			case LUA_TNIL: return "nil";
 			case LUA_TSTRING: return "string";
 			case LUA_TTABLE: return "table";
-			case LUA_TUSERDATA: return "userdata";
+			case LUA_TUSERDATA: return "user_data";
 			default: return "Unknown";
 			}
 		}

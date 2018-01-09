@@ -3,7 +3,7 @@
 
 #include "common/type.h"
 #include "common/stl/delegate.h"
-
+#include "common/stl/delegate_list.h"
 namespace egal
 {
 	namespace FS
@@ -59,6 +59,8 @@ namespace egal
 
 			virtual e_bool seek(SeekMode base, size_t pos) = 0;
 			virtual size_t pos() = 0;
+
+			virtual e_void flush() = 0;
 
 			IFile& operator << (const e_char* text);
 			//e_void getContents(OutputBlob& blob);

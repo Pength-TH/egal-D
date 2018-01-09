@@ -1,5 +1,9 @@
 #include "common/input/input_system.h"
-#include "common/framework/engine.h"
+/**lua*/
+#include <lua.hpp>
+#include <lauxlib.h>
+
+#include "runtime/EngineFramework/engine_root.h"
 #include "common/egal-d.h"
 
 #include "common/lua/lua_function.h"
@@ -21,7 +25,7 @@ namespace egal
 
 	struct InputSystemImpl : public InputSystem
 	{
-		explicit InputSystemImpl(Engine& engine)
+		explicit InputSystemImpl(EngineRoot& engine)
 			: m_engine(engine)
 			, m_allocator(engine.getAllocator())
 			, m_events(m_allocator)
@@ -33,12 +37,11 @@ namespace egal
 			m_mouse_device->type = Device::MOUSE;
 			m_keyboard_device = _aligned_new(m_allocator, KeyboardDevice);
 			m_keyboard_device->type = Device::KEYBOARD;
-			m_devices.push(m_keyboard_device);
-			m_devices.push(m_mouse_device);
+			m_devices.push_back(m_keyboard_device);
+			m_devices.push_back(m_mouse_device);
 			//ControllerDevice::init(*this);
-			registerLuaAPI();
+			//registerLuaAPI();
 		}
-
 
 		~InputSystemImpl()
 		{
@@ -56,7 +59,7 @@ namespace egal
 
 		void addDevice(Device* device) override
 		{
-			m_devices.push(device);
+			m_devices.push_back(device);
 			Event event;
 			event.type = Event::DEVICE_ADDED;
 			event.device = device;
@@ -68,7 +71,7 @@ namespace egal
 		{
 			ASSERT(device != m_keyboard_device);
 			ASSERT(device != m_mouse_device);
-			m_to_remove.push(device);
+			m_to_remove.push_back(device);
 
 			Event event;
 			event.type = Event::DEVICE_REMOVED;
@@ -97,7 +100,7 @@ namespace egal
 
 		void injectEvent(const Event& event) override
 		{
-			m_events.push(event);
+			m_events.push_back(event);
 		}
 
 
@@ -115,7 +118,7 @@ namespace egal
 		void registerLuaAPI();
 
 
-		Engine& m_engine;
+		EngineRoot& m_engine;
 		IAllocator& m_allocator;
 		MouseDevice* m_mouse_device;
 		KeyboardDevice* m_keyboard_device;
@@ -620,7 +623,7 @@ namespace egal
 #undef REGISTER_KEYCODE
 	}
 
-	InputSystem* InputSystem::create(Engine& engine)
+	InputSystem* InputSystem::create(EngineRoot& engine)
 	{
 		return _aligned_new(engine.getAllocator(), InputSystemImpl)(engine);
 	}

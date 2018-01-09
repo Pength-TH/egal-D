@@ -4,7 +4,7 @@
 #include "common/define.h"
 #include "common/type.h"
 
-#include "common/allocator/allocator.h"
+#include "common/allocator/egal_allocator.h"
 
 #include "common/thread/atomic.h"
 #include "common/thread/lock_free_fixed_queue.h"

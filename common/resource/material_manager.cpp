@@ -6,14 +6,9 @@
 
 namespace egal
 {
-	static const ResourceType TEXTURE_TYPE("texture");
-	static const ResourceType SHADER_TYPE("shader");
-	static const e_float DEFAULT_ALPHA_REF_VALUE = 0.3f;
-	
-	static e_uint8 DEFAULT_COMMAND_BUFFER = 0;
 	static struct CustomFlags
 	{
-		e_char flags[32][32];
+		e_char	flags[32][32];
 		e_int32 count;
 	} s_custom_flags = {};
 
@@ -115,7 +110,7 @@ namespace egal
 		m_uniforms.clear();
 		setShader(nullptr);
 
-		ResourceManagerBase* texture_manager = m_resource_manager.getOwner().get(TEXTURE_TYPE);
+		ResourceManagerBase* texture_manager = m_resource_manager.getOwner().get( RESOURCE_TEXTURE_TYPE);
 		for (e_int32 i = 0; i < m_texture_count; i++)
 		{
 			if (m_textures[i])
@@ -208,7 +203,7 @@ namespace egal
 			serializer.serialize("name", uniform.name);
 			switch (uniform.type)
 			{
-			case Shader::Uniform::e_float:
+			case Shader::Uniform::FLOAT:
 				serializer.serialize("float_value", m_uniforms[i].float_value);
 				break;
 			case Shader::Uniform::COLOR:
@@ -377,7 +372,7 @@ namespace egal
 		}
 		else
 		{
-			Texture* texture = static_cast<Texture*>(m_resource_manager.getOwner().get(TEXTURE_TYPE)->load(path));
+			Texture* texture = static_cast<Texture*>(m_resource_manager.getOwner().get( RESOURCE_TEXTURE_TYPE)->load(path));
 			setTexture(i, texture);
 		}
 	}
@@ -408,14 +403,17 @@ namespace egal
 	{
 		Texture* old_texture = i < m_texture_count ? m_textures[i] : nullptr;
 
-		if (texture) addDependency(*texture);
+		if (texture) 
+			addDependency(*texture);
+		
 		m_textures[i] = texture;
-		if (i >= m_texture_count) m_texture_count = i + 1;
+		if (i >= m_texture_count) 
+			m_texture_count = i + 1;
 
 		if (old_texture)
 		{
 			removeDependency(*old_texture);
-			m_resource_manager.getOwner().get(TEXTURE_TYPE)->unload(*old_texture);
+			m_resource_manager.getOwner().get( RESOURCE_TEXTURE_TYPE)->unload(*old_texture);
 		}
 		if (isReady() && m_shader)
 		{
@@ -440,15 +438,18 @@ namespace egal
 
 	void Material::setShader(const ArchivePath& path)
 	{
-		Shader* shader = static_cast<Shader*>(m_resource_manager.getOwner().get(SHADER_TYPE)->load(path));
+		Shader* shader = static_cast<Shader*>(m_resource_manager.getOwner().get( RESOURCE_SHADER_TYPE)->load(path));
 		setShader(shader);
 	}
 
 	void Material::createCommandBuffer()
 	{
-		if (m_command_buffer != &DEFAULT_COMMAND_BUFFER) m_allocator.deallocate(m_command_buffer);
+		if (m_command_buffer != &DEFAULT_COMMAND_BUFFER) 
+			m_allocator.deallocate(m_command_buffer);
+		
 		m_command_buffer = &DEFAULT_COMMAND_BUFFER;
-		if (!m_shader) return;
+		if (!m_shader) 
+			return;
 
 		CommandBufferGenerator generator;
 
@@ -459,7 +460,7 @@ namespace egal
 
 			switch (shader_uniform.type)
 			{
-			case Shader::Uniform::e_float:
+			case Shader::Uniform::FLOAT:
 				generator.setUniform(shader_uniform.handle, float4(uniform.float_value, 0, 0, 0));
 				break;
 			case Shader::Uniform::FLOAT2:
@@ -476,7 +477,8 @@ namespace egal
 
 		for (e_int32 i = 0; i < m_shader->m_texture_slot_count; ++i)
 		{
-			if (i >= m_texture_count || !m_textures[i]) continue;
+			if (i >= m_texture_count || !m_textures[i]) 
+				continue;
 
 			generator.setTexture(i, m_shader->m_texture_slots[i].uniform_handle, m_textures[i]->handle);
 		}
@@ -560,7 +562,7 @@ namespace egal
 			Shader* shader = m_shader;
 			m_shader = nullptr;
 			removeDependency(*shader);
-			m_resource_manager.getOwner().get(SHADER_TYPE)->unload(*shader);
+			m_resource_manager.getOwner().get( RESOURCE_SHADER_TYPE)->unload(*shader);
 		}
 		m_shader = shader;
 		if (m_shader)
@@ -638,7 +640,7 @@ namespace egal
 					{
 						StringUnitl::copyString(texture_path, path);
 					}
-					auto* mng = m_resource_manager.getOwner().get(TEXTURE_TYPE);
+					auto* mng = m_resource_manager.getOwner().get( RESOURCE_TEXTURE_TYPE);
 					m_textures[m_texture_count] = static_cast<Texture*>(mng->load(ArchivePath(texture_path)));
 					addDependency(*m_textures[m_texture_count]);
 				}
@@ -843,7 +845,7 @@ namespace egal
 			{
 				ArchivePath path;
 				serializer.deserialize(path, ArchivePath(""));
-				auto* manager = m_resource_manager.getOwner().get(SHADER_TYPE);
+				auto* manager = m_resource_manager.getOwner().get( RESOURCE_SHADER_TYPE);
 				setShader(static_cast<Shader*>(manager->load(ArchivePath(path))));
 			}
 			else

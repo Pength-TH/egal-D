@@ -85,7 +85,7 @@ namespace egal
 				}
 			}
 
-			e_bool push(const T* tr, e_bool wait)
+			e_bool push_back(const T* tr, e_bool wait)
 			{
 				e_int32 idx = e_int32(tr - (T*)m_pool);
 				ASSERT(idx >= 0 && idx < size);

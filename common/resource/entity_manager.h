@@ -8,6 +8,8 @@
 #include "common/math/egal_math.h"
 #include "common/resource/resource_manager.h"
 #include "common/resource/resource_define.h"
+#include "common/utils/geometry.h"
+#include "common/egal_string.h"
 
 namespace egal
 {
@@ -24,13 +26,14 @@ namespace egal
 		struct IFile;
 	}
 
-	struct RayCastModelHit
+	struct RayCastEntityHit
 	{
 		e_bool  m_is_hit;
 		e_float m_t;
 		float3  m_origin;
 		float3  m_dir;
 		Mesh*   m_mesh;
+
 		ComponentHandle m_component;
 		GameObject		m_game_object;
 		ComponentType	m_component_type;
@@ -69,20 +72,20 @@ namespace egal
 
 		e_bool areIndices16() const { return flags & Flags::INDICES_16_BIT; }
 
-		Type type;
-		TVector<e_uint8> indices;
-		TVector<float3> vertices;
-		TVector<float2> uvs;
-		TVector<Skin> skin;
-		e_uint8 flags;
-		e_uint64 layer_mask;
-		e_int32 instance_idx;
-		e_int32 indices_count;
-		VertexDecl vertex_decl;
-		VertexBufferHandle vertex_buffer_handle = BGFX_INVALID_HANDLE;
-		IndexBufferHandle index_buffer_handle = BGFX_INVALID_HANDLE;
-		String name;
-		Material* material;
+		Type				type;
+		TVector<e_uint8>	indices;
+		TVector<float3>		vertices;
+		TVector<float2>		uvs;
+		TVector<Skin>		skin;
+		e_uint8				flags;
+		e_uint64			layer_mask;
+		e_int32				instance_idx;
+		e_int32				indices_count;
+		VertexDecl			vertex_decl;
+		VertexBufferHandle	vertex_buffer_handle = BGFX_INVALID_HANDLE;
+		IndexBufferHandle	index_buffer_handle = BGFX_INVALID_HANDLE;
+		String				name;
+		Material*			material;
 	};
 
 	struct LODMeshIndices
@@ -90,6 +93,29 @@ namespace egal
 		e_int32 from;
 		e_int32 to;
 	};
+
+	class Entity;
+	struct Pose
+	{
+		explicit Pose(IAllocator& allocator);
+		~Pose();
+
+		e_void resize(e_int32 count);
+		e_void computeAbsolute(Entity& entity);
+		e_void computeRelative(Entity& entity);
+		e_void blend(Pose& rhs, e_float weight);
+
+		IAllocator&		allocator;
+		e_bool			is_absolute;
+		e_int32			count;
+		float3*			positions;
+		Quaternion*		rotations;
+
+	private:
+		Pose(const Pose&);
+		e_void operator =(const Pose&);
+	};
+
 
 	class Entity : public Resource
 	{
@@ -163,12 +189,12 @@ namespace egal
 			{
 			}
 
-			String name;
-			String parent;
-			RigidTransform transform;
-			RigidTransform relative_transform;
-			RigidTransform inv_bind_transform;
-			e_int32 parent_idx;
+			String			name;
+			String			parent;
+			RigidTransform	transform;
+			RigidTransform	relative_transform;
+			RigidTransform	inv_bind_transform;
+			e_int32			parent_idx;
 		};
 
 	public:
@@ -190,22 +216,23 @@ namespace egal
 		const Bone& getBone(e_int32 i) const { return m_bones[i]; }
 		e_int32 getFirstNonrootBoneIndex() const { return m_first_nonroot_bone_index; }
 		BoneMap::iterator getBoneIndex(e_uint32 hash) { return m_bone_map.find(hash); }
-		e_void getPose(Pose& pose);
-		e_void getRelativePose(Pose& pose);
 		e_float getBoundingRadius() const { return m_bounding_radius; }
-		RayCastModelHit castRay(const float3& origin, const float3& dir, const Matrix& model_transform, const Pose* pose);
 		const AABB& getAABB() const { return m_aabb; }
 		LOD* getLODs() { return m_lods; }
 		e_uint32 getFlags() const { return m_flags; }
+
+		RayCastEntityHit castRay(const float3& origin
+							   , const float3& dir
+							   , const Matrix& model_transform
+							   , const Pose* pose);
+		e_void getPose(Pose& pose);
+		e_void getRelativePose(Pose& pose);
 		e_void setKeepSkin();
 		e_void onBeforeReady() override;
-
-		static e_void registerLuaAPI(lua_State* L);
-
 	public:
-		static const e_uint32 FILE_MAGIC = 0x5f4c4d4f; // == '_LMO'
-		static const e_int32 MAX_LOD_COUNT = 4;
-		static e_bool force_keep_skin;
+		static const e_uint32 FILE_MAGIC	= 0x5f4c4d4f;
+		static const e_int32  MAX_LOD_COUNT = 4;
+		static		   e_bool force_keep_skin;
 
 	private:
 		Entity(const Entity&);
@@ -223,19 +250,18 @@ namespace egal
 		e_bool load(FS::IFile& file) override;
 
 	private:
-		IAllocator& m_allocator;
-		Renderer& m_renderer;
-		TVector<Mesh> m_meshes;
-		TVector<Bone> m_bones;
-		LOD m_lods[MAX_LOD_COUNT];
-		e_float m_bounding_radius;
-		BoneMap m_bone_map;
-		AABB m_aabb;
-		e_uint32 m_flags;
-		e_uint32 m_loading_flags;
-		e_int32 m_first_nonroot_bone_index;
+		IAllocator&		m_allocator;
+		Renderer&		m_renderer;
+		TVector<Mesh>	m_meshes;
+		TVector<Bone>	m_bones;
+		LOD				m_lods[MAX_LOD_COUNT];
+		e_float			m_bounding_radius;
+		BoneMap			m_bone_map;
+		AABB			m_aabb;
+		e_uint32		m_flags;
+		e_uint32		m_loading_flags;
+		e_int32			m_first_nonroot_bone_index;
 	};
-
 }
 
 namespace egal
@@ -258,8 +284,7 @@ namespace egal
 
 	private:
 		IAllocator& m_allocator;
-		Renderer& m_renderer;
+		Renderer&	m_renderer;
 	};
 }
-
 #endif

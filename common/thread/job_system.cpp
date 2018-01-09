@@ -14,25 +14,23 @@ namespace egal
 	{
 		struct Job
 		{
-			JobDecl decl;
-			volatile e_int32* counter;
+			JobDecl				decl;
+			volatile e_int32*	counter;
 		};
-
 
 		struct FiberDecl
 		{
-			e_int32 idx;
-			Fiber::Handle fiber;
-			Job current_job;
-			struct WorkerTask* worker_task;
-			e_void* switch_state;
+			e_int32				idx;
+			Fiber::Handle		fiber;
+			Job					current_job;
+			struct WorkerTask*	worker_task;
+			e_void*				switch_state;
 		};
-
 
 		struct SleepingFiber
 		{
-			volatile e_int32* waiting_condition;
-			FiberDecl* fiber;
+			volatile e_int32*	waiting_condition;
+			FiberDecl*			fiber;
 		};
 
 		struct System
@@ -51,21 +49,21 @@ namespace egal
 			}
 
 
-			MT::SpinMutex m_sync;
-			MT::Event m_event_outside_job;
-			MT::Event m_work_signal;
-			TVector<MT::Task*> m_workers;
-			TVector<Job> m_job_queue;
-			FiberDecl m_fiber_pool[256];
-			e_int32 m_free_fibers_indices[256];
-			e_int32 m_num_free_fibers;
-			TVector<SleepingFiber> m_sleeping_fibers;
-			IAllocator& m_allocator;
+			MT::SpinMutex			m_sync;
+			MT::Event				m_event_outside_job;
+			MT::Event				m_work_signal;
+			TVector<MT::Task*>		m_workers;
+			TVector<Job>			m_job_queue;
+			FiberDecl				m_fiber_pool[256];
+			e_int32					m_free_fibers_indices[256];
+			e_int32					m_num_free_fibers;
+			TVector<SleepingFiber>	m_sleeping_fibers;
+			IAllocator&				m_allocator;
 		};
 
 		static System* g_system = nullptr;
 
-		static bool getReadySleepingFiber(System& system, SleepingFiber* out)
+		static e_bool getReadySleepingFiber(System& system, SleepingFiber* out)
 		{
 			MT::SpinLock lock(system.m_sync);
 
@@ -83,7 +81,7 @@ namespace egal
 			return false;
 		}
 
-		static bool getReadyJob(System& system, Job* out)
+		static e_bool getReadyJob(System& system, Job* out)
 		{
 			MT::SpinLock lock(system.m_sync);
 
@@ -91,7 +89,7 @@ namespace egal
 				return false;
 
 			Job job = system.m_job_queue.back();
-			system.m_job_queue.pop();
+			system.m_job_queue.pop_back();
 			if (system.m_job_queue.empty()) 
 				system.m_work_signal.reset();
 
@@ -136,7 +134,7 @@ namespace egal
 				sleeping_fiber.fiber = &fiber;
 				sleeping_fiber.waiting_condition = counter;
 
-				g_system->m_sleeping_fibers.push(sleeping_fiber);
+				g_system->m_sleeping_fibers.push_back(sleeping_fiber);
 			}
 
 			e_int32 task() override
@@ -173,7 +171,7 @@ namespace egal
 					Job job;
 					if (getReadyJob(*g_system, &job))
 					{
-						FiberDecl& fiber_decl = getFreeFiber();
+						FiberDecl& fiber_decl  = getFreeFiber();
 						fiber_decl.worker_task = that;
 						fiber_decl.current_job = job;
 						fiber_decl.switch_state = nullptr;
@@ -192,10 +190,10 @@ namespace egal
 				}
 			}
 
-			bool m_finished = false;
-			FiberDecl* m_current_fiber = nullptr;
-			Fiber::Handle m_primary_fiber;
-			System& m_system;
+			e_bool			m_finished = false;
+			FiberDecl*		m_current_fiber = nullptr;
+			Fiber::Handle	m_primary_fiber;
+			System&			m_system;
 		};
 
 #ifdef _WIN32
@@ -209,14 +207,15 @@ namespace egal
 			{
 				Job job = fiber_decl->current_job;
 				job.decl.task(job.decl.data);
-				if (job.counter) MT::atomicDecrement(job.counter);
+				if (job.counter) 
+					MT::atomicDecrement(job.counter);
 
 				fiber_decl->switch_state = nullptr;
 				Fiber::switchTo(&fiber_decl->fiber, fiber_decl->worker_task->m_primary_fiber);
 			}
 		}
 
-		bool init(IAllocator& allocator)
+		e_bool init(IAllocator& allocator)
 		{
 			ASSERT(!g_system);
 
@@ -229,7 +228,7 @@ namespace egal
 				WorkerTask* task = _aligned_new(allocator, WorkerTask)(*g_system);
 				if (task->create("Job system worker"))
 				{
-					g_system->m_workers.push(task);
+					g_system->m_workers.push_back(task);
 					task->setAffinityMask((e_uint64)1 << i);
 				}
 				else
@@ -255,7 +254,8 @@ namespace egal
 
 		e_void shutdown()
 		{
-			if (!g_system) return;
+			if (!g_system) 
+				return;
 
 			IAllocator& allocator = g_system->m_allocator;
 			for (MT::Task* task : g_system->m_workers)
@@ -288,13 +288,16 @@ namespace egal
 
 			MT::SpinLock lock(g_system->m_sync);
 			g_system->m_work_signal.trigger();
-			if (counter) MT::atomicAdd(counter, count);
+			
+			if (counter) 
+				MT::atomicAdd(counter, count);
+
 			for (e_int32 i = 0; i < count; ++i)
 			{
 				Job job;
 				job.decl = jobs[i];
 				job.counter = counter;
-				g_system->m_job_queue.push(job);
+				g_system->m_job_queue.push_back(job);
 			}
 		}
 

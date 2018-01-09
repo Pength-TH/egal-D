@@ -2,7 +2,7 @@
 #define _debug_h_
 
 #include "common/type.h"
-#include "common/allocator/allocator.h"
+#include "common/allocator/egal_allocator.h"
 #include "common/egal_string.h"
 #include "common/thread/sync.h"
 

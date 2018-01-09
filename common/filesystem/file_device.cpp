@@ -9,7 +9,8 @@
 #include "common/thread/transaction.h"
 
 #include "common/egal_string.h"
-#include "common/stl/queue.h"
+
+#include "common/template.h"
 
 #include "common/egal-d.h"
 
@@ -171,7 +172,7 @@ namespace egal
 					m_disk_device.m_devices[1] = nullptr;
 				}
 
-				m_devices.push(device);
+				m_devices.push_back(device);
 				return true;
 			}
 
@@ -367,8 +368,8 @@ namespace egal
 						tr->data.m_flags = item.m_flags;
 						tr->reset();
 
-						m_transaction_queue.push(tr, true);
-						m_in_progress.push(tr);
+						m_transaction_queue.push_back(tr, true);
+						m_in_progress.push_back(tr);
 						m_pending.erase(0);
 					}
 					can_add--;
@@ -480,6 +481,12 @@ namespace egal
 				return m_file.write(buffer, size);
 			}
 
+			e_void flush() override
+			{
+				if (m_use_fallthrough) return m_fallthrough->flush();
+				return m_file.flush();
+			}
+
 			const e_void* getBuffer() const override
 			{
 				if (m_use_fallthrough) return m_fallthrough->getBuffer();
@@ -583,7 +590,10 @@ namespace egal
 			const e_void* getBuffer() const override { return nullptr; }
 			size_t size() override { return (size_t)m_file.size; }
 			size_t pos() override { return m_local_offset; }
+			e_void flush() override
+			{
 
+			}
 		private:
 			virtual ~PackFile() = default;
 
@@ -741,6 +751,10 @@ namespace egal
 				return true;
 			}
 
+			e_void flush() override
+			{
+			}
+
 			const e_void* getBuffer() const override
 			{
 				return m_buffer;
@@ -861,6 +875,11 @@ namespace egal
 			{
 				ASSERT(false);
 				return false;
+			}
+
+			e_void flush() override
+			{
+
 			}
 
 			const e_void* getBuffer() const override { return m_resource->value; }
@@ -988,6 +1007,10 @@ namespace egal
 				return ret;
 			}
 
+			e_void flush() override
+			{
+				return m_file.flush();
+			}
 
 			const e_void* getBuffer() const override
 			{
@@ -1030,18 +1053,18 @@ namespace egal
 			e_void invokeEvent(EventType type, const e_char* path, e_int32 ret, e_int32 param)
 			{
 				Event event;
-				event.type = type;
+				event.type	 = type;
 				event.handle = uintptr(this);
-				event.path = path;
-				event.ret = ret;
-				event.param = param;
+				event.path	 = path;
+				event.ret	 = ret;
+				event.param	 = param;
 
 				m_cb.invoke(event);
 			}
 
-			FileEventsDevice& m_device;
-			IFile& m_file;
-			FileEventsDevice::EventCallback& m_cb;
+			FileEventsDevice&					m_device;
+			IFile&								m_file;
+			FileEventsDevice::EventCallback&	m_cb;
 		};
 
 
@@ -1060,46 +1083,49 @@ namespace egal
 
 	/**init filesystem*/
 #pragma region init
-	FS::FileSystem*			g_file_system = nullptr;
-	FS::ResourceFileDevice* m_resource_file_device = nullptr;
-	FS::MemoryFileDevice*	m_mem_file_device = nullptr;
-	FS::DiskFileDevice*		m_disk_file_device = nullptr;
-	FS::PackFileDevice*		m_pack_file_device = nullptr;
+	FS::FileSystem*			g_file_system			= nullptr;
+	FS::ResourceFileDevice* g_resource_file_device	= nullptr;
+	FS::MemoryFileDevice*	g_mem_file_device		= nullptr;
+	FS::DiskFileDevice*		g_disk_file_device		= nullptr;
+	FS::PackFileDevice*		g_pack_file_device		= nullptr;
 
 	void init_file_system(IAllocator &m_main_allocator)
 	{
 		if (g_file_system)
 			return;
 
-		g_file_system = FS::FileSystem::create(m_main_allocator);
-
-		m_mem_file_device = _aligned_new(m_main_allocator, FS::MemoryFileDevice)(m_main_allocator);
-		char current_dir[MAX_PATH_LENGTH];
+		e_char current_dir[MAX_PATH_LENGTH];
 #ifdef PLATFORM_WINDOWS
 		GetCurrentDirectory(sizeof(current_dir), current_dir);
 #else
 		current_dir[0] = '\0';
 #endif
-		m_disk_file_device = _aligned_new(m_main_allocator, FS::DiskFileDevice)("disk", current_dir, m_main_allocator);
-		m_pack_file_device = _aligned_new(m_main_allocator, FS::PackFileDevice)(m_main_allocator);
-		m_resource_file_device = _aligned_new(m_main_allocator, FS::ResourceFileDevice)(m_main_allocator);
 
-		g_file_system->mount(m_mem_file_device);
-		g_file_system->mount(m_disk_file_device);
-		g_file_system->mount(m_resource_file_device);
-		g_file_system->mount(m_pack_file_device);
-		m_pack_file_device->mount("data.pak");
-		g_file_system->setDefaultDevice("disk");
-		g_file_system->setSaveGameDevice("memory:disk");
+		g_file_system			= FS::FileSystem::create(m_main_allocator);
+
+		g_mem_file_device		= _aligned_new(m_main_allocator, FS::MemoryFileDevice)(m_main_allocator);
+		g_disk_file_device		= _aligned_new(m_main_allocator, FS::DiskFileDevice)("disk", current_dir, m_main_allocator);
+		g_pack_file_device		= _aligned_new(m_main_allocator, FS::PackFileDevice)(m_main_allocator);
+		g_resource_file_device  = _aligned_new(m_main_allocator, FS::ResourceFileDevice)(m_main_allocator);
+
+		g_file_system->mount(g_mem_file_device);
+		g_file_system->mount(g_disk_file_device);
+		g_file_system->mount(g_resource_file_device);
+		g_file_system->mount(g_pack_file_device);
+		
+		g_pack_file_device->mount("data.pak");
+
+		g_file_system->setDefaultDevice("memory:disk:resource");
+		g_file_system->setSaveGameDevice("memory:disk:resource");
 	}
 
 	void destory_file_system(IAllocator &m_allocator)
 	{
 		FS::FileSystem::destroy(g_file_system);
-		_delete(m_allocator, m_mem_file_device);
-		_delete(m_allocator, m_resource_file_device);
-		_delete(m_allocator, m_disk_file_device);
-		_delete(m_allocator, m_resource_file_device);
+		_delete(m_allocator, g_mem_file_device);
+		_delete(m_allocator, g_resource_file_device);
+		_delete(m_allocator, g_disk_file_device);
+		_delete(m_allocator, g_pack_file_device);
 	}
 #pragma endregion
 

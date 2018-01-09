@@ -2,7 +2,7 @@
 #define _vector_h_
 
 #include "common/type.h"
-#include "common/allocator/allocator.h"
+#include "common/allocator/egal_allocator.h"
 namespace egal
 {
 	template <typename T> 
@@ -11,6 +11,8 @@ namespace egal
 	public:
 		explicit TVector(IAllocator& allocator)
 			: m_allocator(allocator)
+			, m_capacity(0)
+			, m_size(0)
 		{
 			m_data = nullptr;
 			m_capacity = 0;
@@ -18,11 +20,11 @@ namespace egal
 		}
 
 		explicit TVector(const TVector& rhs)
+			: m_allocator(rhs.m_allocator)
 		{
 			m_data = nullptr;
 			m_capacity = 0;
 			m_size = 0;
-			m_allocator = &g_allocator;
 			*this = rhs;
 		}
 
@@ -83,17 +85,23 @@ namespace egal
 
 		void operator=(const TVector& rhs)
 		{
-			if (this != &rhs)
+			if (this != &rhs && rhs.m_data)
 			{
-				callDestructors(m_data, m_data + m_size);
-				m_allocator.deallocate_aligned(m_data);
+				if (m_data)
+				{
+					callDestructors(m_data, m_data + m_size);
+					m_allocator.deallocate_aligned(m_data);
+				}
+
 				m_data = (T*)m_allocator.allocate_aligned(rhs.m_capacity * sizeof(T), ALIGN_OF(T));
 				m_capacity = rhs.m_capacity;
 				m_size = rhs.m_size;
+				
 				for (e_int32 i = 0; i < m_size; ++i)
 				{
 					_new ((char*)(m_data + i)) T(rhs.m_data[i]);
 				}
+
 			}
 		}
 
@@ -216,7 +224,7 @@ namespace egal
 			}
 		}
 
-		void push(const T& value)
+		void push_back(const T& value)
 		{
 			e_int32 size = m_size;
 			if (size == m_capacity)
@@ -278,7 +286,7 @@ namespace egal
 		T& back() { return m_data[m_size - 1]; }
 
 
-		void pop()
+		void pop_back()
 		{
 			if (m_size > 0)
 			{

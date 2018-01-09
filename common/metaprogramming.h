@@ -115,7 +115,7 @@ namespace egal
 	template<int Index, typename... Types>
 	constexpr auto& get(const Tuple<Types...>& tuple)
 	{
-		using Subtuple = typename TupleElement<Index, const ::Lumix::Tuple<Types...> >::Tail;
+		using Subtuple = typename TupleElement<Index, const ::egal::Tuple<Types...> >::Tail;
 		return (((Subtuple&)tuple).value);
 	}
 
@@ -123,7 +123,7 @@ namespace egal
 	template<int Index, typename... Types>
 	constexpr auto& get(Tuple<Types...>& tuple)
 	{
-		using Subtuple = typename TupleElement<Index, ::Lumix::Tuple<Types...> >::Tail;
+		using Subtuple = typename TupleElement<Index, ::egal::Tuple<Types...> >::Tail;
 		return (((Subtuple&)tuple).value);
 	}
 

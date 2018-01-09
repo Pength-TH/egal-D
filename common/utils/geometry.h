@@ -9,19 +9,6 @@ namespace egal
 	struct AABB;
 	struct Matrix;
 
-	enum class Planes : e_uint32
-	{
-		EP_NEAR,
-		EP_FAR,
-		EP_LEFT,
-		EP_RIGHT,
-		EP_TOP,
-		EP_BOTTOM,
-		EP_EXTRA0,
-		EP_EXTRA1,
-		EP_COUNT
-	};
-
 	struct Sphere
 	{
 		Sphere() {}
@@ -50,6 +37,19 @@ namespace egal
 
 	struct Frustum
 	{
+		enum class Planes : e_uint32
+		{
+			EP_NEAR,
+			EP_FAR,
+			EP_LEFT,
+			EP_RIGHT,
+			EP_TOP,
+			EP_BOTTOM,
+			EP_EXTRA0,
+			EP_EXTRA1,
+			EP_COUNT
+		};
+
 		Frustum();
 
 		void computeOrtho(const float3& position,

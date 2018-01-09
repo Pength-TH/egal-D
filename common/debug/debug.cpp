@@ -1,6 +1,7 @@
 #include "common/debug/debug.h"
 #include "common/thread/atomic.h"
 #include "common/utils/logger.h"
+#include "common/egal_const.h"
 
 #include <windows.h>
 #pragma warning (push)
@@ -13,9 +14,7 @@
 
 #pragma comment(lib, "DbgHelp.lib")
 
-static bool g_is_crash_reporting_enabled = true;
-
-#define _DEBUG
+#undef _DEBUG
 
 namespace egal
 {
@@ -686,7 +685,8 @@ namespace egal
 
 	static LONG WINAPI unhandledExceptionHandler(LPEXCEPTION_POINTERS info)
 	{
-		if (!g_is_crash_reporting_enabled) return EXCEPTION_CONTINUE_SEARCH;
+		if (!g_is_crash_reporting_enabled) 
+			return EXCEPTION_CONTINUE_SEARCH;
 
 		struct CrashInfo
 		{
@@ -736,12 +736,6 @@ namespace egal
 				nullptr,
 				nullptr);
 			CloseHandle(file);
-
-			//SendFile("Lumix Studio crash",
-			//	"SMTP:mikulas.florek@gamedev.sk",
-			//	"Lumix Studio",
-			//	message,
-			//	minidump_path);
 
 			minidump_type = (MINIDUMP_TYPE)(MiniDumpWithFullMemory | MiniDumpWithFullMemoryInfo |
 				MiniDumpFilterMemory | MiniDumpWithHandleData |

@@ -12,13 +12,12 @@
 
 #define ALIGN_BEGIN(_align) __declspec(align(_align))
 #define ALIGN_END(_align)
-
+#define RESTRICT __restrict
 #else
 #define ALIGN_BEGIN(_align)
 #define ALIGN_END(_align) __attribute__( (aligned(_align) ) )
+#define RESTRICT __restrict__
 #endif
-
-
 
 #ifndef SAFE_DELETE
 #define SAFE_DELETE(p)       { if (p) { delete (p);     (p)=NULL; } }
@@ -52,5 +51,12 @@
 #define ARRAY_SIZE(_arr_) (sizeof(_arr_)/sizeof((_arr_)[0]))
 #endif
 
+#ifndef FLASE
+#define FLASE false
+#endif
+
+#ifndef TRUE
+#define TRUE true
+#endif
 
 #endif

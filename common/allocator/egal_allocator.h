@@ -1,16 +1,23 @@
 #ifndef _allocator_h_
 #define _allocator_h_
 
-struct PlacementNewDummy {};
-inline void* operator new(size_t, PlacementNewDummy, void* ptr) { return ptr; }
-inline void operator delete(void*, PlacementNewDummy, void*) {}
+namespace egal
+{
+	struct PlacementNewDummy{};
+}
+
+inline void* operator new(size_t, egal::PlacementNewDummy, void* ptr) { return ptr; }
+inline void operator delete(void*, egal::PlacementNewDummy, void*) {}
 
 namespace egal
 {
-#define ALIGN_OF(...) __alignof(__VA_ARGS__) //sizeof(__VA_ARGS__) ^ (sizeof(__VA_ARGS__) & (sizeof(__VA_ARGS__) - 1))
-#define _new(var)  new(PlacementNewDummy(), var)
-#define _aligned_new(allocator, ...) new (PlacementNewDummy(), (allocator).allocate_aligned(sizeof(__VA_ARGS__), ALIGN_OF(__VA_ARGS__))) __VA_ARGS__
-#define _delete(allocator, var) (allocator).deleteObject(var);
+
+ #define ALIGN_OF(...) __alignof(__VA_ARGS__) //sizeof(__VA_ARGS__) ^ (sizeof(__VA_ARGS__) & (sizeof(__VA_ARGS__) - 1))
+
+ #define _new(var)  new(PlacementNewDummy(), var)
+
+ #define _aligned_new(allocator, ...) new (PlacementNewDummy(), (allocator).allocate_aligned(sizeof(__VA_ARGS__), ALIGN_OF(__VA_ARGS__))) __VA_ARGS__
+ #define _delete(allocator, var) (allocator).deleteObject(var);
 
 	struct IAllocator
 	{

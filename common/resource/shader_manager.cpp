@@ -1,9 +1,11 @@
 #include "common/resource/shader_manager.h"
 #include "common/egal-d.h"
 
+#include "common/lua/lua_shader.h"
+
 namespace egal
 {
-	static const ResourceType SHADER_BINARY_TYPE("shader_binary");
+	
 
 	Shader::Shader(const ArchivePath& path, ResourceManagerBase& resource_manager, IAllocator& allocator)
 		: Resource(path, resource_manager, allocator)
@@ -74,7 +76,7 @@ namespace egal
 
 		e_uint32 count = 1 << m_combintions.define_count;
 
-		auto* binary_manager = m_resource_manager.getOwner().get(SHADER_BINARY_TYPE);
+		auto* binary_manager = m_resource_manager.getOwner().get( RESOURCE_SHADER_BINARY_TYPE);
 		e_char basename[MAX_PATH_LENGTH];
 		StringUnitl::getBasename(basename, sizeof(basename), getPath().c_str());
 
@@ -299,6 +301,9 @@ namespace egal
 	}
 }
 
+/***************************************************************************************************/
+/***************************************************************************************************/
+/***************************************************************************************************/
 namespace egal
 {
 	e_bool Shader::getShaderCombinations(const e_char* shd_path,
@@ -323,12 +328,11 @@ namespace egal
 		return true;
 	}
 
-
 	e_bool Shader::load(FS::IFile& file)
 	{
 		lua_State* L = luaL_newstate();
 		luaL_openlibs(L);
-		//registerFunctions(this, &m_combintions, &getRenderer(), L);
+		registerFunctions(this, &m_combintions, &getRenderer(), L);
 		m_render_states = BGFX_STATE_DEPTH_TEST_LEQUAL;
 
 		e_bool errors = luaL_loadbuffer(L, (const e_char*)file.getBuffer(), file.size(), "") != LUA_OK;

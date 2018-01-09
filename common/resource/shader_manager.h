@@ -4,6 +4,7 @@
 #include "common/resource/resource_public.h"
 #include "common/resource/resource_manager.h"
 #include "common/resource/resource_define.h"
+#include "common/template.h"
 
 namespace egal
 {
@@ -89,7 +90,7 @@ namespace egal
 			enum Type
 			{
 				INT32,
-				e_float,
+				FLOAT,
 				MATRIX4,
 				TIME,
 				COLOR,
