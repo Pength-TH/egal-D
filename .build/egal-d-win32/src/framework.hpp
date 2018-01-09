@@ -10,7 +10,8 @@
 #include <windows.h>
 
 #include "framework_listener.h"
-#include "application.h"
+#include "runtime/IEngine.h"
+
 typedef std::vector<framework_listener*> FrameWorkListenerList;
 
 class framework : OIS::KeyListener, OIS::MouseListener
@@ -39,6 +40,6 @@ private:
 
 	FrameWorkListenerList       m_frame_work_listener;
 
-	egal::application*   m_p_application;
+	egal::IEngine* app;
 };
 #endif

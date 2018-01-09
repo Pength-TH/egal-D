@@ -24,7 +24,7 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>egaldwin32</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
-    <ProjectName>egal-d</ProjectName>
+    <ProjectName>egal-d-window</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -44,14 +44,12 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -95,19 +93,19 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>./;./src/;./src/OIS/includes/;./src/OIS/includes/win32/;../../3rdparty/windows/DirectX/Include/;../../src/api/;../../src/runtime/GameFramework/;../../src/common/;../../src/common/math/;../../src/runtime/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>../../3rdparty/windows/DirectX/Lib/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../3rdparty/windows/DirectX/Lib/;../win32/Release/</AdditionalLibraryDirectories>
       <AdditionalDependencies>x86/d3d9.lib;
 x86/d3dx9.lib;
 x86/DxErr.lib;
 x86/dxguid.lib;
-x86/dsound.lib;x86/dxguid.lib;x86/dinput8.lib;../win32/Release/egal-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+x86/dsound.lib;x86/dxguid.lib;x86/dinput8.lib;../win32/Release/egal-d.lib;bgfx.lib;shaderc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -123,24 +121,36 @@ x86/dsound.lib;x86/dxguid.lib;x86/dinput8.lib;../win32/Release/egal-d.lib;%(Addi
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>__STDC_LIMIT_MACROS;__STDC_FORMAT_MACROS;__STDC_CONSTANT_MACROS;_DEBUG;WIN32;_WIN32;_HAS_EXCEPTIONS=0;_HAS_ITERATOR_DEBUGGING=0;_SCL_SECURE=0;_SECURE_SCL=0;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_WIN64;ENTRY_CONFIG_IMPLEMENT_MAIN=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./;./src/;./src/OIS/includes/;./src/OIS/includes/win32/;../../;../../runtime/;../../3rdparty/windows/DirectX/Include/;../../3rdparty/bgfx/include;../../3rdparty/lua/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>../../3rdparty/windows/DirectX/Lib/;../x64/Debug/</AdditionalLibraryDirectories>
+      <AdditionalDependencies>x64/d3d9.lib;
+x64/d3dx9d.lib;
+x64/DxErr.lib;
+x64/dsound.lib;x64/dxguid.lib;x64/dinput8.lib;egal_d.lib;lua_d.lib;shaderc_d.lib;bimg_d.lib;bx_d.lib;bgfx_d.lib;DelayImp.lib;gdi32.lib;psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OutputFile>D:\svn\egal-D\trunk\Client\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./;./src/;./src/OIS/includes/;./src/OIS/includes/win32/;../../3rdparty/windows/DirectX/Include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;./src/;./src/OIS/includes/;./src/OIS/includes/win32/;../../;../../runtime/;../../3rdparty/windows/DirectX/Include/;../../3rdparty/bgfx/include;../../3rdparty/lua/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -150,8 +160,8 @@ x86/dsound.lib;x86/dxguid.lib;x86/dinput8.lib;../win32/Release/egal-d.lib;%(Addi
 x64/d3dx9.lib;
 x64/DxErr.lib;
 x64/dxguid.lib;
-x64/dsound.lib;x64/dxguid.lib;x64/dinput8.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../3rdparty/windows/DirectX/Lib/</AdditionalLibraryDirectories>
+x64/dsound.lib;x64/dxguid.lib;x64/dinput8.lib;egal-d-core.lib;bgfx.lib;shaderc.lib;bimg.lib;bx.lib;lua.lib;libcmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../3rdparty/windows/DirectX/Lib/;../x64/Release/</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -162,7 +172,6 @@ x64/dsound.lib;x64/dxguid.lib;x64/dinput8.lib;%(AdditionalDependencies)</Additio
     <ClInclude Include="Resource.h" />
     <ClInclude Include="src\Client.h" />
     <ClInclude Include="src\framework.hpp" />
-    <ClInclude Include="src\framework_listener.h" />
     <ClInclude Include="src\OIS\includes\OIS.h" />
     <ClInclude Include="src\OIS\includes\OISConfig.h" />
     <ClInclude Include="src\OIS\includes\OISEffect.h" />

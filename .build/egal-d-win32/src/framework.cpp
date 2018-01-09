@@ -56,7 +56,12 @@ bool framework::init(HWND wnd, OIS::KeyListener *pKeyListener, OIS::MouseListene
     else
         m_pMouse->setEventCallback(pMouseListener);
 
-	m_p_application = new egal::application();
+	egal::egal_params param;
+	param.hWnd = wnd;
+	param.szLogFileName = "egal-d.log";
+	param.szConfigFile = "egal-d.ini";
+
+	app = egal::IEngine::create(param);
     return true;
 }
 
@@ -69,6 +74,8 @@ bool framework::keyPressed(const OIS::KeyEvent &keyEventRef)
 	{
 		(*i)->on_key_pressed(keyEventRef.text, (KeyCode)keyEventRef.key);
 	}
+
+	app->on_key_pressed(keyEventRef.text, (KeyCode)keyEventRef.key);
     return true;
 }
 
@@ -81,6 +88,7 @@ bool framework::keyReleased(const OIS::KeyEvent &keyEventRef)
 	{
 		(*i)->on_key_released(keyEventRef.text, (KeyCode)keyEventRef.key);
 	}
+	app->on_key_released(keyEventRef.text, (KeyCode)keyEventRef.key);
     return true;
 }
 
@@ -92,6 +100,8 @@ bool framework::mouseMoved(const OIS::MouseEvent &evt)
 	{
 		(*i)->on_mouse_moved(evt.state.X.abs, evt.state.Y.abs, evt.state.Z.rel);
 	}
+
+	app->on_mouse_moved(evt.state.X.abs, evt.state.Y.abs, evt.state.Z.rel);
     return true;
 }
 
@@ -104,6 +114,7 @@ bool framework::mousePressed(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 	{
 		(*i)->on_mouse_pressed((MouseButtonID)id, evt.state.Z.rel);
 	}
+	app->on_mouse_pressed((MouseButtonID)id, evt.state.Z.rel);
     return true;
 }
 
@@ -116,6 +127,7 @@ bool framework::mouseReleased(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 	{
 		(*i)->on_mouse_released((MouseButtonID)id, evt.state.Z.rel);
 	}
+	app->on_mouse_released((MouseButtonID)id, evt.state.Z.rel);
     return true;
 }
 
@@ -147,7 +159,7 @@ void framework::update(double timeSinceLastFrame)
 		(*i)->update(timeSinceLastFrame);
 	}
 
-	m_p_application->run();
+	app->run();
 
 	m_pKeyboard->capture();
 	m_pMouse->capture();
@@ -160,7 +172,10 @@ void framework::resize(int width, int height)
 		m_pMouse->getMouseState().height = height;
 		m_pMouse->getMouseState().width = width;
 	}
-
+	if (app)
+	{
+		app->resize(width, height);
+	}
 	FrameWorkListenerList::iterator i, iend;
 	iend = m_frame_work_listener.end();
 	for (i = m_frame_work_listener.begin(); i != iend; ++i)
