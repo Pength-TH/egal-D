@@ -4,9 +4,6 @@
     <Filter Include="common">
       <UniqueIdentifier>{fa7f7f2e-9ae9-43ca-ab71-88863f6b6795}</UniqueIdentifier>
     </Filter>
-    <Filter Include="common\lua">
-      <UniqueIdentifier>{6f13676a-90f7-466f-9a21-f6e27e97acfb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="test">
       <UniqueIdentifier>{ad08d71d-026f-43c5-a818-8c17a63977d6}</UniqueIdentifier>
     </Filter>
@@ -24,9 +21,6 @@
     </Filter>
     <Filter Include="common\debug">
       <UniqueIdentifier>{bdd1766f-c49a-4e08-9773-943b4baa1889}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="common\framework">
-      <UniqueIdentifier>{3deec075-f2ad-4a6d-9497-014a46af6566}</UniqueIdentifier>
     </Filter>
     <Filter Include="common\thread">
       <UniqueIdentifier>{9118b065-8563-45ad-88b1-330de8622573}</UniqueIdentifier>
@@ -58,11 +52,29 @@
     <Filter Include="common\math\default">
       <UniqueIdentifier>{311b479a-8c11-4e3c-a744-cf782a3155f4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="common\framework\buffer">
-      <UniqueIdentifier>{79bc18a4-b841-4dff-84b8-b8ceea009f21}</UniqueIdentifier>
-    </Filter>
     <Filter Include="common\input">
       <UniqueIdentifier>{6b799670-57a6-4ab6-86fc-f4555b41f270}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="runtime">
+      <UniqueIdentifier>{6c74b641-ab5a-4aee-ae68-b4b58b88e986}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="runtime\engine_framework">
+      <UniqueIdentifier>{867fb42e-aca1-4707-8880-ae791be752c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\input\sdl">
+      <UniqueIdentifier>{628d6785-31cd-4a0f-8d7a-bb736829147b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="runtime\api">
+      <UniqueIdentifier>{dc23cff2-9fb1-4ad0-90e7-57b10a200be4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="runtime\api\impl">
+      <UniqueIdentifier>{325fc177-cc2f-4286-abb1-123ea7e238ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua">
+      <UniqueIdentifier>{6f13676a-90f7-466f-9a21-f6e27e97acfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\resource\shader">
+      <UniqueIdentifier>{468bc345-cf4c-492a-8dd8-25f2e6d63b47}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -120,9 +132,6 @@
     <ClCompile Include="..\..\common\resource\resource_public.cpp">
       <Filter>common\resource</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\common\resource\shader_manager.cpp">
-      <Filter>common\resource</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\common\resource\texture_manager.cpp">
       <Filter>common\resource</Filter>
     </ClCompile>
@@ -134,9 +143,6 @@
     </ClCompile>
     <ClCompile Include="..\..\common\resource\entity_manager.cpp">
       <Filter>common\resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\common\framework\buffer_generator.cpp">
-      <Filter>common\framework\buffer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\common\math\default\matrix.cpp">
       <Filter>common\math\default</Filter>
@@ -153,25 +159,52 @@
     <ClCompile Include="..\..\common\input\input_system.cpp">
       <Filter>common\input</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\runtime\EngineFramework\culling_system.cpp">
+      <Filter>runtime\engine_framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\runtime\EngineFramework\pipeline.cpp">
+      <Filter>runtime\engine_framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\runtime\EngineFramework\renderer.cpp">
+      <Filter>runtime\engine_framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\input\reflection.cpp">
+      <Filter>common\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\runtime\EngineFramework\plugin_manager.cpp">
+      <Filter>runtime\engine_framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\utils\perf_timer.cpp">
+      <Filter>common\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\runtime\EngineFramework\engine_root.cpp">
+      <Filter>runtime\engine_framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\utils\geometry.cpp">
+      <Filter>common\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\runtime\EngineFramework\scene_manager.cpp">
+      <Filter>runtime\engine_framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\runtime\EngineFramework\component_manager.cpp">
+      <Filter>runtime\engine_framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\runtime\EngineFramework\buffer.cpp">
+      <Filter>runtime\engine_framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\runtime\Engine.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\egal-d.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\resource\shader_manager.cpp">
+      <Filter>common\resource\shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\common\config.h">
       <Filter>common\0.build_setting</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\stl\queue.h">
-      <Filter>common\stl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\stl\map.h">
-      <Filter>common\stl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\stl\vector.h">
-      <Filter>common\stl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\stl\delegate.h">
-      <Filter>common\stl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\stl\hash_map.h">
-      <Filter>common\stl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\type.h">
       <Filter>common\base</Filter>
@@ -216,9 +249,6 @@
       <Filter>common\math\mathfu</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\math\mathfu\utilities.h">
-      <Filter>common\math\mathfu</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\math\mathfu\vector.h">
       <Filter>common\math\mathfu</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\math\mathfu\internal\disable_warnings_begin.h">
@@ -311,9 +341,6 @@
     <ClInclude Include="..\..\common\math\mathfu\vectorial\vectorial.h">
       <Filter>common\math\mathfu\vectorial</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\common\allocator\allocator.h">
-      <Filter>common\allocator</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\common\allocator\proxy_allocator.h">
       <Filter>common\allocator</Filter>
     </ClInclude>
@@ -395,9 +422,6 @@
     <ClInclude Include="..\..\common\resource\resource_public.h">
       <Filter>common\resource</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\common\resource\shader_manager.h">
-      <Filter>common\resource</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\common\resource\texture_manager.h">
       <Filter>common\resource</Filter>
     </ClInclude>
@@ -407,17 +431,8 @@
     <ClInclude Include="..\..\common\serializer\serializer.h">
       <Filter>common\serializer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\common\framework\renderer.h">
-      <Filter>common\framework</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\framework\pipeline.h">
-      <Filter>common\framework</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\common\resource\entity_manager.h">
       <Filter>common\resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\framework\buffer_generator.h">
-      <Filter>common\framework\buffer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\math\default\matrix.h">
       <Filter>common\math\default</Filter>
@@ -437,37 +452,142 @@
     <ClInclude Include="..\..\common\math\default\quaternion.h">
       <Filter>common\math\default</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\common\framework\culling_system.h">
-      <Filter>common\framework</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\framework\engine.h">
-      <Filter>common\framework</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\framework\plugin_manager.h">
-      <Filter>common\framework</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\framework\render_scene.h">
-      <Filter>common\framework</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\framework\universe.h">
-      <Filter>common\framework</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\framework\frame_buffer.h">
-      <Filter>common\framework\buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\lua\lua_function.h">
-      <Filter>common\lua</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\common\lua\lua_manager.h">
-      <Filter>common\lua</Filter>
+      <Filter>lua</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\input\input_system.h">
       <Filter>common\input</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\common\input\keycode.h">
+    <ClInclude Include="..\..\common\allocator\pool_allocator.h">
+      <Filter>common\allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\input\reflection.h">
       <Filter>common\input</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\input\scancode.h">
+      <Filter>common\input\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\input\keycode.h">
+      <Filter>common\input\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\allocator\lifo_allocator.h">
+      <Filter>common\allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\lua\lua_function.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\runtime\EngineFramework\component_manager.h">
+      <Filter>runtime\engine_framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\runtime\EngineFramework\culling_system.h">
+      <Filter>runtime\engine_framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\runtime\EngineFramework\engine_root.h">
+      <Filter>runtime\engine_framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\runtime\EngineFramework\pipeline.h">
+      <Filter>runtime\engine_framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\runtime\EngineFramework\plugin_manager.h">
+      <Filter>runtime\engine_framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\runtime\EngineFramework\renderer.h">
+      <Filter>runtime\engine_framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\runtime\EngineFramework\scene_manager.h">
+      <Filter>runtime\engine_framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\runtime\EngineFramework\buffer.h">
+      <Filter>runtime\engine_framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\runtime\api\IApplication.h">
+      <Filter>runtime\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\runtime\api\ICamera.h">
+      <Filter>runtime\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\runtime\api\IFileSystem.h">
+      <Filter>runtime\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\runtime\api\IGameObject.h">
+      <Filter>runtime\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\runtime\api\IScene.h">
+      <Filter>runtime\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\runtime\api\ISeed.h">
+      <Filter>runtime\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\runtime\api\ISound.h">
+      <Filter>runtime\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\runtime\api\IType.h">
+      <Filter>runtime\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\runtime\api\impl\Level.h">
+      <Filter>runtime\api\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\runtime\api\impl\Application.h">
+      <Filter>runtime\api\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\runtime\api\impl\FileSystem.h">
+      <Filter>runtime\api\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\runtime\api\impl\Camera.h">
+      <Filter>runtime\api\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\runtime\api\impl\GameObject.h">
+      <Filter>runtime\api\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\runtime\IEngine.h">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\runtime\Engine.h">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\egal_const.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\lua\lua_shader.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\lua\lua_pipeline.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\allocator\bgfx_allocator.h">
+      <Filter>common\allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\lua\lua_scene_manager.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\stl\tvector.h">
+      <Filter>common\stl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math\mathfu\vector.h">
+      <Filter>common\math\mathfu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\stl\tqueue.h">
+      <Filter>common\stl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\stl\tmap.h">
+      <Filter>common\stl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\stl\thash_map.h">
+      <Filter>common\stl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\stl\delegate.h">
+      <Filter>common\stl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\stl\delegate_list.h">
+      <Filter>common\stl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\allocator\egal_allocator.h">
+      <Filter>common\allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\resource\shader_manager.h">
+      <Filter>common\resource\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\input\framework_listener.h">
       <Filter>common\input</Filter>
     </ClInclude>
   </ItemGroup>
