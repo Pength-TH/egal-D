@@ -162,6 +162,7 @@ x64/DxErr.lib;
 x64/dxguid.lib;
 x64/dsound.lib;x64/dxguid.lib;x64/dinput8.lib;egal-d-core.lib;bgfx.lib;shaderc.lib;bimg.lib;bx.lib;lua.lib;libcmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../3rdparty/windows/DirectX/Lib/;../x64/Release/</AdditionalLibraryDirectories>
+      <OutputFile>D:\svn\egal-D\trunk\Client\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
