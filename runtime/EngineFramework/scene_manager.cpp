@@ -5,7 +5,7 @@
 #include "common/egal-d.h"
 
 #include "runtime/EngineFramework/buffer.h"
-#include "runtime/EngineFramework/component_manager.h"
+
 #include "runtime/EngineFramework/engine_root.h"
 #include "runtime/EngineFramework/scene_manager.h"
 #include "runtime/EngineFramework/renderer.h"
@@ -27,12 +27,13 @@
 
 namespace egal
 {
-	template<> SceneManager * Singleton<SceneManager>::msSingleton = 0;
-
 	static e_uint64 getLayerMask(EntityInstance& entity_instance)
 	{
 		Entity* entity = entity_instance.entity;
-		if (!entity->isReady()) return 1;
+		
+		if (!entity->isReady()) 
+			return 1;
+
 		e_uint64 layer_mask = 0;
 		for (e_int32 i = 0; i < entity->getMeshCount(); ++i)
 		{
@@ -55,22 +56,24 @@ namespace egal
 		, &SceneManager::destroy##name \
 	}
 
-	static struct
+	struct Component_infos 
 	{
 		ComponentType					type;
 		ComponentManager::Serialize		serialize;
 		ComponentManager::Deserialize	deserialize;
 		ComponentHandle(SceneManager::*creator)(GameObject);
 		e_void(SceneManager::*destroyer)(ComponentHandle);
-	}COMPONENT_INFOS[] =
+	};
+	
+	static Component_infos COMPONENT_INFOS[] =
 	{
-		COMPONENT_TYPE(COMPONENT_ENTITY_INSTANCE_TYPE, EntityInstance),
-		COMPONENT_TYPE(COMPONENT_GLOBAL_LIGHT_TYPE, GlobalLight),
-		COMPONENT_TYPE(COMPONENT_POINT_LIGHT_TYPE, PointLight),
-		COMPONENT_TYPE(COMPONENT_DECAL_TYPE, Decal),
-		COMPONENT_TYPE(COMPONENT_CAMERA_TYPE, Camera),
-		COMPONENT_TYPE(COMPONENT_BONE_ATTACHMENT_TYPE, BoneAttachment),
-		COMPONENT_TYPE(COMPONENT_ENVIRONMENT_PROBE_TYPE, EnvironmentProbe),
+		COMPONENT_TYPE(COMPONENT_ENTITY_INSTANCE_TYPE,		EntityInstance),
+		COMPONENT_TYPE(COMPONENT_GLOBAL_LIGHT_TYPE,			GlobalLight),
+		COMPONENT_TYPE(COMPONENT_POINT_LIGHT_TYPE,			PointLight),
+		COMPONENT_TYPE(COMPONENT_DECAL_TYPE,				Decal),
+		COMPONENT_TYPE(COMPONENT_CAMERA_TYPE,				Camera),
+		COMPONENT_TYPE(COMPONENT_BONE_ATTACHMENT_TYPE,		BoneAttachment),
+		COMPONENT_TYPE(COMPONENT_ENVIRONMENT_PROBE_TYPE,	EnvironmentProbe),
 	};
 
 #undef COMPONENT_TYPE
@@ -85,23 +88,23 @@ namespace egal
 		, m_com_man(com_man)
 		, m_renderer(renderer)
 		, m_allocator(allocator)
-		, m_entity_loaded_callbacks(m_allocator)
-		, m_entity_instances(m_allocator)
-		, m_cameras(m_allocator)
-		, m_point_lights(m_allocator)
-		, m_light_influenced_geometry(m_allocator)
-		, m_global_lights(m_allocator)
-		, m_decals(m_allocator)
-		, m_debug_triangles(m_allocator)
-		, m_debug_lines(m_allocator)
-		, m_debug_points(m_allocator)
-		, m_temporary_infos(m_allocator)
+		, m_entity_loaded_callbacks(allocator)
+		, m_entity_instances(allocator)
+		, m_cameras(allocator)
+		, m_point_lights(allocator)
+		, m_light_influenced_geometry(allocator)
+		, m_global_lights(allocator)
+		, m_decals(allocator)
+		, m_debug_triangles(allocator)
+		, m_debug_lines(allocator)
+		, m_debug_points(allocator)
+		, m_temporary_infos(allocator)
 		, m_active_global_light_cmp(INVALID_COMPONENT)
 		, m_is_grass_enabled(true)
 		, m_is_game_running(false)
-		, m_point_lights_map(m_allocator)
-		, m_bone_attachments(m_allocator)
-		, m_environment_probes(m_allocator)
+		, m_point_lights_map(allocator)
+		, m_bone_attachments(allocator)
+		, m_environment_probes(allocator)
 		, m_lod_multiplier(1.0f)
 		, m_time(0)
 		, m_mouse_sensitivity(200, 200)
@@ -109,13 +112,10 @@ namespace egal
 		, m_verticalAngle(0)
 		, m_is_updating_attachments(false)
 	{
-		TDelegateList<void(GameObject)> t(m_allocator);
-		t.bind<SceneManager, &SceneManager::onEntityDestroyed>(this);
-
 		m_com_man.m_game_object_destroyed.bind<SceneManager, &SceneManager::onEntityDestroyed>(this);
 		m_com_man.m_game_object_moved.bind<SceneManager, &SceneManager::onEntityMoved>(this);
 
-		m_culling_system = _aligned_new(m_allocator, CullingSystem)(m_allocator);
+		m_culling_system = CullingSystem::create(m_allocator);
 		m_entity_instances.reserve(5000);
 
 		for (auto& i : COMPONENT_INFOS)
@@ -127,6 +127,7 @@ namespace egal
 		{
 			m_com_man.GameObjectTransformed().unbind<SceneManager, &SceneManager::onEntityMoved>(this);
 			m_com_man.GameObjectDestroyed().unbind<SceneManager, &SceneManager::onEntityDestroyed>(this);
+
 			CullingSystem::destroy(*m_culling_system);
 		}
 
@@ -2029,10 +2030,10 @@ namespace egal
 				mtx.setPerspective(camera.fov, ratio, camera.near_flip, camera.far_flip, is_homogenous_depth);
 			}
 
-			mtx.m31 = -mtx.m31;
-			mtx.m32 = -mtx.m32;
-			mtx.m33 = -mtx.m33;
-			mtx.m34 = 1.0f;
+			//mtx.m31 = -mtx.m31;
+			//mtx.m32 = -mtx.m32;
+			//mtx.m33 = -mtx.m33;
+			//mtx.m34 = 1.0f;
 
 			return mtx;
 		}

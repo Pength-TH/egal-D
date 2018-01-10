@@ -1,6 +1,6 @@
 
 #include "runtime/EngineFramework/culling_system.h"
-#include "common/egal-d.h"
+
 namespace egal
 {
 	static e_void doCulling(e_int32 start_index,
@@ -56,7 +56,10 @@ namespace egal
 	static e_void cullTask(e_void* data)
 	{
 		CullingSystem::CullingJobData* cull_data = (CullingSystem::CullingJobData*)data;
-		if (cull_data->end < cull_data->start) return;
+
+		if (cull_data->end < cull_data->start)
+			return;
+		
 		doCulling(cull_data->start
 			, &(*cull_data->spheres)[cull_data->start]
 			, &(*cull_data->spheres)[cull_data->end]
@@ -86,9 +89,9 @@ namespace egal
 		, m_job_allocator(allocator)
 		, m_spheres(allocator)
 		, m_result(allocator)
-		, m_layer_masks(m_allocator)
-		, m_sphere_to_model_instance_map(m_allocator)
-		, m_entity_instance_to_sphere_map(m_allocator)
+		, m_layer_masks(allocator)
+		, m_sphere_to_model_instance_map(allocator)
+		, m_entity_instance_to_sphere_map(allocator)
 	{
 		m_result.emplace(m_allocator);
 		m_entity_instance_to_sphere_map.reserve(RESERVED_ENTITIES_COUNT);

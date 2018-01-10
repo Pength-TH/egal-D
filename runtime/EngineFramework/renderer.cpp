@@ -272,15 +272,15 @@ namespace egal
 	Renderer::Renderer(EngineRoot& engine)
 		: m_engine(engine)
 		, m_allocator(engine.getAllocator())
-		, m_texture_manager(m_allocator)
-		, m_entity_manager(*this, m_allocator)
-		, m_material_manager(*this, m_allocator)
-		, m_shader_manager(*this, m_allocator)
-		, m_shader_binary_manager(*this, m_allocator)
-		, m_passes(m_allocator)
-		, m_shader_defines(m_allocator)
-		, m_layers(m_allocator)
-		, m_bgfx_allocator(m_allocator)
+		, m_texture_manager(engine.getAllocator())
+		, m_entity_manager(*this, engine.getAllocator())
+		, m_material_manager(*this, engine.getAllocator())
+		, m_shader_manager(*this, engine.getAllocator())
+		, m_shader_binary_manager(*this, engine.getAllocator())
+		, m_passes(engine.getAllocator())
+		, m_shader_defines(engine.getAllocator())
+		, m_layers(engine.getAllocator())
+		, m_bgfx_allocator(engine.getAllocator())
 		, m_callback_stub(*this)
 		, m_vsync(true)
 		, m_main_pipeline(nullptr)
@@ -311,7 +311,7 @@ namespace egal
 		}
 		ASSERT(res);
 		bgfx::reset(800, 600, m_vsync ? BGFX_RESET_VSYNC : 0);
-		bgfx::setDebug(BGFX_DEBUG_TEXT | BGFX_DEBUG_PROFILER);
+		bgfx::setDebug(BGFX_DEBUG_STATS | BGFX_DEBUG_PROFILER);
 		bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
 
 		ResourceManager& manager = engine.getResourceManager();

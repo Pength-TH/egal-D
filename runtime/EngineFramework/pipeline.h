@@ -27,7 +27,7 @@ namespace egal
 
 	struct InstanceData
 	{
-		bgfx::InstanceDataBuffer	buffer;
+		const bgfx::InstanceDataBuffer* buffer;
 		e_int32						instance_count;
 		Mesh*						mesh;
 	};

@@ -4,6 +4,8 @@
 #include "common/egal-d.h"
 #include "common/resource/entity_manager.h"
 #include "runtime/EngineFramework/plugin_manager.h"
+#include "runtime/EngineFramework/component_manager.h"
+#include "runtime/EngineFramework/engine_root.h"
 
 struct lua_State;
 namespace egal
@@ -12,11 +14,10 @@ namespace egal
 	struct Mesh;
 	class Material;
 	class MaterialManager;
-	class ComponentManager;
 	class Texture;
 	class Shader;
 	class CullingSystem;
-	class EngineRoot;
+	
 	
 
 	enum class RenderSceneVersion : e_int32
@@ -183,7 +184,7 @@ namespace egal
 		e_float  life;
 	};
 
-	class SceneManager : public Singleton<SceneManager>
+	class SceneManager
 	{
 	public:
 		static SceneManager* createInstance(Renderer& renderer,
@@ -506,8 +507,6 @@ namespace egal
 		THashMap<GameObject, Camera>		m_cameras;
 		TMap<GameObject, BoneAttachment>	m_bone_attachments;
 		TMap<GameObject, EnvironmentProbe>	m_environment_probes;
-
-
 
 
 		TMap<Entity*, EntityLoadedCallback>		m_entity_loaded_callbacks;

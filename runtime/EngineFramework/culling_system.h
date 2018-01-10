@@ -5,7 +5,6 @@
 #include "common/egal-d.h"
 #include "common/allocator/pool_allocator.h"
 
-#include <vector>
 namespace egal
 {
 	/**  */

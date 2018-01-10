@@ -7,7 +7,6 @@ namespace egal
 	ComponentManager::ComponentManager(IAllocator& allocator)
 		: m_component_added(allocator)
 		, m_game_objects(allocator)
-
 		, m_component_destroyed(allocator)
 		, m_game_object_created(allocator)
 		, m_game_object_destroyed(allocator)

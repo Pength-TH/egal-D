@@ -166,14 +166,14 @@ public:
 	{
 		int64_t now = bx::getHPCounter();
 		float time = (float)((now - m_timeOffset) / double(bx::getHPFrequency()));
-		for (uint32_t yy = 0; yy < 11; ++yy)
+		for (uint32_t yy = 0; yy < 1; ++yy)
 		{
-			for (uint32_t xx = 0; xx < 11; ++xx)
+			for (uint32_t xx = 0; xx < 1; ++xx)
 			{
 				float mtx[16];
-				bx::mtxRotateXY(mtx, time + xx*0.21f, time + yy*0.37f);
-				mtx[12] = -15.0f + float(xx)*3.0f;
-				mtx[13] = -15.0f + float(yy)*3.0f;
+				bx::mtxRotateXY(mtx, 0, 0);
+				mtx[12] = 0.0f;
+				mtx[13] = 0.0f;
 				mtx[14] = 0.0f;
 
 				// Set model matrix for rendering.
@@ -189,7 +189,48 @@ public:
 					| BGFX_STATE_ALPHA_WRITE
 					| BGFX_STATE_DEPTH_WRITE
 					| BGFX_STATE_DEPTH_TEST_LESS
-					| BGFX_STATE_CULL_CW
+					| BGFX_STATE_CULL_CCW
+					| BGFX_STATE_PT_TRISTRIP
+					//| res->getRenderStates()
+				);
+
+				pipline->executeCommandBuffer(res->getCommandBuffer(), res);
+
+				m_program = res->getShaderInstance().getProgramHandle(2);
+				// Submit primitive for rendering to view 0.
+				bgfx::submit(0, m_program);
+			}
+		}
+	}
+
+	void mesh(egal::Pipeline* pipline, egal::Mesh& mesh, egal::Material* res)
+	{
+		int64_t now = bx::getHPCounter();
+		float time = (float)((now - m_timeOffset) / double(bx::getHPFrequency()));
+		for (uint32_t yy = 0; yy < 1; ++yy)
+		{
+			for (uint32_t xx = 0; xx < 1; ++xx)
+			{
+				float mtx[16];
+				bx::mtxRotateXY(mtx,0 , 0);
+				mtx[12] = 0.0f;
+				mtx[13] = 0.0f;
+				mtx[14] = 2.0f;
+
+				// Set model matrix for rendering.
+				bgfx::setTransform(mtx);
+
+				// Set vertex and index buffer.
+				bgfx::setVertexBuffer(0, mesh.vertex_buffer_handle);
+				bgfx::setIndexBuffer(mesh.index_buffer_handle);
+
+				// Set render states.
+				bgfx::setState(0
+					| BGFX_STATE_RGB_WRITE
+					| BGFX_STATE_ALPHA_WRITE
+					| BGFX_STATE_DEPTH_WRITE
+					| BGFX_STATE_DEPTH_TEST_LESS
+					| BGFX_STATE_CULL_CCW
 					| BGFX_STATE_PT_TRISTRIP
 					//| res->getRenderStates()
 				);
@@ -524,7 +565,9 @@ namespace egal
 		e_void Pipeline::finishInstances(e_int32 idx)
 		{
 			InstanceData& data = m_instances_data[idx];
-			if (!data.buffer.data) 
+			if (!data.buffer)
+				return;
+			if (!data.buffer->data)
 				return;
 
 			Mesh& mesh = *data.mesh;
@@ -542,31 +585,23 @@ namespace egal
 			bgfx::setVertexBuffer(0, mesh.vertex_buffer_handle);
 			bgfx::setIndexBuffer(mesh.index_buffer_handle);
 			bgfx::setStencil(view.stencil, BGFX_STENCIL_NONE);
+
 			bgfx::setState(view.render_state | material->getRenderStates());
-			bgfx::setInstanceDataBuffer(&data.buffer, data.instance_count);
+			bgfx::setInstanceDataBuffer(data.buffer, data.instance_count);
 			ShaderInstance& shader_instance = material->getShaderInstance();
 			++m_stats.draw_call_count;
 			m_stats.instance_count += data.instance_count;
 			m_stats.triangle_count += data.instance_count * mesh.indices_count / 3;
-			bgfx::submit(view.bgfx_id, shader_instance.getProgramHandle(view.pass_idx));
+			bgfx::submit(0, shader_instance.getProgramHandle(view.pass_idx));
 
-			data.buffer.data = nullptr;
+			data.buffer = nullptr;
+			//data.buffer.data = nullptr;
 			data.instance_count = 0;
 			mesh.instance_idx = -1;
 		}
 
 		e_void Pipeline::applyCamera(const e_char* slot)
 		{
-			//float at[3] = { 0.0f, 0.0f,   0.0f };
-			//float eye[3] = { 0.0f, 0.0f, -35.0f };
-			//float view[16];
-			//bx::mtxLookAt(view, eye, at);
-			//float proj[16];
-			//bx::mtxProj(proj, 60.0f, float(m_width) / float(m_height), 0.1f, 100.0f, bgfx::getCaps()->homogeneousDepth);
-			//bgfx::setViewTransform(0, view, proj);
-			//bgfx::setViewRect(0, 0, 0, uint16_t(m_width), uint16_t(m_height));
-			//return;
-
 			ComponentHandle cmp = m_scene->getCameraInSlot(slot);
 			if (!cmp.isValid())
 				return;
@@ -1950,7 +1985,7 @@ namespace egal
 		}
 
 
-		e_void Pipeline::renderRigidMesh(const float4x4& float4x4, Mesh& mesh, e_float depth)
+		e_void Pipeline::renderRigidMesh(const float4x4& matrix, Mesh& mesh, e_float depth)
 		{
 			Material* material = mesh.material;
 
@@ -1962,17 +1997,28 @@ namespace egal
 
 			executeCommandBuffer(material->getCommandBuffer(), material);
 			executeCommandBuffer(view.command_buffer.buffer, material);
-
-			bgfx::setTransform(&float4x4);
+			 
+			bgfx::setTransform(&matrix);
 			bgfx::setVertexBuffer(0, mesh.vertex_buffer_handle);
 			bgfx::setIndexBuffer(mesh.index_buffer_handle);
 			bgfx::setStencil(view.stencil, BGFX_STENCIL_NONE);
-			bgfx::setState(view.render_state | material->getRenderStates());
+
+			bgfx::setState(0
+				| BGFX_STATE_RGB_WRITE
+				| BGFX_STATE_ALPHA_WRITE
+				| BGFX_STATE_DEPTH_WRITE
+				| BGFX_STATE_DEPTH_TEST_LESS
+				| BGFX_STATE_CULL_CCW
+				| BGFX_STATE_PT_TRISTRIP
+				//| res->getRenderStates()
+			);
+
+			//bgfx::setState(view.render_state | material->getRenderStates());
 			ShaderInstance& shader_instance = material->getShaderInstance();
 			++m_stats.draw_call_count;
 			++m_stats.instance_count;
 			m_stats.triangle_count += mesh.indices_count / 3;
-			bgfx::submit(view.bgfx_id, shader_instance.getProgramHandle(view.pass_idx), Math::floatFlip(*(e_uint32*)&depth));
+			bgfx::submit(0, shader_instance.getProgramHandle(2), Math::floatFlip(*(e_uint32*)&depth));
 		}
 
 
@@ -2110,14 +2156,14 @@ namespace egal
 		}
 
 
-		e_void Pipeline::renderRigidMeshInstanced(const float4x4& float4x4, Mesh& mesh)
+		e_void Pipeline::renderRigidMeshInstanced(const float4x4& matrix, Mesh& mesh)
 		{
 			e_int32 instance_idx = mesh.instance_idx;
 			if (instance_idx == -1)
 			{
 				instance_idx = m_instance_data_idx;
 				m_instance_data_idx = (m_instance_data_idx + 1) % TlengthOf(m_instances_data);
-				if (m_instances_data[instance_idx].buffer.data)
+				if (m_instances_data[instance_idx].buffer && m_instances_data[instance_idx].buffer->data)
 				{
 					finishInstances(instance_idx);
 				}
@@ -2127,16 +2173,20 @@ namespace egal
 					log_error("Renderer Could not allocate instance data buffer");
 					return;
 				}
-				bgfx::allocInstanceDataBuffer(MAX_INSTANCE_COUNT, sizeof(float4x4)); //check it mabe error
+
+				data.buffer = bgfx::allocInstanceDataBuffer(MAX_INSTANCE_COUNT, sizeof(float4x4));
 				data.instance_count = 0;
 				data.mesh = &mesh;
 				mesh.instance_idx = instance_idx;
-			}
-			InstanceData& data = m_instances_data[instance_idx];
-			e_float* mtcs = (e_float*)data.buffer.data;
-			StringUnitl::copyMemory(&mtcs[data.instance_count * 16], &float4x4, sizeof(float4x4));
-			++data.instance_count;
 
+			}
+
+			InstanceData& data = m_instances_data[instance_idx];
+			float* mtcs = (float*)data.buffer->data;
+			StringUnitl::copyMemory(&mtcs[data.instance_count * 16], &matrix, sizeof(float4x4));
+
+			++data.instance_count;
+			
 			if (data.instance_count == MAX_INSTANCE_COUNT)
 			{
 				finishInstances(instance_idx);
@@ -2430,31 +2480,34 @@ namespace egal
 			}
 			for (e_int32 i = 0; i < TlengthOf(m_instances_data); ++i)
 			{
-				m_instances_data[i].buffer.data = nullptr;
+				m_instances_data[i].buffer = nullptr;
+				//m_instances_data[i].buffer.data = nullptr;
 				m_instances_data[i].instance_count = 0;
 			}
 
 			//sky
-			newView("main", 0);
+			newView("main", 1);
 			applyCamera("main");
 			setPass("FORWARD");
 			clear(BGFX_CLEAR_COLOR, 0x303030ff);
 
 			disableDepthWrite();
-			enableBlending("add");
+			enableBlending("alpha");
 			
-			test_f.uniform(this);
-			test_f.frame(this, m_sky_material);
+			//test_f.uniform(this);
+			//test_f.frame(this, m_sky_material);
 
 			executeCommandBuffer(m_debug_line_material->getCommandBuffer(), m_debug_line_material);
 			renderDebugShapes();
 
-			renderAll(m_camera_frustum, false, m_applied_camera, m_layer_mask);
+			e_uint64 all_render_mask = getLayerMask("default") + getLayerMask("transparent") + getLayerMask("water") + getLayerMask("fur") + getLayerMask("no_shadows");
+
+			renderAll(m_camera_frustum, false, m_applied_camera, all_render_mask);
 
 			bool success = true;// lua_frame(this);
 
 			bgfx::dbgTextClear();
-			bgfx::dbgTextPrintf(0, 1, 0x0f, "Color can be changed with ANSI.");
+			bgfx::dbgTextPrintf(0, 1, 0x0f, "FPS:%f", getFPS());
 
 			finishInstances();
 			return success;

@@ -15,6 +15,7 @@
 #include "common/input/framework_listener.h"
 
 #include "common/resource/entity_manager.h"
+#include "runtime/EngineFramework/scene_manager.h"
 
 namespace egal
 {
@@ -29,31 +30,34 @@ namespace egal
 
 	EngineRoot::EngineRoot(const char* base_path0, const char* base_path1, FS::FileSystem* fs, IAllocator& allocator)
 		: m_allocator(allocator)
-		, m_resource_manager(m_allocator)
-		, m_lua_resources(m_allocator)
+		, m_resource_manager(allocator)
+		, m_lua_resources(allocator)
 		, m_last_lua_resource_idx(-1)
 		, m_fps(0)
 		, m_is_game_running(false)
 		, m_last_time_delta(0)
 		, m_time(0)
-		, m_path_manager(m_allocator)
+		, m_path_manager(allocator)
 		, m_time_multiplier(1.0f)
 		, m_paused(false)
 		, m_next_frame(false)
-		, m_lifo_allocator(m_allocator, 10 * 1024 * 1024)
+		, m_lifo_allocator(allocator, 10 * 1024 * 1024)
 		, m_p_render(nullptr)
 		, m_p_pipeline(nullptr)
 		, m_mouse_speed(0.1)
-		, buffers(m_allocator)
+		, buffers(allocator)
 	{
 		log_info("Core Creating engine...");
+
+		/**初始化组件管理器*/
+		m_p_component_manager = new ComponentManager(m_allocator);
 
 		Profiler::setThreadName("Main");
 
 		/**设置异常捕获函数*/
 		enableCrashReporting(false);
 		installUnhandledExceptionHandler();
-
+		
 		m_platform_data = {};
 
 		/** 初始化脚本 */
@@ -61,7 +65,7 @@ namespace egal
 		m_p_lua_manager->init(m_allocator);
 
 		JobSystem::init(m_allocator);
-
+	
 		if (!fs)
 			init_file_system(allocator);
 
@@ -75,13 +79,13 @@ namespace egal
 
 		/**初始化反射*/
 		Reflection::init(m_allocator);
-
+		
 		/**初始化插件*/
 		m_plugin_manager = PluginManager::create(*this);
-
+		
 		/**初始化输入系统*/
 		m_input_system = InputSystem::create(*this);
-
+		
 		log_info("Core Engine create successed.");
 	}
 
@@ -130,16 +134,15 @@ namespace egal
 
 	ComponentManager& EngineRoot::createComponentManager()
 	{
-		/**初始化组件管理器*/
-		m_p_component_manager = _aligned_new(m_allocator, ComponentManager)(m_allocator);
 		m_p_component_manager->setName("com_manager");
 
 		/**初始化渲染系统*/
 		if (!m_p_render)
 			m_p_render = Renderer::create(*this);
-
+			
 		/**初始化场景管理*/
-		m_p_scene_manager = SceneManager::createInstance(*m_p_render, *this, *m_p_component_manager, m_allocator);
+
+		m_p_scene_manager = new SceneManager(*m_p_render, *this, *m_p_component_manager, m_allocator);//  SceneManager::createInstance(*m_p_render, *this, *m_p_component_manager, m_allocator);
 		m_p_component_manager->addScene(m_p_scene_manager);
 
 		/**初始化摄像机*/
@@ -183,10 +186,39 @@ namespace egal
 		/***/
 		m_p_pipeline->addFramebuffer("g_buffer", 1024, 1024, true, float2(1, 1), buffers);
 
-
-		m_entity = m_p_component_manager->createGameObject(float3(0, 0, 0), Quaternion(0, 0, 0, 1));
+		auto m_entity = m_p_component_manager->createGameObject(float3(0, 0, 0), Quaternion(0, 0, 0, 1));
 		auto mesh_back_cmp = m_p_scene_manager->createComponent(COMPONENT_ENTITY_INSTANCE_TYPE, m_entity);
 		m_p_scene_manager->setEntityInstancePath(mesh_back_cmp, ArchivePath("models/house2.msh"));
+
+		for (int i = 0; i < 110; i++)
+		{
+			for (int j = 0; j < 110; j++)
+			{
+				auto m_entity = m_p_component_manager->createGameObject(float3(i, 0, j), Quaternion(0, 0, 0, 1));
+				auto mesh_back_cmp = m_p_scene_manager->createComponent(COMPONENT_ENTITY_INSTANCE_TYPE, m_entity);
+				m_p_scene_manager->setEntityInstancePath(mesh_back_cmp, ArchivePath("models/house2.msh"));
+			}
+		}
+
+		for (int i = 0; i < 110; i++)
+		{
+			for (int j = 0; j < 110; j++)
+			{
+				auto m_entity = m_p_component_manager->createGameObject(float3(i, 5, j), Quaternion(0, 0, 0, 1));
+				auto mesh_back_cmp = m_p_scene_manager->createComponent(COMPONENT_ENTITY_INSTANCE_TYPE, m_entity);
+				m_p_scene_manager->setEntityInstancePath(mesh_back_cmp, ArchivePath("models/house2.msh"));
+			}
+		}
+
+		for (int i = 0; i < 110; i++)
+		{
+			for (int j = 0; j < 110; j++)
+			{
+				auto m_entity = m_p_component_manager->createGameObject(float3(i, 10, j), Quaternion(0, 0, 0, 1));
+				auto mesh_back_cmp = m_p_scene_manager->createComponent(COMPONENT_ENTITY_INSTANCE_TYPE, m_entity);
+				m_p_scene_manager->setEntityInstancePath(mesh_back_cmp, ArchivePath("models/house2.msh"));
+			}
+		}
 
 		while (g_file_system->hasWork())
 		{
@@ -293,9 +325,9 @@ namespace egal
 		}
 		//input
 		{
-			if (g_key_board[KC_S])
-				m_p_scene_manager->camera_navigate(m_camera, 1.0f, 0, 0, m_mouse_speed);
 			if (g_key_board[KC_W])
+				m_p_scene_manager->camera_navigate(m_camera, 1.0f, 0, 0, m_mouse_speed);
+			if (g_key_board[KC_S])
 				m_p_scene_manager->camera_navigate(m_camera, -1.0f, 0, 0, m_mouse_speed);
 			if (g_key_board[KC_A])
 				m_p_scene_manager->camera_navigate(m_camera, 0.0f, -1.0f, 0, m_mouse_speed);

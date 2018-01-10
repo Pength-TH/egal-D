@@ -126,9 +126,6 @@ namespace egal
 		e_float  m_mouse_speed;
 
 
-
-
-		GameObject	m_entity;
 		Resource*   m_entity_resource;
 
 	};
