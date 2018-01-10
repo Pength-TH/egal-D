@@ -76,6 +76,9 @@
     <Filter Include="common\resource\shader">
       <UniqueIdentifier>{468bc345-cf4c-492a-8dd8-25f2e6d63b47}</UniqueIdentifier>
     </Filter>
+    <Filter Include="common\memory">
+      <UniqueIdentifier>{f46d0adb-5515-4938-959e-4505ac9a089a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\common\egal-d_test.cpp">
@@ -183,9 +186,6 @@
     <ClCompile Include="..\..\common\utils\geometry.cpp">
       <Filter>common\utils</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\runtime\EngineFramework\scene_manager.cpp">
-      <Filter>runtime\engine_framework</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\runtime\EngineFramework\component_manager.cpp">
       <Filter>runtime\engine_framework</Filter>
     </ClCompile>
@@ -200,6 +200,9 @@
     </ClCompile>
     <ClCompile Include="..\..\common\resource\shader_manager.cpp">
       <Filter>common\resource\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\runtime\EngineFramework\scene_manager.cpp">
+      <Filter>runtime\engine_framework</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -560,26 +563,8 @@
     <ClInclude Include="..\..\common\lua\lua_scene_manager.h">
       <Filter>lua</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\common\stl\tvector.h">
-      <Filter>common\stl</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\common\math\mathfu\vector.h">
       <Filter>common\math\mathfu</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\stl\tqueue.h">
-      <Filter>common\stl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\stl\tmap.h">
-      <Filter>common\stl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\stl\thash_map.h">
-      <Filter>common\stl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\stl\delegate.h">
-      <Filter>common\stl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\stl\delegate_list.h">
-      <Filter>common\stl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\allocator\egal_allocator.h">
       <Filter>common\allocator</Filter>
@@ -589,6 +574,24 @@
     </ClInclude>
     <ClInclude Include="..\..\common\input\framework_listener.h">
       <Filter>common\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\stl\delegate.h">
+      <Filter>common\stl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\stl\delegate_list.h">
+      <Filter>common\stl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\stl\thash_map.h">
+      <Filter>common\stl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\stl\tmap.h">
+      <Filter>common\stl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\stl\tqueue.h">
+      <Filter>common\stl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\stl\tvector.h">
+      <Filter>common\stl</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
