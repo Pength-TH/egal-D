@@ -10,9 +10,9 @@ namespace egal
 	Shader::Shader(const ArchivePath& path, ResourceManagerBase& resource_manager, IAllocator& allocator)
 		: Resource(path, resource_manager, allocator)
 		, m_allocator(allocator)
-		, m_instances(m_allocator)
+		, m_instances(allocator)
 		, m_texture_slot_count(0)
-		, m_uniforms(m_allocator)
+		, m_uniforms(allocator)
 		, m_render_states(0)
 		, m_all_defines_mask(0)
 	{

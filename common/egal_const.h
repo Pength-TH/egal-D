@@ -16,7 +16,7 @@ namespace egal
 
 	static const e_float	  SHADOW_CAM_NEAR = 50.0f;
 	static const e_float	  SHADOW_CAM_FAR = 5000.0f;
-
+	static const e_int32	  MAX_SLOT_LENGTH = 30;
 	static const e_int32	  MAX_INSTANCE_COUNT = 32;
 
 	/** Resource Type */
@@ -39,7 +39,8 @@ namespace egal
 	static const ComponentType COMPONENT_SCRIPTED_PARTICLE_EMITTER_TYPE = Reflection::getComponentType("scripted_particle_emitter");
 	static const ComponentType COMPONENT_TERRAIN_TYPE					= Reflection::getComponentType("terrain");
 
-	
+
+
 }
 
 #endif
