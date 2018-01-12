@@ -30,18 +30,9 @@
 #ifndef XINPUT_DLL_A
 #	define XINPUT_DLL_A "xinput.dll"
 #endif // XINPUT_DLL_A
-
+extern void winSetHwnd(HWND _window);
 namespace entry
 {
-	///
-	inline void winSetHwnd(::HWND _window)
-	{
-		bgfx::PlatformData pd;
-		bx::memSet(&pd, 0, sizeof(pd) );
-		pd.nwh = _window;
-		bgfx::setPlatformData(pd);
-	}
-
 	typedef DWORD (WINAPI* PFN_XINPUT_GET_STATE)(DWORD dwUserIndex, XINPUT_STATE* pState);
 	typedef void  (WINAPI* PFN_XINPUT_ENABLE)(BOOL enable); // 1.4+
 
