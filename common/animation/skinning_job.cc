@@ -1,135 +1,117 @@
-//----------------------------------------------------------------------------//
-//                                                                            //
-// ozz-animation is hosted at http://github.com/guillaumeblanc/ozz-animation  //
-// and distributed under the MIT License (MIT).                               //
-//                                                                            //
-// Copyright (c) 2017 Guillaume Blanc                                         //
-//                                                                            //
-// Permission is hereby granted, free of charge, to any person obtaining a    //
-// copy of this software and associated documentation files (the "Software"), //
-// to deal in the Software without restriction, including without limitation  //
-// the rights to use, copy, modify, merge, publish, distribute, sublicense,   //
-// and/or sell copies of the Software, and to permit persons to whom the      //
-// Software is furnished to do so, subject to the following conditions:       //
-//                                                                            //
-// The above copyright notice and this permission notice shall be included in //
-// all copies or substantial portions of the Software.                        //
-//                                                                            //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR //
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,   //
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL    //
-// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER //
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING    //
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER        //
-// DEALINGS IN THE SOFTWARE.                                                  //
-//                                                                            //
-//----------------------------------------------------------------------------//
 
-#include "ozz/geometry/runtime/skinning_job.h"
-
+#include "common/animation/skinning_job.h"
+#include "common/animation/maths/simd_math.h"
 #include <cassert>
 
-#include "ozz/base/maths/simd_math.h"
+namespace egal
+{
+	namespace geometry
+	{
 
-namespace ozz {
-namespace geometry {
+		SkinningJob::SkinningJob()
+			: vertex_count(0),
+			influences_count(0),
+			joint_indices_stride(0),
+			joint_weights_stride(0),
+			in_positions_stride(0),
+			in_normals_stride(0),
+			in_tangents_stride(0),
+			out_positions_stride(0),
+			out_normals_stride(0),
+			out_tangents_stride(0)
+		{}
 
-SkinningJob::SkinningJob()
-    : vertex_count(0),
-      influences_count(0),
-      joint_indices_stride(0),
-      joint_weights_stride(0),
-      in_positions_stride(0),
-      in_normals_stride(0),
-      in_tangents_stride(0),
-      out_positions_stride(0),
-      out_normals_stride(0),
-      out_tangents_stride(0) {}
+		bool SkinningJob::Validate() const
+		{
+			// Start validation of all parameters.
+			bool valid = true;
 
-bool SkinningJob::Validate() const {
-  // Start validation of all parameters.
-  bool valid = true;
+			// Checks influences bounds.
+			valid &= influences_count > 0;
 
-  // Checks influences bounds.
-  valid &= influences_count > 0;
+			// Checks joints matrices, required.
+			valid &= joint_matrices.begin != NULL;
+			valid &= joint_matrices.end >= joint_matrices.begin;
 
-  // Checks joints matrices, required.
-  valid &= joint_matrices.begin != NULL;
-  valid &= joint_matrices.end >= joint_matrices.begin;
+			// Checks optional inverse transpose matrices.
+			if (joint_inverse_transpose_matrices.begin)
+			{
+				valid &= joint_inverse_transpose_matrices.begin != NULL;
+				valid &= joint_inverse_transpose_matrices.end >=
+					joint_inverse_transpose_matrices.begin;
+			}
 
-  // Checks optional inverse transpose matrices.
-  if (joint_inverse_transpose_matrices.begin) {
-    valid &= joint_inverse_transpose_matrices.begin != NULL;
-    valid &= joint_inverse_transpose_matrices.end >=
-             joint_inverse_transpose_matrices.begin;
-  }
+			// Prepares local variables used to compute buffer size.
+			const int vertex_count_minus_1 = vertex_count > 0 ? vertex_count - 1 : 0;
+			const int vertex_count_at_least_1 = vertex_count > 0;
 
-  // Prepares local variables used to compute buffer size.
-  const int vertex_count_minus_1 = vertex_count > 0 ? vertex_count - 1 : 0;
-  const int vertex_count_at_least_1 = vertex_count > 0;
+			// Checks indices, required.
+			valid &= joint_indices.begin != NULL;
+			valid &= joint_indices.Size() >=
+				joint_indices_stride * vertex_count_minus_1 +
+				sizeof(uint16_t) * influences_count * vertex_count_at_least_1;
 
-  // Checks indices, required.
-  valid &= joint_indices.begin != NULL;
-  valid &= joint_indices.Size() >=
-           joint_indices_stride * vertex_count_minus_1 +
-               sizeof(uint16_t) * influences_count * vertex_count_at_least_1;
+			// Checks weights, required if influences_count > 1.
+			if (influences_count != 1)
+			{
+				valid &= joint_weights.begin != NULL;
+				valid &=
+					joint_weights.Size() >=
+					joint_weights_stride * vertex_count_minus_1 +
+					sizeof(float) * (influences_count - 1) * vertex_count_at_least_1;
+			}
 
-  // Checks weights, required if influences_count > 1.
-  if (influences_count != 1) {
-    valid &= joint_weights.begin != NULL;
-    valid &=
-        joint_weights.Size() >=
-        joint_weights_stride * vertex_count_minus_1 +
-            sizeof(float) * (influences_count - 1) * vertex_count_at_least_1;
-  }
+			// Checks positions, mandatory.
+			valid &= in_positions.begin != NULL;
+			valid &=
+				in_positions.Size() >= in_positions_stride * vertex_count_minus_1 +
+				sizeof(float) * 3 * vertex_count_at_least_1;
+			valid &= out_positions.begin != NULL;
+			valid &=
+				out_positions.Size() >= out_positions_stride * vertex_count_minus_1 +
+				sizeof(float) * 3 * vertex_count_at_least_1;
 
-  // Checks positions, mandatory.
-  valid &= in_positions.begin != NULL;
-  valid &=
-      in_positions.Size() >= in_positions_stride * vertex_count_minus_1 +
-                                 sizeof(float) * 3 * vertex_count_at_least_1;
-  valid &= out_positions.begin != NULL;
-  valid &=
-      out_positions.Size() >= out_positions_stride * vertex_count_minus_1 +
-                                  sizeof(float) * 3 * vertex_count_at_least_1;
+			// Checks normals, optional.
+			if (in_normals.begin)
+			{
+				valid &=
+					in_normals.Size() >= in_normals_stride * vertex_count_minus_1 +
+					sizeof(float) * 3 * vertex_count_at_least_1;
+				valid &= out_normals.begin != NULL;
+				valid &=
+					out_normals.Size() >= out_normals_stride * vertex_count_minus_1 +
+					sizeof(float) * 3 * vertex_count_at_least_1;
 
-  // Checks normals, optional.
-  if (in_normals.begin) {
-    valid &=
-        in_normals.Size() >= in_normals_stride * vertex_count_minus_1 +
-                                 sizeof(float) * 3 * vertex_count_at_least_1;
-    valid &= out_normals.begin != NULL;
-    valid &=
-        out_normals.Size() >= out_normals_stride * vertex_count_minus_1 +
-                                  sizeof(float) * 3 * vertex_count_at_least_1;
+				// Checks tangents, optional but requires normals.
+				if (in_tangents.begin)
+				{
+					valid &=
+						in_tangents.Size() >= in_tangents_stride * vertex_count_minus_1 +
+						sizeof(float) * 3 * vertex_count_at_least_1;
+					valid &= out_tangents.begin != NULL;
+					valid &= out_tangents.Size() >=
+						out_tangents_stride * vertex_count_minus_1 +
+						sizeof(float) * 3 * vertex_count_at_least_1;
+				}
+			}
+			else
+			{
+				// Tangents are not supported if normals are not there.
+				valid &= in_tangents.begin == NULL;
+				valid &= in_tangents.end == NULL;
+			}
 
-    // Checks tangents, optional but requires normals.
-    if (in_tangents.begin) {
-      valid &=
-          in_tangents.Size() >= in_tangents_stride * vertex_count_minus_1 +
-                                    sizeof(float) * 3 * vertex_count_at_least_1;
-      valid &= out_tangents.begin != NULL;
-      valid &= out_tangents.Size() >=
-               out_tangents_stride * vertex_count_minus_1 +
-                   sizeof(float) * 3 * vertex_count_at_least_1;
-    }
-  } else {
-    // Tangents are not supported if normals are not there.
-    valid &= in_tangents.begin == NULL;
-    valid &= in_tangents.end == NULL;
-  }
+			return valid;
+		}
 
-  return valid;
-}
+		// For performance optimization reasons, every skinning variants (positions,
+		// positions + normals, 1 to n influences...) are implemented as separate
+		// specialized functions.
+		// To cope with the error prone aspect of implementing every function, we
+		// define a skeleton code (SKINNING_FN) for the skinning loop, which internally
+		// calls MACRO that are shared or specialized according to skinning variants.
 
-// For performance optimization reasons, every skinning variants (positions,
-// positions + normals, 1 to n influences...) are implemented as separate
-// specialized functions.
-// To cope with the error prone aspect of implementing every function, we
-// define a skeleton code (SKINNING_FN) for the skinning loop, which internally
-// calls MACRO that are shared or specialized according to skinning variants.
-
-// Defines the skeleton code for the per vertex skinning loop.
+		// Defines the skeleton code for the per vertex skinning loop.
 #define SKINNING_FN(_type, _it, _inf)                                        \
   void SKINNING_FN_NAME(_type, _it, _inf)(const SkinningJob& _job) {         \
     ASSERT_##_type() ASSERT_##_it() INIT_##_type() INIT_W##_inf()            \
@@ -141,7 +123,7 @@ bool SkinningJob::Validate() const {
     PREPARE_##_inf##_OUTER(_it) TRANSFORM_##_type##_OUTER()                  \
   }
 
-// Defines skinning function name.
+			// Defines skinning function name.
 #define SKINNING_FN_NAME(_type, _it, _inf) Skinning##_type##_it##_inf
 
 // Implements pre-conditions assertions.
@@ -346,17 +328,18 @@ bool SkinningJob::Validate() const {
   math::Float4x4 transform =                                                 \
       math::ColumnMultiply(_job.joint_matrices[joint_indices[0]], wsum);     \
   const int last = _job.influences_count - 1;                                \
-  for (int j = 1; j < last; ++j) {                                           \
-    const math::SimdFloat4 w =                                               \
-        math::simd_float4::Load1PtrU(joint_weights + j);                     \
-    wsum = wsum + w;                                                         \
-    transform = transform + math::ColumnMultiply(                            \
-                                _job.joint_matrices[joint_indices[j]], w);   \
+  for (int j = 1; j < last; ++j)											 \
+  {																			 \
+		  const math::SimdFloat4 w =										 \
+		  math::simd_float4::Load1PtrU(joint_weights + j);                   \
+		  wsum = wsum + w;                                                   \
+		  transform = transform + math::ColumnMultiply(						 \
+			  _job.joint_matrices[joint_indices[j]], w);					 \
   }                                                                          \
-  transform =                                                                \
-      transform + math::ColumnMultiply(                                      \
-                      _job.joint_matrices[joint_indices[last]], one - wsum); \
-  PREPARE_NOIT()
+			transform =														 \
+		  transform + math::ColumnMultiply(									 \
+			  _job.joint_matrices[joint_indices[last]], one - wsum);		 \
+		  PREPARE_NOIT()
 
 #define PREPARE_IT_N()                                                        \
   math::SimdFloat4 wsum = math::simd_float4::Load1PtrU(joint_weights + 0);    \
@@ -388,8 +371,8 @@ bool SkinningJob::Validate() const {
 
 #define PREPARE_N_OUTER(_it) PREPARE_##_it##_N()
 
-// Implement point and vector transformation. _INNER and _OUTER have the same
-// meaning as defined for the PREPARE functions.
+	  // Implement point and vector transformation. _INNER and _OUTER have the same
+	  // meaning as defined for the PREPARE functions.
 #define TRANSFORM_P_INNER()                                                \
   const math::SimdFloat4 in_p = math::simd_float4::LoadPtrU(in_positions); \
   const math::SimdFloat4 out_p = TransformPoint(transform, in_p);          \
@@ -425,89 +408,93 @@ bool SkinningJob::Validate() const {
   math::Store3PtrU(out_t, out_tangents);
 
 // Instantiates all skinning function variants.
-SKINNING_FN(P, NOIT, 1)
-SKINNING_FN(PN, NOIT, 1)
-SKINNING_FN(PNT, NOIT, 1)
-SKINNING_FN(PN, IT, 1)
-SKINNING_FN(PNT, IT, 1)
-SKINNING_FN(P, NOIT, 2)
-SKINNING_FN(PN, NOIT, 2)
-SKINNING_FN(PNT, NOIT, 2)
-SKINNING_FN(PN, IT, 2)
-SKINNING_FN(PNT, IT, 2)
-SKINNING_FN(P, NOIT, 3)
-SKINNING_FN(PN, NOIT, 3)
-SKINNING_FN(PNT, NOIT, 3)
-SKINNING_FN(PN, IT, 3)
-SKINNING_FN(PNT, IT, 3)
-SKINNING_FN(P, NOIT, 4)
-SKINNING_FN(PN, NOIT, 4)
-SKINNING_FN(PNT, NOIT, 4)
-SKINNING_FN(PN, IT, 4)
-SKINNING_FN(PNT, IT, 4)
-SKINNING_FN(P, NOIT, N)
-SKINNING_FN(PN, NOIT, N)
-SKINNING_FN(PNT, NOIT, N)
-SKINNING_FN(PN, IT, N)
-SKINNING_FN(PNT, IT, N)
+		SKINNING_FN(P, NOIT, 1)
+			SKINNING_FN(PN, NOIT, 1)
+			SKINNING_FN(PNT, NOIT, 1)
+			SKINNING_FN(PN, IT, 1)
+			SKINNING_FN(PNT, IT, 1)
+			SKINNING_FN(P, NOIT, 2)
+			SKINNING_FN(PN, NOIT, 2)
+			SKINNING_FN(PNT, NOIT, 2)
+			SKINNING_FN(PN, IT, 2)
+			SKINNING_FN(PNT, IT, 2)
+			SKINNING_FN(P, NOIT, 3)
+			SKINNING_FN(PN, NOIT, 3)
+			SKINNING_FN(PNT, NOIT, 3)
+			SKINNING_FN(PN, IT, 3)
+			SKINNING_FN(PNT, IT, 3)
+			SKINNING_FN(P, NOIT, 4)
+			SKINNING_FN(PN, NOIT, 4)
+			SKINNING_FN(PNT, NOIT, 4)
+			SKINNING_FN(PN, IT, 4)
+			SKINNING_FN(PNT, IT, 4)
+			SKINNING_FN(P, NOIT, N)
+			SKINNING_FN(PN, NOIT, N)
+			SKINNING_FN(PNT, NOIT, N)
+			SKINNING_FN(PN, IT, N)
+			SKINNING_FN(PNT, IT, N)
 
-// Defines a matrix of skinning function pointers. This matrix will then be
-// indexed according to skinning jobs parameters.
-typedef void (*SkiningFct)(const SkinningJob&);
-static const SkiningFct kSkinningFct[2][5][3] = {
-    {
-        {&SKINNING_FN_NAME(P, NOIT, 1), &SKINNING_FN_NAME(PN, NOIT, 1),
-         &SKINNING_FN_NAME(PNT, NOIT, 1)},
-        {&SKINNING_FN_NAME(P, NOIT, 2), &SKINNING_FN_NAME(PN, NOIT, 2),
-         &SKINNING_FN_NAME(PNT, NOIT, 2)},
-        {&SKINNING_FN_NAME(P, NOIT, 3), &SKINNING_FN_NAME(PN, NOIT, 3),
-         &SKINNING_FN_NAME(PNT, NOIT, 3)},
-        {&SKINNING_FN_NAME(P, NOIT, 4), &SKINNING_FN_NAME(PN, NOIT, 4),
-         &SKINNING_FN_NAME(PNT, NOIT, 4)},
-        {&SKINNING_FN_NAME(P, NOIT, N), &SKINNING_FN_NAME(PN, NOIT, N),
-         &SKINNING_FN_NAME(PNT, NOIT, N)},
-    },
-    {
-        {&SKINNING_FN_NAME(P, NOIT, 1), &SKINNING_FN_NAME(PN, IT, 1),
-         &SKINNING_FN_NAME(PNT, IT, 1)},
-        {&SKINNING_FN_NAME(P, NOIT, 2), &SKINNING_FN_NAME(PN, IT, 2),
-         &SKINNING_FN_NAME(PNT, IT, 2)},
-        {&SKINNING_FN_NAME(P, NOIT, 3), &SKINNING_FN_NAME(PN, IT, 3),
-         &SKINNING_FN_NAME(PNT, IT, 3)},
-        {&SKINNING_FN_NAME(P, NOIT, 4), &SKINNING_FN_NAME(PN, IT, 4),
-         &SKINNING_FN_NAME(PNT, IT, 4)},
-        {&SKINNING_FN_NAME(P, NOIT, N), &SKINNING_FN_NAME(PN, IT, N),
-         &SKINNING_FN_NAME(PNT, IT, N)},
-    }};
+			// Defines a matrix of skinning function pointers. This matrix will then be
+			// indexed according to skinning jobs parameters.
+			typedef void(*SkiningFct)(const SkinningJob&);
+		static const SkiningFct kSkinningFct[2][5][3] =
+		{
+					{
+						{&SKINNING_FN_NAME(P, NOIT, 1), &SKINNING_FN_NAME(PN, NOIT, 1),
+						 &SKINNING_FN_NAME(PNT, NOIT, 1)},
+						{&SKINNING_FN_NAME(P, NOIT, 2), &SKINNING_FN_NAME(PN, NOIT, 2),
+						 &SKINNING_FN_NAME(PNT, NOIT, 2)},
+						{&SKINNING_FN_NAME(P, NOIT, 3), &SKINNING_FN_NAME(PN, NOIT, 3),
+						 &SKINNING_FN_NAME(PNT, NOIT, 3)},
+						{&SKINNING_FN_NAME(P, NOIT, 4), &SKINNING_FN_NAME(PN, NOIT, 4),
+						 &SKINNING_FN_NAME(PNT, NOIT, 4)},
+						{&SKINNING_FN_NAME(P, NOIT, N), &SKINNING_FN_NAME(PN, NOIT, N),
+						 &SKINNING_FN_NAME(PNT, NOIT, N)},
+					},
+					{
+						{&SKINNING_FN_NAME(P, NOIT, 1), &SKINNING_FN_NAME(PN, IT, 1),
+						 &SKINNING_FN_NAME(PNT, IT, 1)},
+						{&SKINNING_FN_NAME(P, NOIT, 2), &SKINNING_FN_NAME(PN, IT, 2),
+						 &SKINNING_FN_NAME(PNT, IT, 2)},
+						{&SKINNING_FN_NAME(P, NOIT, 3), &SKINNING_FN_NAME(PN, IT, 3),
+						 &SKINNING_FN_NAME(PNT, IT, 3)},
+						{&SKINNING_FN_NAME(P, NOIT, 4), &SKINNING_FN_NAME(PN, IT, 4),
+						 &SKINNING_FN_NAME(PNT, IT, 4)},
+						{&SKINNING_FN_NAME(P, NOIT, N), &SKINNING_FN_NAME(PN, IT, N),
+						 &SKINNING_FN_NAME(PNT, IT, N)},
+					} };
 
-// Implements job Run function.
-bool SkinningJob::Run() const {
-  // Exit with an error if job is invalid.
-  if (!Validate()) {
-    return false;
-  }
+		// Implements job Run function.
+		bool SkinningJob::Run() const
+		{
+			// Exit with an error if job is invalid.
+			if (!Validate())
+			{
+				return false;
+			}
 
-  // Early out if no vertex. This isn't an error.
-  // Skinning function algorithm doesn't support the case.
-  if (vertex_count == 0) {
-    return true;
-  }
+			// Early out if no vertex. This isn't an error.
+			// Skinning function algorithm doesn't support the case.
+			if (vertex_count == 0)
+			{
+				return true;
+			}
 
-  // Find skinning function index.
-  const size_t it = joint_inverse_transpose_matrices.begin != NULL;
-  assert(it < OZZ_ARRAY_SIZE(kSkinningFct));
-  const size_t inf =
-      static_cast<size_t>(influences_count) > OZZ_ARRAY_SIZE(kSkinningFct[0])
-          ? OZZ_ARRAY_SIZE(kSkinningFct[0]) - 1
-          : influences_count - 1;
-  assert(inf < OZZ_ARRAY_SIZE(kSkinningFct[0]));
-  const size_t fct = (in_normals.begin != NULL) + (in_tangents.begin != NULL);
-  assert(fct < OZZ_ARRAY_SIZE(kSkinningFct[0][0]));
+			// Find skinning function index.
+			const size_t it = joint_inverse_transpose_matrices.begin != NULL;
+			assert(it < ARRAY_SIZE(kSkinningFct));
+			const size_t inf =
+				static_cast<size_t>(influences_count) > ARRAY_SIZE(kSkinningFct[0])
+				? ARRAY_SIZE(kSkinningFct[0]) - 1
+				: influences_count - 1;
+			assert(inf < ARRAY_SIZE(kSkinningFct[0]));
+			const size_t fct = (in_normals.begin != NULL) + (in_tangents.begin != NULL);
+			assert(fct < ARRAY_SIZE(kSkinningFct[0][0]));
 
-  // Calls skinning function. Cannot fail because job is valid.
-  kSkinningFct[it][inf][fct](*this);
+			// Calls skinning function. Cannot fail because job is valid.
+			kSkinningFct[it][inf][fct](*this);
 
-  return true;
-}
-}  // namespace geometry
-}  // namespace ozz
+			return true;
+		}
+	}  // namespace geometry
+}  // namespace egal
