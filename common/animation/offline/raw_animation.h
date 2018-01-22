@@ -1,11 +1,11 @@
 #ifndef ANIMATION_OFFLINE_RAW_ANIMATION_H_
 #define ANIMATION_OFFLINE_RAW_ANIMATION_H_
 
-#include "common/animation/io/archive_traits.h"
+#include "common/animation/io/archive.h"
 #include "common/animation/maths/quaternion.h"
 #include "common/animation/maths/vec_float.h"
 
-#include "common/egal-d.h"
+
 
 namespace egal
 {
@@ -101,18 +101,11 @@ namespace egal
 				// and scale.
 				struct JointTrack
 				{
-					JointTrack()
-						: translations(*g_allocator)
-						, rotations(*g_allocator)
-						, scales(*g_allocator)
-					{
-
-					}
-					typedef TVector<TranslationKey> Translations;
+					typedef std::vector<TranslationKey> Translations;
 					Translations translations;
-					typedef TVector<RotationKey> Rotations;
+					typedef std::vector<RotationKey> Rotations;
 					Rotations rotations;
-					typedef TVector<ScaleKey> Scales;
+					typedef std::vector<ScaleKey> Scales;
 					Scales scales;
 				};
 
@@ -124,21 +117,22 @@ namespace egal
 
 				// Stores per joint JointTrack, ie: per joint animation key-frames.
 				// tracks_.size() gives the number of animated joints.
-				TVector<JointTrack> tracks;
+				std::vector<JointTrack> tracks;
 
 				// The duration of the animation. All the keys of a valid RawAnimation are in
 				// the range [0,duration].
 				float duration;
 
 				// Name of the animation.
-				egal::String name;
+				std::string name;
 			};
 		}  // namespace offline
 	}  // namespace animation
+	
 	namespace io
 	{
-		//IO_TYPE_VERSION(2, animation::offline::RawAnimation)
-		//IO_TYPE_TAG("egal-raw_animation", animation::offline::RawAnimation)
+		IO_TYPE_VERSION(2, animation::offline::RawAnimation)
+		IO_TYPE_TAG("raw_animation", animation::offline::RawAnimation)
 
 		// Should not be called directly but through io::Archive << and >> operators.
 		template <>

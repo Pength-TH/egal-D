@@ -251,11 +251,17 @@ namespace egal
 		return resource;
 	}
 
+	egal::Resource* ResourceManagerBase::create()
+	{
+		Resource* resource = createResource(); //空的资源 不需要addref，设置路径后 条用load 在add
+		return resource;
+	}
+
 	e_void ResourceManagerBase::removeUnreferenced()
 	{
 		if (!m_is_unload_enabled) return;
 
-		TVector<Resource*> to_remove(m_allocator);
+		TArrary<Resource*> to_remove(m_allocator);
 		for (auto* i : m_resources)
 		{
 			if (i->getRefCount() == 0) to_remove.push_back(i);

@@ -38,6 +38,7 @@ namespace egal
 
 	typedef char					e_int8;
 	typedef unsigned char			e_uint8;
+
 	typedef short					e_int16;
 	typedef unsigned short			e_uint16;
 
@@ -71,6 +72,10 @@ namespace egal
 #else
 	typedef e_uint32				uintptr;
 #endif
+
+
+
+
 }
 
 #endif

@@ -3,7 +3,8 @@
 
 #include "common/animation/offline/fbx/fbx_base.h"
 #include "common/animation/maths/transform.h"
-#include "common/egal-d.h"
+#include "common/utils/logger.h"
+
 namespace egal
 {
 	namespace animation
@@ -19,8 +20,7 @@ namespace egal
 					fbx_manager_ = FbxManager::Create();
 
 					// Logs SDK version.
-					egal::log::Log() << "FBX importer version " << fbx_manager_->GetVersion()
-						<< "." << std::endl;
+					log_info("FBX SDK version %s.", fbx_manager_->GetVersion());
 				}
 
 				FbxManagerInstance::~FbxManagerInstance()
@@ -109,21 +109,18 @@ namespace egal
 					if (!_initialized)  // Problem with the file to be imported.
 					{
 						const FbxString error = _importer->GetStatus().GetErrorString();
-						egal::log::Err() << "FbxImporter initialization failed with error: "
-							<< error.Buffer() << std::endl;
+						log_error("FbxImporter initialization failed with error: %s.", error.Buffer());
 
 						if (_importer->GetStatus().GetCode() == FbxStatus::eInvalidFileVersion)
 						{
-							egal::log::Err() << "FBX file version is " << major << "." << minor << "."
-								<< revision << "." << std::endl;
+							log_error("FBX file version is %d.%d.%d, not supported.", major, minor, revision);
 						}
 					}
 					else
 					{
 						if (_importer->IsFBX())
 						{
-							egal::log::Log() << "FBX file version is " << major << "." << minor << "."
-								<< revision << "." << std::endl;
+							log_info("FBX file version is %d.%d.%d", major, minor, revision);
 						}
 
 						// Load the scene.
@@ -142,8 +139,7 @@ namespace egal
 							if (!imported &&
 								_importer->GetStatus().GetCode() == FbxStatus::ePasswordError)
 							{
-								egal::log::Err() << "Incorrect password." << std::endl;
-
+								log_error("Incorrect password.");
 								// scene_ will be destroyed because imported is false.
 							}
 						}
@@ -152,8 +148,7 @@ namespace egal
 						if (imported)
 						{
 							FbxGlobalSettings& settings = scene_->GetGlobalSettings();
-							converter_ = egal::memory::default_allocator()->New<FbxSystemConverter>(
-								settings.GetAxisSystem(), settings.GetSystemUnit());
+							converter_ = new FbxSystemConverter(settings.GetAxisSystem(), settings.GetSystemUnit());
 						}
 
 						// Clear the scene if import failed.
@@ -175,7 +170,7 @@ namespace egal
 
 					if (converter_)
 					{
-						egal::memory::default_allocator()->Delete(converter_);
+						delete converter_;
 						converter_ = NULL;
 					}
 				}
@@ -281,8 +276,7 @@ namespace egal
 						static_cast<float>(_from_unit.GetScaleFactor()) * .01f;
 
 					// Builds conversion matrices.
-					convert_ = Invert(from_matrix) *
-						math::Float4x4::Scaling(math::simd_float4::Load1(to_meters));
+					convert_ = Invert(from_matrix) * math::Float4x4::Scaling(math::simd_float4::Load1(to_meters));
 					inverse_convert_ = Invert(convert_);
 					inverse_transpose_convert_ = Transpose(inverse_convert_);
 				}

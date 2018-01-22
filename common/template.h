@@ -9,7 +9,7 @@
 #if EGAL_USER_STL == 1
  
  #include "common/stl/tqueue.h"
- #include "common/stl/tvector.h"
+ #include "common/stl/tarrary.h"
 
 #else
 
@@ -31,10 +31,10 @@ namespace egal
 	/** stl */
 	// TVector container
 #if EGAL_USER_STL == 0
-	template <typename T> class TVector : public std::vector<T>
+	template <typename T> class TArrary : public std::vector<T>
 	{
 	public:
-		TVector(IAllocator& alloc)
+		TArrary(IAllocator& alloc)
 		{
 
 		}

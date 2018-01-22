@@ -1,3 +1,26 @@
+/**
+*
+*----------Dragon be here!----------/
+* 　　　┏┓　　　┏┓
+* 　　┏┛┻━━━┛┻┓
+* 　　┃　　　　　　　┃
+* 　　┃　　　━　　　┃
+* 　　┃　┳┛　┗┳　┃
+* 　　┃　　　　　　　┃
+* 　　┃　　　┻　　　┃
+* 　　┃　　　　　　　┃
+* 　　┗━┓　　　┏━┛
+* 　　　　┃　　　┃神兽保佑
+* 　　　　┃　　　┃代码无BUG！
+* 　　　　┃　　　┗━━━┓
+* 　　　　┃　　　　　　　┣┓
+* 　　　　┃　　　　　　　┏┛
+* 　　　　┗┓┓┏━┳┓┏┛
+* 　　　　　┃┫┫　┃┫┫
+* 　　　　　┗┻┛　┗┻┛
+* ━━━━━━神兽出没━━━━━━
+*/
+
 #ifndef _egal_h_
 #define _egal_h_
 #pragma once
@@ -17,6 +40,7 @@
 
 /**allocal*/
 #include "common/allocator/egal_allocator.h"
+#include "common/allocator/std_allocator.h"
 
 /**math*/
 #include "common/math/egal_math.h"
@@ -26,7 +50,7 @@
 
 #include "common/stl/tmap.h"
 #include "common/stl/tqueue.h"
-#include "common/stl/tvector.h"
+#include "common/stl/tarrary.h"
 
 #endif
 
@@ -71,6 +95,18 @@
 /**lua*/
 #include <lua.hpp>
 #include <lauxlib.h>
+
+namespace egal
+{
+	// Redirects std::string to e_String::type in order to replace std default
+	// allocator by StdAllocator.
+	struct __String
+	{
+		typedef std::basic_string<char, std::char_traits<char>, StdAllocator<char> > type;
+	};
+
+	typedef __String::type e_String;
+}
 
 
 

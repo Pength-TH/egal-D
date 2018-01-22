@@ -3,7 +3,7 @@
 #pragma once
 
 #if EGAL_USER_STL == 1
- #include "common/stl/tvector.h"
+ #include "common/stl/tarrary.h"
 #else
  #include "common/template.h"
 #endif
@@ -56,7 +56,7 @@ namespace egal
 		}
 
 	private:
-		TVector<TDelegate<R(Args...)>> m_delegates;
+		TArrary<TDelegate<R(Args...)>> m_delegates;
 	};
 }
 #endif

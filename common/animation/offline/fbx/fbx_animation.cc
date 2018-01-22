@@ -6,7 +6,7 @@
 #include "common/animation/skeleton.h"
 #include "common/animation/skeleton_utils.h"
 #include "common/animation/maths/transform.h"
-#include "common/egal-d.h"
+
 
 namespace egal
 {
@@ -32,7 +32,6 @@ namespace egal
 
 						// Set animation name.
 						_animation->name = anim_stack->GetName();
-
 						// Extract animation duration.
 						FbxTimeSpan time_spawn;
 						const FbxTakeInfo* take_info = scene->GetTakeInfo(anim_stack->GetName());

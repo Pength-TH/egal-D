@@ -64,14 +64,6 @@ namespace egal
 		return *this;
 	}
 
-	WriteBinary& WriteBinary::operator << (e_int32 value)
-	{
-		char tmp[20];
-		StringUnitl::toCString(value, tmp, TlengthOf(tmp));
-		write(tmp, StringUnitl::stringLength(tmp));
-		return *this;
-	}
-
 	WriteBinary& WriteBinary::operator << (e_uint64 value)
 	{
 		char tmp[40];
@@ -88,7 +80,44 @@ namespace egal
 		return *this;
 	}
 
+	WriteBinary& WriteBinary::operator << (e_int32 value)
+	{
+		char tmp[20];
+		StringUnitl::toCString(value, tmp, TlengthOf(tmp));
+		write(tmp, StringUnitl::stringLength(tmp));
+		return *this;
+	}
 	WriteBinary& WriteBinary::operator << (e_uint32 value)
+	{
+		char tmp[20];
+		StringUnitl::toCString(value, tmp, TlengthOf(tmp));
+		write(tmp, StringUnitl::stringLength(tmp));
+		return *this;
+	}
+
+	WriteBinary& WriteBinary::operator << (e_int16 value)
+	{
+		char tmp[20];
+		StringUnitl::toCString(value, tmp, TlengthOf(tmp));
+		write(tmp, StringUnitl::stringLength(tmp));
+		return *this;
+	}
+	WriteBinary& WriteBinary::operator << (e_uint16 value)
+	{
+		char tmp[20];
+		StringUnitl::toCString(value, tmp, TlengthOf(tmp));
+		write(tmp, StringUnitl::stringLength(tmp));
+		return *this;
+	}
+
+	WriteBinary& WriteBinary::operator << (e_int8 value)
+	{
+		char tmp[20];
+		StringUnitl::toCString(value, tmp, TlengthOf(tmp));
+		write(tmp, StringUnitl::stringLength(tmp));
+		return *this;
+	}
+	WriteBinary& WriteBinary::operator << (e_uint8 value)
 	{
 		char tmp[20];
 		StringUnitl::toCString(value, tmp, TlengthOf(tmp));

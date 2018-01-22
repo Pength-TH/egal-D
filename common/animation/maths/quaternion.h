@@ -97,7 +97,7 @@ namespace egal
 			// Computes w component of a-1 * b.
 			const float diff_w = _a.x * _b.x + _a.y * _b.y + _a.z * _b.z + _a.w * _b.w;
 			// Converts w back to an angle.
-			const float angle = 2.f * std::acos(Min(std::abs(diff_w), 1.f));
+			const float angle = 2.f * std::acos(_Min(std::abs(diff_w), 1.f));
 			return std::abs(angle) <= _tolerance;
 		}
 

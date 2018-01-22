@@ -7,7 +7,11 @@
 #include "common/animation/skeleton.h"
 #include "common/animation/maths/soa_transform.h"
 
-#include "common/egal-d.h"
+
+#include "common/type.h"
+#include "common/allocator/egal_allocator.h"
+#include "common/egal_string.h"
+#include "common/stl/tarrary.h"
 
 namespace egal
 {
@@ -22,7 +26,6 @@ namespace egal
 				struct JointLister
 				{
 					explicit JointLister(int _num_joints)
-						: linear_joints(*g_allocator)
 					{
 						linear_joints.reserve(_num_joints);
 					}
@@ -55,7 +58,7 @@ namespace egal
 						int parent;
 					};
 					// Array of joints in the traversed DAG order.
-					TVector<Joint> linear_joints;
+					std::vector<Joint> linear_joints;
 				};
 			}  // namespace
 
@@ -87,7 +90,7 @@ namespace egal
 				for (int i = 0; i < num_joints; ++i)
 				{
 					const RawSkeleton::Joint& current = *lister.linear_joints[i].joint;
-					chars_size += (current.name.size() + 1) * sizeof(char);
+					chars_size += (StringUnitl::stringLength(current.name.c_str()) + 1) * sizeof(char);
 				}
 
 				// Allocates all skeleton members.
@@ -100,7 +103,7 @@ namespace egal
 					const RawSkeleton::Joint& current = *lister.linear_joints[i].joint;
 					skeleton->joint_names_[i] = cursor;
 					strcpy(cursor, current.name.c_str());
-					cursor += (current.name.size() + 1) * sizeof(char);
+					cursor += (StringUnitl::stringLength(current.name.c_str()) + 1) * sizeof(char);
 				}
 
 				// Transfers sorted joints hierarchy to the new skeleton.

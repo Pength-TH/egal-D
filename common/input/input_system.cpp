@@ -122,11 +122,11 @@ namespace egal
 		IAllocator& m_allocator;
 		MouseDevice* m_mouse_device;
 		KeyboardDevice* m_keyboard_device;
-		TVector<Event> m_events;
+		TArrary<Event> m_events;
 		bool m_is_enabled;
 		float2 m_cursor_pos;
-		TVector<Device*> m_devices;
-		TVector<Device*> m_to_remove;
+		TArrary<Device*> m_devices;
+		TArrary<Device*> m_to_remove;
 	};
 
 

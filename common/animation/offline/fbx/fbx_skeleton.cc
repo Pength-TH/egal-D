@@ -1,6 +1,6 @@
 #include "common/animation/offline/fbx/fbx_skeleton.h"
 #include "common/animation/offline/raw_skeleton.h"
-
+#include "common/utils/logger.h"
 namespace egal
 {
 	namespace animation
@@ -91,7 +91,7 @@ namespace egal
 						_loader.converter(), _skeleton, NULL, 0);
 					if (ret == kNoSkeleton)
 					{
-						log_error("No skeleton found in Fbx scene.");
+						log_info("No skeleton found in Fbx scene.");
 						return false;
 					}
 					else if (ret == kError)

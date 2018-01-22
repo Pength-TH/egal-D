@@ -567,22 +567,22 @@ namespace egal
 		// _a must be less or equal to b;
 		INLINE Float4 Clamp(const Float4& _a, const Float4& _v, const Float4& _b)
 		{
-			const Float4 min(_v.x < _b.x ? _v.x : _b.x, _v.y < _b.y ? _v.y : _b.y,
+			const Float4 _min(_v.x < _b.x ? _v.x : _b.x, _v.y < _b.y ? _v.y : _b.y,
 				_v.z < _b.z ? _v.z : _b.z, _v.w < _b.w ? _v.w : _b.w);
-			return Float4(_a.x > min.x ? _a.x : min.x, _a.y > min.y ? _a.y : min.y,
-				_a.z > min.z ? _a.z : min.z, _a.w > min.w ? _a.w : min.w);
+			return Float4(_a.x > _min.x ? _a.x : _min.x, _a.y > _min.y ? _a.y : _min.y,
+				_a.z > _min.z ? _a.z : _min.z, _a.w > _min.w ? _a.w : _min.w);
 		}
 		INLINE Float3 Clamp(const Float3& _a, const Float3& _v, const Float3& _b)
 		{
-			const Float3 min(_v.x < _b.x ? _v.x : _b.x, _v.y < _b.y ? _v.y : _b.y,
+			const Float3 _min(_v.x < _b.x ? _v.x : _b.x, _v.y < _b.y ? _v.y : _b.y,
 				_v.z < _b.z ? _v.z : _b.z);
-			return Float3(_a.x > min.x ? _a.x : min.x, _a.y > min.y ? _a.y : min.y,
-				_a.z > min.z ? _a.z : min.z);
+			return Float3(_a.x > _min.x ? _a.x : _min.x, _a.y > _min.y ? _a.y : _min.y,
+				_a.z > _min.z ? _a.z : _min.z);
 		}
 		INLINE Float2 Clamp(const Float2& _a, const Float2& _v, const Float2& _b)
 		{
-			const Float2 min(_v.x < _b.x ? _v.x : _b.x, _v.y < _b.y ? _v.y : _b.y);
-			return Float2(_a.x > min.x ? _a.x : min.x, _a.y > min.y ? _a.y : min.y);
+			const Float2 _min(_v.x < _b.x ? _v.x : _b.x, _v.y < _b.y ? _v.y : _b.y);
+			return Float2(_a.x > _min.x ? _a.x : _min.x, _a.y > _min.y ? _a.y : _min.y);
 		}
 	}  // namespace math
 }  // namespace egal

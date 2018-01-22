@@ -2,7 +2,7 @@
 #ifndef ANIMATION_RUNTIME_SKELETON_H_
 #define ANIMATION_RUNTIME_SKELETON_H_
 #include "common/animation/platform.h"
-
+#include "common/animation/io/archive.h"
 namespace egal
 {
 	namespace io
@@ -140,8 +140,8 @@ namespace egal
 
 	namespace io
 	{
-		//IO_TYPE_VERSION(1, animation::Skeleton);
-		//IO_TYPE_TAG("skeleton", animation::Skeleton);
+		IO_TYPE_VERSION(1, animation::Skeleton);
+		IO_TYPE_TAG("skeleton", animation::Skeleton);
 	}  // namespace io
 }  // namespace egal
 #endif  // ANIMATION_RUNTIME_SKELETON_H_

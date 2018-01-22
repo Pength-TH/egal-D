@@ -52,12 +52,12 @@ namespace egal
 			MT::SpinMutex			m_sync;
 			MT::Event				m_event_outside_job;
 			MT::Event				m_work_signal;
-			TVector<MT::Task*>		m_workers;
-			TVector<Job>			m_job_queue;
+			TArrary<MT::Task*>		m_workers;
+			TArrary<Job>			m_job_queue;
 			FiberDecl				m_fiber_pool[256];
 			e_int32					m_free_fibers_indices[256];
 			e_int32					m_num_free_fibers;
-			TVector<SleepingFiber>	m_sleeping_fibers;
+			TArrary<SleepingFiber>	m_sleeping_fibers;
 			IAllocator&				m_allocator;
 		};
 

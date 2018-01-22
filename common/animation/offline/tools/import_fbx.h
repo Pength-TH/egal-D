@@ -1,40 +1,35 @@
 #ifndef _import_fbx_h_
 #define _import_fbx_h_
+#include "common/animation/offline/tools/import_option.h"
+#include "common/type.h"
+#include "common/allocator/egal_allocator.h"
+#include "common/egal_string.h"
+#include "common/utils/logger.h"
+#include "common/filesystem/os_file.h"
 
-#include "common/egal-d.h"
 
 namespace egal
 {
-	enum endian
+	class ImportAssetDialog;
+	class ImportFbx
 	{
-		native,
-		little,
-		big,
+	public:
+		ImportFbx(ImportAssetDialog& dialog);
+		~ImportFbx();
+
+		e_void import_fbx(const char* file_path, ImportOption& option);
+
+
+		void convert(ImportOption& option);
+	protected:
+		template <typename T> 
+		void write(const T& obj) { out_file.write(&obj, sizeof(obj)); }
+		void write(const void* ptr, size_t size) { out_file.write(ptr, size); }
+		void writeString(const char* str) { out_file.write(str, strlen(str)); }
+
+	private:
+		ImportAssetDialog& importAssetDialog;
+		FS::OsFile out_file;
 	};
-
-	//导入选项
-	struct ImportOption
-	{
-		String file_path_name;
-		String out_mesh_path_name;
-		String out_skeleton_path_name;
-		String out_animation_path_name;
-		
-		endian m_endian;
-		e_bool m_raw;
-
-		/**animation*/
-		e_bool m_additive; //false
-		e_float m_hierarchical; //0.001;
-		e_bool m_optimize; //true
-		e_float m_rotation; //0.00174533
-		e_float m_sampling_rate; //0
-		e_float m_scale;// 0.001
-		e_float m_translation;// 0.001
-
-	};
-
-	e_void import_fbx(const char* file_path, ImportOption& option);
-
 }
 #endif

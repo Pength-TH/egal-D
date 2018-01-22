@@ -19,14 +19,14 @@ namespace egal
 
 		// Returns the minimum of _a and _b. Comparison's based on operator <.
 		template <typename _Ty>
-		INLINE _Ty Min(_Ty _a, _Ty _b)
+		INLINE _Ty _Min(_Ty _a, _Ty _b)
 		{
 			return (_a < _b) ? _a : _b;
 		}
 
 		// Returns the maximum of _a and _b. Comparison's based on operator <.
 		template <typename _Ty>
-		INLINE _Ty Max(_Ty _a, _Ty _b)
+		INLINE _Ty _Max(_Ty _a, _Ty _b)
 		{
 			return (_b < _a) ? _a : _b;
 		}

@@ -5,14 +5,23 @@
 #include "common/type.h"
 #include "common/config.h"
 
+#include "common/stl/delegate_list.h"
+
 namespace egal
 {
+	typedef TDelegateList<void(const int32_t, const char*)> Callback;
+
+	Callback& log_call_back();
+
 	e_void _log(e_int32 n, 
 		const e_char* filename,
 		const e_char* functionName, 
 		const e_int32 fileline, 
 		const e_char* fmt,
 		...);
+	
+	e_void init_log();
+	e_void close_log();
 
 	e_int32 _check_error(const e_char* filename,
 						 const e_int32 fileline,
@@ -28,6 +37,8 @@ namespace egal
 	#define log_error(...)  _log_error(__FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
 
 	#define check_error(op) _check_error(__FILE__, __LINE__, __FUNCTION__, op)
+
+	
 }
 
 #endif

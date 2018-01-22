@@ -4,7 +4,7 @@
 
 #include "common/animation/platform.h"
 #include "common/animation/offline/raw_animation.h"
-#include "common/egal-d.h"
+
 
 namespace egal
 {
@@ -22,7 +22,7 @@ namespace egal
 				int operator()(int _argc, const char** _argv);
 
 			protected:
-				typedef TVector<RawAnimation> Animations;
+				typedef std::vector<RawAnimation> Animations;
 
 			private:
 				virtual bool Import(const char* _filename,

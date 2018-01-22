@@ -2,7 +2,7 @@
 #define MATHS_INTERNAL_SIMD_MATH_CONFIG_H_
 
 #include "common/animation/platform.h"
-
+#define BUILD_SIMD_REF
 // Avoid SIMD instruction detection if reference (aka scalar) implementation is
 // forced.
 #if !defined(BUILD_SIMD_REF)

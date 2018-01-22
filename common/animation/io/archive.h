@@ -64,9 +64,8 @@ namespace egal
 			// Defines Tagger helper object struct.
 			// The boolean template argument is used to automatically select a template
 			// specialisation, whether _Ty has a tag or not.
-			template <typename _Ty,
-				bool _HasTag = internal::Tag<const _Ty>::kTagLength != 0>
-				struct Tagger;
+			template <typename _Ty,	bool _HasTag = internal::Tag<const _Ty>::kTagLength != 0>
+			struct Tagger;
 		}  // namespace internal
 
 		// Implements output archive concept used to save/serialize data from a Stream.
@@ -95,31 +94,97 @@ namespace egal
 			void operator<<(const _Ty& _ty)
 			{
 				internal::Tagger<const _Ty>::Write(*this);
-				SaveVersion<_Ty>();
+				//SaveVersion<_Ty>();
 				Save(*this, &_ty, 1);
 			}
 
-// Primitive type saving.
-#define _IO_PRIMITIVE_TYPE(_type)							  \
-void operator<<(_type _v) {                                   \
-_type v = endian_swap_ ? EndianSwapper<_type>::Swap(_v) : _v; \
-IF_DEBUG(size_t size =) stream_->Write(&v, sizeof(v));		  \
-assert(size == sizeof(v));                                    \
-}
+			void operator<<(char _v)
+			{
+				char v = endian_swap_ ? EndianSwapper<char>::Swap(_v) : _v;
+				IF_DEBUG(size_t size = )
+				stream_->Write(&v, sizeof(v));
+				assert(size == sizeof(v));
+			}
 
-		_IO_PRIMITIVE_TYPE(char)
-		_IO_PRIMITIVE_TYPE(int8_t)
-		_IO_PRIMITIVE_TYPE(uint8_t)
-		_IO_PRIMITIVE_TYPE(int16_t)
-		_IO_PRIMITIVE_TYPE(uint16_t)
-		_IO_PRIMITIVE_TYPE(int32_t)
-		_IO_PRIMITIVE_TYPE(uint32_t)
-		_IO_PRIMITIVE_TYPE(int64_t)
-		_IO_PRIMITIVE_TYPE(uint64_t)
-		_IO_PRIMITIVE_TYPE(bool)
-		_IO_PRIMITIVE_TYPE(float)
+			void operator<<(int8_t _v)
+			{
+				int8_t v = endian_swap_ ? EndianSwapper<int8_t>::Swap(_v) : _v;
+				IF_DEBUG(size_t size = )
+					stream_->Write(&v, sizeof(v));
+				assert(size == sizeof(v));
+			}
 
-#undef _IO_PRIMITIVE_TYPE
+			void operator<<(uint8_t _v)
+			{
+				uint8_t v = endian_swap_ ? EndianSwapper<uint8_t>::Swap(_v) : _v;
+				IF_DEBUG(size_t size = )
+					stream_->Write(&v, sizeof(v));
+				assert(size == sizeof(v));
+			}
+
+			void operator<<(int16_t _v)
+			{
+				int16_t v = endian_swap_ ? EndianSwapper<int16_t>::Swap(_v) : _v;
+				IF_DEBUG(size_t size = )
+					stream_->Write(&v, sizeof(v));
+				assert(size == sizeof(v));
+			}
+
+			void operator<<(uint16_t _v)
+			{
+				uint16_t v = endian_swap_ ? EndianSwapper<uint16_t>::Swap(_v) : _v;
+				IF_DEBUG(size_t size = )
+					stream_->Write(&v, sizeof(v));
+				assert(size == sizeof(v));
+			}
+
+			void operator<<(int32_t _v)
+			{
+				int32_t v = endian_swap_ ? EndianSwapper<int32_t>::Swap(_v) : _v;
+				IF_DEBUG(size_t size = )
+					stream_->Write(&v, sizeof(v));
+				assert(size == sizeof(v));
+			}
+
+			void operator<<(uint32_t _v)
+			{
+				uint32_t v = endian_swap_ ? EndianSwapper<uint32_t>::Swap(_v) : _v;
+				IF_DEBUG(size_t size = )
+					stream_->Write(&v, sizeof(v));
+				assert(size == sizeof(v));
+			}
+
+			void operator<<(int64_t _v)
+			{
+				int64_t v = endian_swap_ ? EndianSwapper<int64_t>::Swap(_v) : _v;
+				IF_DEBUG(size_t size = )
+					stream_->Write(&v, sizeof(v));
+				assert(size == sizeof(v));
+			}
+
+			void operator<<(uint64_t _v)
+			{
+				uint64_t v = endian_swap_ ? EndianSwapper<uint64_t>::Swap(_v) : _v;
+				IF_DEBUG(size_t size = )
+					stream_->Write(&v, sizeof(v));
+				assert(size == sizeof(v));
+			}
+
+			void operator<<(bool _v)
+			{
+				bool v = endian_swap_ ? EndianSwapper<bool>::Swap(_v) : _v;
+				IF_DEBUG(size_t size = )
+					stream_->Write(&v, sizeof(v));
+				assert(size == sizeof(v));
+			}
+
+			void operator<<(float _v)
+			{
+				float v = endian_swap_ ? EndianSwapper<float>::Swap(_v) : _v;
+				IF_DEBUG(size_t size = )
+					stream_->Write(&v, sizeof(v));
+				assert(size == sizeof(v));
+			}
 
 			// Returns output stream.
 			Stream* stream() const { return stream_; }
@@ -131,7 +196,8 @@ assert(size == sizeof(v));                                    \
 				// Compilation could fail here if the version is not defined for _Ty, or if
 				// the .h file containing its definition is not included by the caller of
 				// this function.
-				if (void(0), internal::Version<const _Ty>::kValue != 0) {
+				if (void(0), internal::Version<const _Ty>::kValue != 0) 
+				{
 					uint32_t version = internal::Version<const _Ty>::kValue;
 					*this << version;
 				}
@@ -178,12 +244,13 @@ assert(size == sizeof(v));                                    \
 			}
 
 // Primitive type loading.
-#define _IO_PRIMITIVE_TYPE(_type)						  \
-void operator>>(_type& _v) {                              \
-_type v;                                                  \
-IF_DEBUG(size_t size =) stream_->Read(&v, sizeof(v));	  \
-assert(size == sizeof(v));                                \
-_v = endian_swap_ ? EndianSwapper<_type>::Swap(v) : v;    \
+#define _IO_PRIMITIVE_TYPE(_type)						      \
+void operator>>(_type& _v)									  \
+{															  \
+	_type v;                                                  \
+	IF_DEBUG(size_t size =) stream_->Read(&v, sizeof(v));	  \
+	assert(size == sizeof(v));                                \
+	_v = endian_swap_ ? EndianSwapper<_type>::Swap(v) : v;    \
 }
 
 			_IO_PRIMITIVE_TYPE(char)
@@ -272,15 +339,18 @@ _v = endian_swap_ ? EndianSwapper<_type>::Swap(v) : v;    \
 		namespace internal
 		{
 			template <typename _Ty>
-			struct Array {
+			struct Array 
+			{
 				INLINE void Save(OArchive& _archive) const
 				{
 					egal::io::Save(_archive, array, count);
 				}
+
 				INLINE void Load(IArchive& _archive, uint32_t _version) const
 				{
 					egal::io::Load(_archive, array, count, _version);
 				}
+
 				_Ty* array;
 				size_t count;
 			};

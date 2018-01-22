@@ -64,7 +64,9 @@ namespace egal
 		e_bool isTextureDefine(e_uint8 define_idx) const;
 		e_void setTexture(e_int32 i, Texture* texture);
 		e_void setTexturePath(e_int32 i, const ArchivePath& path);
+		
 		e_bool save(JsonSerializer& serializer);
+
 		e_int32 getUniformCount() const { return m_uniforms.size(); }
 		Uniform& getUniform(e_int32 index) { return m_uniforms[index]; }
 		const Uniform& getUniform(e_int32 index) const { return m_uniforms[index]; }
@@ -105,7 +107,7 @@ namespace egal
 		ShaderInstance* m_shader_instance;
 		Texture*		m_textures[MAX_TEXTURE_COUNT];
 		e_int32			m_texture_count;
-		TVector<Uniform> m_uniforms;
+		TArrary<Uniform> m_uniforms;
 		IAllocator&		m_allocator;
 		e_uint64		m_render_states;
 		float4			m_color;
@@ -137,6 +139,7 @@ namespace egal
 		Renderer& getRenderer() { return m_renderer; }
 
 	protected:
+		virtual Resource* createResource() override;
 		Resource* createResource(const ArchivePath& path) override;
 		e_void destroyResource(Resource& resource) override;
 

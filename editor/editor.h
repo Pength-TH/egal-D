@@ -2,16 +2,30 @@
 #define _editor_h_
 
 #include "common.h"
-#include <entry/input.h>
-#include <bx/string.h>
-#include "imgui.h"
+#include "common/type.h"
 
+#include <entry/input.h>
+
+#include <bx/string.h>
 #include <bx/pixelformat.h>
 #include <bgfx/bgfx.h>
 #include <bimg/bimg.h>
 
+#include "imgui.h"
+
+#include "tools/base/editor_base.h"
+
+#include "tools/import_assert/import_asset_dialog.h"
+#include "tools/log/log_ui.h"
+
 namespace egal
 {
+	class IEngine;
+	struct MouseCoords
+	{
+		int32_t m_mx;
+		int32_t m_my;
+	};
 	class Editor : public entry::AppI
 	{
 	public:
@@ -24,16 +38,21 @@ namespace egal
 		bool update() override;
 
 		void createWindow();
-
 		void destroyWindow();
 
 	private:
-		entry::MouseState m_mouseState;
-		entry::WindowState m_windows[50];
+		
+		entry::WindowState		m_windows[50];
 		bgfx::FrameBufferHandle m_fbh[50];
 
 
-		//IEngine*  m_p_engine;
+
+		//TVector<IWinodw>		m_windows;
+
+		ImportAssetDialog*      m_p_import_assert;
+		LogUI*					m_p_log_ui;
+
+		IEngine*  m_p_engine;
 	};
 }
 #endif

@@ -6,8 +6,8 @@
 #include "common/allocator/egal_allocator.h"
 #include "common/math/egal_math.h"
 
-#include "common/input/keycode.h"
-#include "common/input/scancode.h"
+#include <SDL.h>
+#include <SDL_syswm.h>
 
 namespace egal
 {

@@ -3,10 +3,10 @@
 #define ANIMATION_OFFLINE_FBX_FBX_BASE_H_
 
 #include <fbxsdk.h>
-#include "common/animation/platform.h"
+
 #include "common/animation/maths/simd_math.h"
 #include "common/animation/maths/transform.h"
-
+#include "common/utils/logger.h"
 namespace egal
 {
 	namespace math

@@ -11,6 +11,8 @@
 #include "common/utils/geometry.h"
 #include "common/egal_string.h"
 
+#include "common/filesystem/binary.h"
+#include "common/filesystem/os_file.h"
 namespace egal
 {
 	struct Frustum;
@@ -73,10 +75,10 @@ namespace egal
 		e_bool areIndices16() const { return flags & Flags::INDICES_16_BIT; }
 
 		Type				type;
-		TVector<e_uint8>	indices;
-		TVector<float3>		vertices;
-		TVector<float2>		uvs;
-		TVector<Skin>		skin;
+		TArrary<e_uint8>	indices;
+		TArrary<float3>		vertices;
+		TArrary<float2>		uvs;
+		TArrary<Skin>		skin;
 		e_uint8				flags;
 		e_uint64			layer_mask;
 		e_int32				instance_idx;
@@ -229,6 +231,7 @@ namespace egal
 		e_void getRelativePose(Pose& pose);
 		e_void setKeepSkin();
 		e_void onBeforeReady() override;
+		
 	public:
 		static const e_uint32 FILE_MAGIC	= 0x5f4c4d4f;
 		static const e_int32  MAX_LOD_COUNT = 4;
@@ -238,23 +241,29 @@ namespace egal
 		Entity(const Entity&);
 		e_void operator=(const Entity&);
 
+		e_int32 getBoneIdx(const e_char* name);
+
+		e_void unload() override;
+		e_bool load(FS::IFile& file) override;
+	public:
+		e_void save(const char * filepath);
+		e_bool saveBones(FS::IFile& file);
+		e_bool saveMeshes(FS::IFile& file, FileVersion version);
+		e_bool saveLODs(FS::IFile& file);
+
 		e_bool parseVertexDecl(FS::IFile& file, bgfx::VertexDecl* vertex_decl);
 		e_bool parseVertexDeclEx(FS::IFile& file, bgfx::VertexDecl* vertex_decl);
 		e_bool parseBones(FS::IFile& file);
 		e_bool parseMeshes(const bgfx::VertexDecl& global_vertex_decl, FS::IFile& file, FileVersion version);
 		e_bool parseMeshesOld(bgfx::VertexDecl global_vertex_decl, FS::IFile& file, FileVersion version);
 		e_bool parseLODs(FS::IFile& file);
-		e_int32 getBoneIdx(const e_char* name);
-
-		e_void unload() override;
-		e_bool load(FS::IFile& file) override;
-
-	private:
+	public:
 		IAllocator&		m_allocator;
 		Renderer&		m_renderer;
-		TVector<Mesh>	m_meshes;
-		TVector<Bone>	m_bones;
+		TArrary<Mesh>	m_meshes;
+		TArrary<Bone>	m_bones;
 		LOD				m_lods[MAX_LOD_COUNT];
+		e_uint32        m_lod_count;
 		e_float			m_bounding_radius;
 		BoneMap			m_bone_map;
 		AABB			m_aabb;
@@ -279,6 +288,7 @@ namespace egal
 		~EntityManager() {}
 
 	protected:
+		virtual Resource* createResource() override;
 		Resource* createResource(const ArchivePath& path) override;
 		e_void destroyResource(Resource& resource) override;
 

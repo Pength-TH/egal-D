@@ -204,10 +204,10 @@ namespace egal
 		}
 
 
-		static TVector<ComponentTypeData>& getComponentTypes()
+		static TArrary<ComponentTypeData>& getComponentTypes()
 		{
 			static DefaultAllocator allocator;
-			static TVector<ComponentTypeData> types(allocator);
+			static TArrary<ComponentTypeData> types(allocator);
 			return types;
 		}
 

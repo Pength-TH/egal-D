@@ -340,7 +340,7 @@ namespace egal
 	}
 
 
-	e_bool Texture::loadTGA(FS::IFile& file, TGAHeader& header, TVector<e_uint8>& data, const e_char* path)
+	e_bool Texture::loadTGA(FS::IFile& file, TGAHeader& header, TArrary<e_uint8>& data, const e_char* path)
 	{
 		//PROFILE_FUNCTION();
 		file.read(&header, sizeof(header));
@@ -633,6 +633,11 @@ namespace egal
 	Resource* TextureManager::createResource(const ArchivePath& path)
 	{
 		return _aligned_new(m_allocator, Texture)(path, *this, m_allocator);
+	}
+
+	egal::Resource* TextureManager::createResource()
+	{
+		return _aligned_new(m_allocator, Texture)(ArchivePath(""), *this, m_allocator);
 	}
 
 	e_void TextureManager::destroyResource(Resource& resource)

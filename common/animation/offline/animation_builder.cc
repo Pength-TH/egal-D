@@ -125,7 +125,7 @@ namespace egal
 					assert(_dest->front().key.time == 0.f && _dest->back().key.time == _duration);
 				}
 
-				void CopyToAnimation(TVector<SortingTranslationKey>* _src,
+				void CopyToAnimation(std::vector<SortingTranslationKey>* _src,
 					egal::Range<TranslationKey>* _dest)
 				{
 					const size_t src_count = _src->size();
@@ -151,7 +151,7 @@ namespace egal
 					}
 				}
 
-				void CopyToAnimation(TVector<SortingScaleKey>* _src,
+				void CopyToAnimation(std::vector<SortingScaleKey>* _src,
 					egal::Range<ScaleKey>* _dest)
 				{
 					const size_t src_count = _src->size();
@@ -225,7 +225,7 @@ namespace egal
 				// Specialize for rotations in order to normalize quaternions.
 				// Consecutive opposite quaternions are also fixed up in order to avoid checking
 				// for the smallest path during the NLerp runtime algorithm.
-				void CopyToAnimation(TVector<SortingRotationKey>* _src,
+				void CopyToAnimation(std::vector<SortingRotationKey>* _src,
 					egal::Range<RotationKey>* _dest)
 				{
 					const size_t src_count = _src->size();
@@ -239,7 +239,7 @@ namespace egal
 					// shortest path during the normalized-lerp.
 					// Note that keys are still sorted per-track at that point, which allows this
 					// algorithm to process all consecutive keys.
-					size_t track = std::numeric_limits<size_t>::max();
+					size_t track = (std::numeric_limits<size_t>::max)();
 					const math::Quaternion identity = math::Quaternion::identity();
 					SortingRotationKey* src = &_src->front();
 					for (size_t i = 0; i < src_count; ++i)
@@ -269,7 +269,7 @@ namespace egal
 					}
 
 					// Sort.
-					std::sort(array_begin(*_src), array_end(*_src),
+					std::sort((*_src).begin(), (*_src).end(),
 						&SortingKeyLess<SortingRotationKey>);
 
 					// Fills rotation keys output.
@@ -325,11 +325,11 @@ namespace egal
 					rotations += raw_track.rotations.size() + 2;        // needs to add the
 					scales += raw_track.scales.size() + 2;              // first and last keys.
 				}
-				TVector<SortingTranslationKey> sorting_translations(*g_allocator);
+				std::vector<SortingTranslationKey> sorting_translations;
 				sorting_translations.reserve(translations);
-				TVector<SortingRotationKey> sorting_rotations(*g_allocator);
+				std::vector<SortingRotationKey> sorting_rotations;
 				sorting_rotations.reserve(rotations);
-				TVector<SortingScaleKey> sorting_scales(*g_allocator);
+				std::vector<SortingScaleKey> sorting_scales;
 				sorting_scales.reserve(scales);
 
 				// Filters RawAnimation keys and copies them to the output sorting structure.

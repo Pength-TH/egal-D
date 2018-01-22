@@ -9,10 +9,13 @@
 #include "common/animation/offline/raw_animation.h"
 #include "common/animation/offline/raw_skeleton.h"
 #include "common/animation/offline/skeleton_builder.h"
+#include "common/animation/io/archive.h"
 
 #include "common/animation/animation.h"
 #include "common/animation/skeleton.h"
-#include "common/egal-d.h"
+
+
+#include "common/animation/offline/tools/import_fbx.h"
 
 namespace egal
 {
@@ -58,27 +61,21 @@ namespace egal
 						? 100.f * (non_opt_scales - opt_scales) / non_opt_scales
 						: 0;
 
-					log_info("Optimization stage results:" << std::endl;
-					log_info(" - Translations key frames optimization: "
-						<< translation_ratio << "%" << std::endl;
-					log_info(" - Rotations key frames optimization: " << rotation_ratio
-						<< "%" << std::endl;
-					log_info(" - Scaling key frames optimization: " << scale_ratio
-						<< "%" << std::endl;
+					log_info("Optimization stage results:");
+					log_info(" - Rotations key frames optimization: %d.", rotation_ratio);
+					log_info(" - Scaling key frames optimization: %d.", scale_ratio);
 				}
 
-				egal::animation::Skeleton* ImportSkeleton()
+				egal::animation::Skeleton* ImportSkeleton(ImportOption &option)
 				{
 					// Reads the skeleton from the binary egal stream.
 					egal::animation::Skeleton* skeleton = NULL;
 					{
-						log_info("Opens input skeleton egal binary file: "
-							<< OPTIONS_skeleton << std::endl;
-						egal::io::File file(OPTIONS_skeleton, "rb");
+						log_info("Opens input skeleton egal binary file: %s", option.out_skeleton_path_name);
+						egal::io::File file(option.out_skeleton_path_name.c_str(), "rb");
 						if (!file.opened())
 						{
-							log_error("Failed to open input skeleton egal binary file: "
-								<< OPTIONS_skeleton << std::endl;
+							log_error("Failed to open input skeleton egal binary file: %s", option.out_skeleton_path_name);
 							return NULL;
 						}
 						egal::io::IArchive archive(&file);
@@ -86,19 +83,19 @@ namespace egal
 						// File could contain a RawSkeleton or a Skeleton.
 						if (archive.TestTag<egal::animation::offline::RawSkeleton>())
 						{
-							log_info("Reading RawSkeleton from file." << std::endl;
+							log_info("Reading RawSkeleton from file.");
 
 							// Reading the skeleton cannot file.
 							egal::animation::offline::RawSkeleton raw_skeleton;
 							archive >> raw_skeleton;
 
 							// Builds runtime skeleton.
-							log_info("Builds runtime skeleton." << std::endl;
+							log_info("Builds runtime skeleton.");
 							egal::animation::offline::SkeletonBuilder builder;
 							skeleton = builder(raw_skeleton);
 							if (!skeleton)
 							{
-								log_error("Failed to build runtime skeleton." << std::endl;
+								log_error("Failed to build runtime skeleton.");
 								return NULL;
 							}
 						}
@@ -106,14 +103,12 @@ namespace egal
 						{
 							// Reads input archive to the runtime skeleton.
 							// This operation cannot fail.
-							skeleton =
-								egal::memory::default_allocator()->New<egal::animation::Skeleton>();
+							skeleton = (egal::animation::Skeleton*)g_allocator->allocate(sizeof(egal::animation::Skeleton));
 							archive >> *skeleton;
 						}
 						else
 						{
-							log_error("Failed to read input skeleton from binary file: "
-								<< OPTIONS_skeleton << std::endl;
+							log_error("Failed to read input skeleton from binary file: %s", option.out_skeleton_path_name);
 							return NULL;
 						}
 					}
@@ -125,9 +120,9 @@ namespace egal
 					return strchr(OPTIONS_animation.value(), '*') == NULL;
 				}
 
-				egal::String::Std BuildFilename(const char* _filename, const char* _animation)
+				String BuildFilename(const char* _filename, const char* _animation)
 				{
-					egal::String::Std output(_filename);
+					String output(_filename);
 					const size_t asterisk = output.find('*');
 					if (asterisk != std::string::npos)
 					{
@@ -145,12 +140,12 @@ namespace egal
 					// Make delta animation if requested.
 					if (OPTIONS_additive)
 					{
-						log_info("Makes additive animation." << std::endl;
+						log_info("Makes additive animation.");
 						egal::animation::offline::AdditiveAnimationBuilder additive_builder;
 						RawAnimation raw_additive;
 						if (!additive_builder(_raw_animation, &raw_additive))
 						{
-							log_error("Failed to make additive animation." << std::endl;
+							log_error("Failed to make additive animation.");
 							return false;
 						}
 						// Copy animation.
@@ -164,7 +159,7 @@ namespace egal
 					// Optimizes animation if option is enabled.
 					if (OPTIONS_optimize)
 					{
-						log_info("Optimizing animation." << std::endl;
+						log_info("Optimizing animation.");
 						egal::animation::offline::AnimationOptimizer optimizer;
 						optimizer.rotation_tolerance = OPTIONS_rotation;
 						optimizer.translation_tolerance = OPTIONS_translation;
@@ -173,7 +168,7 @@ namespace egal
 						egal::animation::offline::RawAnimation raw_optimized_animation;
 						if (!optimizer(raw_animation, _skeleton, &raw_optimized_animation))
 						{
-							log_error("Failed to optimize animation." << std::endl;
+							log_error("Failed to optimize animation.");
 							return false;
 						}
 
@@ -188,12 +183,12 @@ namespace egal
 					egal::animation::Animation* animation = NULL;
 					if (!OPTIONS_raw)
 					{
-						log_info("Builds runtime animation." << std::endl;
+						log_info("Builds runtime animation.");
 						egal::animation::offline::AnimationBuilder builder;
 						animation = builder(raw_animation);
 						if (!animation)
 						{
-							log_error("Failed to build runtime animation." << std::endl;
+							log_error("Failed to build runtime animation.");
 							return false;
 						}
 					}
@@ -205,15 +200,14 @@ namespace egal
 						// file on the disk.
 
 						// Builds output filename.
-						egal::String::Std filename =
+						String filename =
 							BuildFilename(OPTIONS_animation, _raw_animation.name.c_str());
 
-						log_info("Opens output file: " << filename << std::endl;
+						log_info("Opens output file: %s", filename);
 						egal::io::File file(filename.c_str(), "wb");
 						if (!file.opened())
 						{
-							log_error("Failed to open output file: " << filename
-								<< std::endl;
+							log_error("Failed to open output file: %s", filename);
 							egal::memory::default_allocator()->Delete(animation);
 							return false;
 						}
@@ -228,8 +222,7 @@ namespace egal
 						{
 							endianness = egal::kBigEndian;
 						}
-						egal::log::Log() << (endianness == egal::kLittleEndian ? "Little" : "Big")
-							<< " Endian output binary format selected." << std::endl;
+						log_info(endianness == egal::kLittleEndian ? "Little Endian output binary format selected." : "Big Endian output binary format selected.");
 
 						// Initializes output archive.
 						egal::io::OArchive archive(&file, endianness);
@@ -237,18 +230,15 @@ namespace egal
 						// Fills output archive with the animation.
 						if (OPTIONS_raw)
 						{
-							log_info("Outputs RawAnimation to binary archive." << std::endl;
-							archive << raw_animation;
+							log_info("Outputs RawAnimation to binary archive."); archive << raw_animation;
 						}
 						else
 						{
-							log_info("Outputs Animation to binary archive." << std::endl;
-							archive << *animation;
+							log_info("Outputs Animation to binary archive."); archive << *animation;
 						}
 					}
 
-					log_info("Animation binary archive successfully outputted."
-						<< std::endl;
+					log_info("Animation binary archive successfully outputted." << std::endl;
 
 					// Delete local objects.
 					egal::memory::default_allocator()->Delete(animation);
@@ -257,86 +247,6 @@ namespace egal
 				}
 			}  // namespace
 
-			int AnimationConverter::operator()(int _argc, const char** _argv)
-			{
-				// Parses arguments.
-				egal::options::ParseResult parse_result = egal::options::ParseCommandLine(
-					_argc, _argv, "1.1",
-					"Imports a animation from a file and converts it to egal binary raw or "
-					"runtime animation format");
-				if (parse_result != egal::options::kSuccess)
-				{
-					return parse_result == egal::options::kExitSuccess ? EXIT_SUCCESS
-						: EXIT_FAILURE;
-				}
-
-				// Initializes log level from options.
-				egal::log::Level log_level = egal::log::GetLevel();
-				if (std::strcmp(OPTIONS_log_level, "silent") == 0)
-				{
-					log_level = egal::log::Silent;
-				}
-				else if (std::strcmp(OPTIONS_log_level, "standard") == 0)
-				{
-					log_level = egal::log::Standard;
-				}
-				else if (std::strcmp(OPTIONS_log_level, "verbose") == 0)
-				{
-					log_level = egal::log::Verbose;
-				}
-				egal::log::SetLevel(log_level);
-
-				// Ensures file to import actually exist.
-				if (!egal::io::File::Exist(OPTIONS_file))
-				{
-					egal::log::Err() << "File \"" << OPTIONS_file << "\" doesn't exist."
-						<< std::endl;
-					return EXIT_FAILURE;
-				}
-
-				// Import skeleton instance.
-				egal::animation::Skeleton* skeleton = ImportSkeleton();
-				if (!skeleton)
-				{
-					return EXIT_FAILURE;
-				}
-
-				// Imports animation from the document.
-				egal::log::Log() << "Importing file \"" << OPTIONS_file << "\"" << std::endl;
-
-				bool success = false;
-				Animations animations;
-				if (Import(OPTIONS_file, *skeleton, OPTIONS_sampling_rate, &animations))
-				{
-					success = true;
-
-					if (OutputSingleAnimation() && animations.size() > 1)
-					{
-						egal::log::Log() << animations.size()
-							<< " animations found. Only the first one ("
-							<< animations[0].name << ") will be exported."
-							<< std::endl;
-
-						// Remove all unhandled animations.
-						animations.resize(1);
-					}
-
-					// Iterate all imported animation, build and output them.
-					for (size_t i = 0; i < animations.size(); ++i)
-					{
-						success &= Export(animations[i], *skeleton);
-					}
-				}
-				else
-				{
-					log_error("Failed to import file \"" << OPTIONS_file << "\""
-						<< std::endl;
-				}
-
-				egal::memory::default_allocator()->Delete(skeleton);
-
-				return success ? EXIT_SUCCESS : EXIT_FAILURE;
-			}
 		}  // namespace offline
 	}  // namespace animation
 }  // namespace egal

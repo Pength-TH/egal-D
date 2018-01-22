@@ -122,13 +122,13 @@ namespace egal
 		e_void onBeforeEmpty() override;
 
 		IAllocator& m_allocator;
-		TVector<ShaderInstance> m_instances;
+		TArrary<ShaderInstance> m_instances;
 		e_uint32 m_all_defines_mask;
 		ShaderCombinations m_combintions;
 		e_uint64 m_render_states;
 		TextureSlot m_texture_slots[MAX_TEXTURE_SLOT_COUNT];
 		e_int32 m_texture_slot_count;
-		TVector<Uniform> m_uniforms;
+		TArrary<Uniform> m_uniforms;
 
 	private:
 		e_bool generateInstances();
@@ -147,6 +147,7 @@ namespace egal
 		~ShaderBinaryManager();
 
 	protected:
+		virtual Resource* createResource() override;
 		Resource* createResource(const ArchivePath& path) override;
 		e_void destroyResource(Resource& resource) override;
 
@@ -164,6 +165,7 @@ namespace egal
 		e_uint8* getBuffer(e_int32 size);
 
 	protected:
+		virtual Resource* createResource() override;
 		Resource* createResource(const ArchivePath& path) override;
 		e_void destroyResource(Resource& resource) override;
 

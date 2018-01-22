@@ -7,8 +7,6 @@
 #include "common/animation/skeleton.h"
 #include "common/animation/skeleton_utils.h"
 
-#include "common/egal-d.h"
-
 #include <cassert>
 #include <cstddef>
 
@@ -37,7 +35,7 @@ namespace egal
 					float scale;
 				};
 
-				typedef TVector<JointSpec> JointSpecs;
+				typedef std::vector<JointSpec> JointSpecs;
 
 				JointSpec Iter(const Skeleton& _skeleton, uint16_t _joint,
 					const JointSpecs& _local_joint_specs,
@@ -85,9 +83,9 @@ namespace egal
 
 							// Accumulated each child specs to this joint.
 							hierarchical_joint_spec.length =
-								math::Max(hierarchical_joint_spec.length, child_spec.length);
+								math::_Max(hierarchical_joint_spec.length, child_spec.length);
 							hierarchical_joint_spec.scale =
-								math::Max(hierarchical_joint_spec.scale, child_spec.scale);
+								math::_Max(hierarchical_joint_spec.scale, child_spec.scale);
 						}
 					}
 
@@ -112,7 +110,7 @@ namespace egal
 					}
 
 					// Extracts maximum translations and scales for each track.
-					JointSpecs local_joint_specs(*g_allocator);
+					JointSpecs local_joint_specs;
 					local_joint_specs.resize(_animation.tracks.size());
 					_hierarchical_joint_specs->resize(_animation.tracks.size());
 
@@ -124,7 +122,7 @@ namespace egal
 						for (size_t j = 0; j < track.translations.size(); ++j)
 						{
 							max_length =
-								math::Max(max_length, LengthSqr(track.translations[j].value));
+								math::_Max(max_length, LengthSqr(track.translations[j].value));
 						}
 						local_joint_specs[i].length = std::sqrt(max_length);
 
@@ -133,9 +131,9 @@ namespace egal
 						{
 							for (size_t j = 0; j < track.scales.size(); ++j)
 							{
-								max_scale = math::Max(max_scale, track.scales[j].value.x);
-								max_scale = math::Max(max_scale, track.scales[j].value.y);
-								max_scale = math::Max(max_scale, track.scales[j].value.z);
+								max_scale = math::_Max(max_scale, track.scales[j].value.x);
+								max_scale = math::_Max(max_scale, track.scales[j].value.y);
+								max_scale = math::_Max(max_scale, track.scales[j].value.z);
 							}
 						}
 						else
@@ -234,7 +232,7 @@ namespace egal
 					// Compute the shortest unsigned angle between the 2 quaternions.
 					// diff_w is w component of a-1 * b.
 					const float diff_w = _a.x * _b.x + _a.y * _b.y + _a.z * _b.z + _a.w * _b.w;
-					const float angle = 2.f * std::acos(math::Min(std::abs(diff_w), 1.f));
+					const float angle = 2.f * std::acos(math::_Min(std::abs(diff_w), 1.f));
 					if (std::abs(angle) > _tolerance)
 					{
 						return false;
@@ -284,7 +282,7 @@ namespace egal
 				}
 
 				// First computes bone lengths, that will be used when filtering.
-				JointSpecs hierarchical_joint_specs(*g_allocator);
+				JointSpecs hierarchical_joint_specs;
 				BuildHierarchicalSpecs(_input, _skeleton, &hierarchical_joint_specs);
 
 				// Rebuilds output animation.

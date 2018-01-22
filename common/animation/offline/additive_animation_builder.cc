@@ -35,7 +35,9 @@ namespace egal
 					{
 						const typename _RawTrack::value_type delta =
 						{
-													_src[i].time, _make_delta(reference.value, _src[i].value) };
+							_src[i].time, _make_delta(reference.value, _src[i].value) 
+						};
+
 						_dest->push_back(delta);
 					}
 				}

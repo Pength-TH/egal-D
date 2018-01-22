@@ -25,14 +25,26 @@ namespace egal
 		void write(const String& string);
 		void write(const void* data, int size);
 		void writeString(const char* string);
+
 		template <class T> void write(const T& value);
 		void clear();
+
+		// Class type saving.
+		template <typename _Ty>
+		void operator<<(const _Ty& _ty) 
+		{
+			write(_ty);
+		}
 
 		WriteBinary& operator << (const char* str);
 		WriteBinary& operator << (e_uint64 value);
 		WriteBinary& operator << (e_int64 value);
 		WriteBinary& operator << (e_int32 value);
 		WriteBinary& operator << (e_uint32 value);
+		WriteBinary& operator << (e_int16 value);
+		WriteBinary& operator << (e_uint16 value);
+		WriteBinary& operator << (e_int8 value);
+		WriteBinary& operator << (e_uint8 value);
 		WriteBinary& operator << (float value);
 
 	private:

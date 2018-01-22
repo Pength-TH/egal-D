@@ -47,8 +47,8 @@ namespace egal
 		typedef MT::Transaction<AsyncItem> AsynTrans;
 		typedef MT::LockFreeFixedQueue<AsynTrans, C_MAX_TRANS> TransQueue;
 		typedef TQueue<AsynTrans*, C_MAX_TRANS> InProgressQueue;
-		typedef TVector<AsyncItem> ItemsTable;
-		typedef TVector<IFileDevice*> DevicesTable;
+		typedef TArrary<AsyncItem> ItemsTable;
+		typedef TArrary<IFileDevice*> DevicesTable;
 
 		e_void IFile::release()
 		{
@@ -1117,6 +1117,11 @@ namespace egal
 
 		g_file_system->setDefaultDevice("memory:disk:resource");
 		g_file_system->setSaveGameDevice("memory:disk:resource");
+	}
+
+	const e_char* getDiskBasePath()
+	{
+		return g_disk_file_device->getBasePath();
 	}
 
 	void destory_file_system(IAllocator &m_allocator)

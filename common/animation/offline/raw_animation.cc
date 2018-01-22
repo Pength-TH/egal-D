@@ -1,6 +1,6 @@
 #include "common/animation/offline/raw_animation.h"
 #include "common/animation/skeleton.h"
-
+#include "common/animation/io/archive.h"
 namespace egal
 {
 	namespace animation
@@ -10,8 +10,6 @@ namespace egal
 
 			RawAnimation::RawAnimation()
 				: duration(1.f)
-				, tracks(*g_allocator)
-				, name(*g_allocator)
 			{
 
 			}
@@ -25,7 +23,7 @@ namespace egal
 				// Implements key frames' time range and ordering checks.
 				// See AnimationBuilder::Create for more details.
 				template <typename _Key>
-				static bool ValidateTrack(const typename TVector<_Key>& _track,
+				static bool ValidateTrack(const typename std::vector<_Key>& _track,
 					float _duration)
 				{
 					float previous_time = -1.f;

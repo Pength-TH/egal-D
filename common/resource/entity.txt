@@ -1,0 +1,46 @@
+file header: Entity::FileHeader
+file flag: int32
+mesh count: int32
+
+{
+	attribte count : int32
+	attribute postion : int32
+	.
+	.
+	.
+	material name size: int32
+	material name path:  char
+	mesh name size: int32
+	mesh name path:  char
+}
+
+index
+{
+index size : int32
+index count : int32
+indexs: int32 int32 int32 int32...
+}
+
+vector postion normal color uv ...
+{
+ data size : int32
+}
+bones
+{
+  bone count: int32
+  {
+	bone name len: int32
+	bone name : char
+	bone parent name len: int32
+	bone parent name : char
+	bone position : xyz float
+	bone roation: xyzw float
+  }
+}
+lods
+{
+lod count : int32
+
+
+
+}

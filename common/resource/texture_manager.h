@@ -59,7 +59,7 @@ namespace egal
 			const e_uint8* image_dest,
 			const ArchivePath& path,
 			IAllocator& allocator);
-		static e_bool loadTGA(FS::IFile& file, TGAHeader& header, TVector<e_uint8>& data, const e_char* path);
+		static e_bool loadTGA(FS::IFile& file, TGAHeader& header, TArrary<e_uint8>& data, const e_char* path);
 
 	public:
 		e_int32 width;
@@ -73,7 +73,7 @@ namespace egal
 		egal::TextureHandle handle;
 		IAllocator& allocator;
 		e_int32 data_reference;
-		TVector<e_uint8> data;
+		TArrary<e_uint8> data;
 
 	private:
 		e_void unload() override;
@@ -93,6 +93,7 @@ namespace egal
 		e_uint8* getBuffer(e_int32 size);
 
 	protected:
+		virtual Resource* createResource() override;
 		Resource* createResource(const ArchivePath& path) override;
 		e_void destroyResource(Resource& resource) override;
 

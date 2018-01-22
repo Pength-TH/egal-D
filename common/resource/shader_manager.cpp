@@ -254,6 +254,11 @@ namespace egal
 	}
 
 
+	egal::Resource* ShaderManager::createResource()
+	{
+		return _aligned_new(m_allocator, Shader)(ArchivePath(), *this, m_allocator);
+	}
+
 	e_void ShaderManager::destroyResource(Resource& resource)
 	{
 		_delete(m_allocator, static_cast<Shader*>(&resource));
@@ -295,6 +300,12 @@ namespace egal
 	{
 		return _aligned_new(m_allocator, ShaderBinary)(path, *this, m_allocator);
 	}
+
+	egal::Resource* ShaderBinaryManager::createResource()
+	{
+		return _aligned_new(m_allocator, ShaderBinary)(ArchivePath(""), *this, m_allocator);
+	}
+
 	e_void ShaderBinaryManager::destroyResource(Resource& resource)
 	{
 		_delete(m_allocator, static_cast<ShaderBinary*>(&resource));

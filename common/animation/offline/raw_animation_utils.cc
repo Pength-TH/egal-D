@@ -9,8 +9,7 @@ namespace egal
 
 			// Translation interpolation method.
 			// This must be the same Lerp as the one used by the sampling job.
-			math::Float3 LerpTranslation(const math::Float3& _a, const math::Float3& _b,
-				float _alpha)
+			math::Float3 LerpTranslation(const math::Float3& _a, const math::Float3& _b, float _alpha)
 			{
 				return math::Lerp(_a, _b, _alpha);
 			}
@@ -20,8 +19,7 @@ namespace egal
 			// The goal is to take the shortest path between _a and _b. This code replicates
 			// this behavior that is actually not done at runtime, but when building the
 			// animation.
-			math::Quaternion LerpRotation(const math::Quaternion& _a,
-				const math::Quaternion& _b, float _alpha)
+			math::Quaternion LerpRotation(const math::Quaternion& _a, const math::Quaternion& _b, float _alpha)
 			{
 				// Finds the shortest path. This is done by the AnimationBuilder for runtime
 				// animations.
@@ -32,8 +30,7 @@ namespace egal
 
 			// Scale interpolation method.
 			// This must be the same Lerp as the one used by the sampling job.
-			math::Float3 LerpScale(const math::Float3& _a, const math::Float3& _b,
-				float _alpha)
+			math::Float3 LerpScale(const math::Float3& _a, const math::Float3& _b, float _alpha)
 			{
 				return math::Lerp(_a, _b, _alpha);
 			}

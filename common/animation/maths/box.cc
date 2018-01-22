@@ -6,8 +6,8 @@ namespace egal
 	namespace math
 	{
 		Box::Box()
-			: min(std::numeric_limits<float>::max()),
-			max(-std::numeric_limits<float>::max())
+			: min_size(std::numeric_limits<float>::max()),
+			max_size(-std::numeric_limits<float>::max())
 		{}
 
 		Box::Box(const Float3* _points, size_t _stride, size_t _count)
@@ -22,8 +22,8 @@ namespace egal
 				local_max = Max(local_max, *_points);
 			}
 
-			min = local_min;
-			max = local_max;
+			min_size = local_min;
+			max_size = local_max;
 		}
 	}  // namespace math
 }  // namespace egal

@@ -1,8 +1,10 @@
 #ifndef ANIMATION_OFFLINE_RAW_SKELETON_H_
 #define ANIMATION_OFFLINE_RAW_SKELETON_H_
+
 #include "common/animation/io/archive_traits.h"
 #include "common/animation/maths/transform.h"
-#include "common/egal-d.h"
+
+#include <vector>
 
 namespace egal
 {
@@ -32,21 +34,14 @@ namespace egal
 				// Offline skeleton joint type.
 				struct Joint
 				{
-					Joint()
-						: children(*g_allocator)
-						, name(*g_allocator)
-					{
-
-					}
-
 					// Type of the list of children joints.
-					typedef TVector<Joint> Children;
+					typedef std::vector<Joint> Children;
 
 					// Children joints.
 					Children children;
 
 					// The name of the joint.
-					egal::String name;
+					std::string name;
 
 					// Joint bind pose transformation in local space.
 					math::Transform transform;
@@ -122,8 +117,10 @@ namespace egal
 	}  // namespace animation
 	namespace io
 	{
-		//IO_TYPE_VERSION(1, animation::offline::RawSkeleton)
-		//	IO_TYPE_TAG("egal-raw_skeleton", animation::offline::RawSkeleton)
+		
+			
+		IO_TYPE_VERSION(1, animation::offline::RawSkeleton);
+		IO_TYPE_TAG("raw_skeleton", animation::offline::RawSkeleton);
 
 			// Should not be called directly but through io::Archive << and >> operators.
 		template <>

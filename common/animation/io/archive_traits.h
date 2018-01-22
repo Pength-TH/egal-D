@@ -102,11 +102,13 @@ namespace egal
 		// braking versioning.
 		// This macro must be used inside namespace egal::io.
 		// Syntax is: IO_TYPE_NOT_VERSIONABLE(Foo).
-#define IO_TYPE_NOT_VERSIONABLE(_type)	   \
-		namespace internal {                       \
-		template<> struct Version<const _type> {   \
-			  enum { kValue = 0 };                 \
-		};                                         \
+#define IO_TYPE_NOT_VERSIONABLE(_type)			    \
+		namespace internal							\
+		{											\
+			template<> struct Version<const _type>  \
+			{										\
+			  enum { kValue = 0 };                  \
+			};                                      \
 		}  // internal
 
 		// Declares that a template _type is not versionable. Its version number is 0.

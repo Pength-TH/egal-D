@@ -223,6 +223,19 @@ namespace egal
 		e_char* m_cstr;
 	};
 
+	struct FileInfo
+	{
+		explicit FileInfo(const char* path)
+		{
+			StringUnitl::getExtension(m_extension, sizeof(m_extension), path);
+			StringUnitl::getBasename(m_basename, sizeof(m_basename), path);
+			StringUnitl::getDir(m_dir, sizeof(m_dir), path);
+		}
+
+		char m_extension[10];
+		char m_basename[MAX_PATH_LENGTH];
+		char m_dir[MAX_PATH_LENGTH];
+	};
 }
 
 #endif

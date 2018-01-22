@@ -2,7 +2,7 @@
 #ifndef ANIMATION_OFFLINE_ANIMATION_BUILDER_H_
 #define ANIMATION_OFFLINE_ANIMATION_BUILDER_H_
 #include "common/animation/platform.h"
-#include "common/egal-d.h"
+#include "common/allocator/egal_allocator.h"
 
 namespace egal
 {

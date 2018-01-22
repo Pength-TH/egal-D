@@ -28,12 +28,27 @@ namespace egal
 
 			e_bool seek(SeekMode base, size_t pos);
 
+			template <class T> 
+			void write(const T& value);
+
+			// Class type saving.
+			template <typename _Ty>
+			void operator<<(const _Ty& _ty)
+			{
+				write(_ty);
+			}
+
 			OsFile& operator <<(const e_char* text);
 			OsFile& operator <<(e_char c) { write(&c, sizeof(c)); return *this; }
+			OsFile& operator << (e_uint8 value);
+			OsFile& operator << (e_int16 value);
+			OsFile& operator << (e_uint16 value);
 			OsFile& operator <<(e_int32 value);
 			OsFile& operator <<(e_uint32 value);
 			OsFile& operator <<(e_uint64 value);
+			OsFile& operator <<(String value);
 			OsFile& operator <<(float value);
+			OsFile& operator <<(bool value);
 
 			static e_bool fileExists(const e_char* Archive);
 

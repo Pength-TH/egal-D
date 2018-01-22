@@ -116,6 +116,7 @@ namespace egal
 		e_void setLoadHook(LoadHook& load_hook);
 		e_void enableUnload(e_bool enable);
 
+		Resource* create();
 		Resource* load(const ArchivePath& path);
 		e_void load(Resource& resource);
 		e_void removeUnreferenced();
@@ -132,6 +133,7 @@ namespace egal
 		ResourceManager& getOwner() const { return *m_owner; }
 
 	protected:
+		virtual Resource* createResource() = 0;
 		virtual Resource* createResource(const ArchivePath& path) = 0;
 		virtual e_void destroyResource(Resource& resource) = 0;
 		Resource* get(const ArchivePath& path);
@@ -152,6 +154,7 @@ namespace egal
 		explicit ResourceManager(IAllocator& allocator);
 		~ResourceManager();
 
+		FS::FileSystem& getFileSystem() { return *m_file_system; }
 		e_void create(FS::FileSystem& fs);
 		e_void destroy();
 
@@ -161,11 +164,10 @@ namespace egal
 
 		e_void add(ResourceType type, ResourceManagerBase* rm);
 		e_void remove(ResourceType type);
+		
 		e_void reload(const ArchivePath& path);
 		e_void removeUnreferenced();
 		e_void enableUnload(e_bool enable);
-
-		FS::FileSystem& getFileSystem() { return *m_file_system; }
 
 	private:
 		IAllocator& m_allocator;

@@ -4,6 +4,8 @@
 #include "common/type.h"
 #include "common/stl/delegate.h"
 #include "common/stl/delegate_list.h"
+#include "common/egal_string.h"
+
 namespace egal
 {
 	namespace FS
@@ -54,6 +56,15 @@ namespace egal
 			virtual e_bool read(e_void* buffer, size_t size) = 0;
 			virtual e_bool write(const e_void* buffer, size_t size) = 0;
 
+			template <typename T> void write(const T& obj) { write(&obj, sizeof(obj)); }
+			void writeString(const String* str) 
+			{
+				e_int32 len = strlen(str->c_str());
+				write(&len, sizeof(e_int32));
+				if (len > 0)
+					write(str, len);
+			}
+
 			virtual const e_void* getBuffer() const = 0;
 			virtual size_t size() = 0;
 
@@ -63,6 +74,28 @@ namespace egal
 			virtual e_void flush() = 0;
 
 			IFile& operator << (const e_char* text);
+
+			//template <class T> void write(const T& value);
+			//// Class type saving.
+			template <typename _Ty>
+			void operator<<(const _Ty& _ty)
+			{
+				write(_ty);
+			}
+
+			//template <class T> 
+			//void read(const T& value)
+			//{
+			//	read()
+			//}
+			//
+			//// Class type saving.
+			//template <typename _Ty>
+			//void operator>>(const _Ty& _ty)
+			//{
+			//	read(_ty);
+			//}
+
 			//e_void getContents(OutputBlob& blob);
 			e_void release();
 		protected:
@@ -131,5 +164,6 @@ namespace egal
 	extern FS::FileSystem* g_file_system;
 	extern void init_file_system(IAllocator &allocator);
 	extern void destory_file_system(IAllocator &m_allocator);
+	extern const e_char* getDiskBasePath();
 }
 #endif

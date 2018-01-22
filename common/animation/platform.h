@@ -4,7 +4,8 @@
 #include <stdint.h>
 #include <cassert>
 #include <cstddef>
-
+#include <vector>
+#include <map>
 namespace egal
 {
 
@@ -33,7 +34,7 @@ namespace egal
 			static const size_t value = sizeof(_Ty) ^ (sizeof(_Ty) & (sizeof(_Ty) - 1));
 		};
 	}  // namespace internal
-#define ALIGN_OF(_Ty) ozz::internal::AlignOf<_Ty>::value
+#define ALIGN_OF(_Ty) internal::AlignOf<_Ty>::value
 
 // Finds the number of elements of a statically allocated array.
 #define ARRAY_SIZE(_array) (sizeof(_array) / sizeof(_array[0]))

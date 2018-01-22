@@ -3,7 +3,7 @@
 
 #include "common/animation/offline/raw_animation.h"
 #include "common/animation/platform.h"
-
+#include "common/utils/logger.h"
 namespace egal
 {
 	namespace animation
@@ -18,20 +18,29 @@ namespace egal
 
 			namespace fbx
 			{
+				enum ReturnType
+				{
+					ERROR_LOAD_ERROR,
+					ERROR_LOAD_SCENE,
+					ERROR_LOAD_SKELETON,
+					ERROR_LOAD_ANIMATION,
+
+					ERROR_LOAD_END,
+				};
 				// Imports an offline skeleton from _filename fbx document.
 				// _skeleton must point to a valid RawSkeleton instance, that will be cleared
 				// and filled with skeleton data extracted from the fbx document.
-				bool ImportFromFile(const char* _filename, RawSkeleton* _skeleton);
+				ReturnType ImportFromFile(const char* _filename, RawSkeleton* _skeleton);
 
 				// Vector of imported animations.
-				typedef TVector<RawAnimation> Animations;
+				typedef std::vector<RawAnimation> Animations;
 
 				// Imports an offline animation from _filename fbx document.
 				// _animation must point to a valid RawSkeleton instance, that will be cleared
 				// and filled with animation data extracted from the fbx document.
 				// _skeleton is a run-time Skeleton object used to select and sort animation
 				// tracks.
-				bool ImportFromFile(const char* _filename, const Skeleton& _skeleton,
+				ReturnType ImportFromFile(const char* _filename, const Skeleton& _skeleton,
 					float _sampling_rate, Animations* _animations);
 			}  // namespace fbx
 		}  // namespace offline

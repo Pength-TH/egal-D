@@ -1,14 +1,7 @@
 #ifndef _bgfx_allocator_h_
 #define _bgfx_allocator_h_
 
-namespace bx
-{
-	struct AllocatorI
-	{
-		virtual ~AllocatorI() = default;
-		virtual void* realloc(void* _ptr, size_t _size, size_t _align, const char* _file, uint32_t _line) = 0;
-	};
-}
+#include "bx/allocator.h"
 
 namespace egal
 {

@@ -17,7 +17,7 @@ namespace egal
 			Box();
 
 			// Constructs a box with the specified _min and _max bounds.
-			Box(const Float3& _min, const Float3& _max) : min(_min), max(_max)
+			Box(const Float3& _min, const Float3& _max) : min_size(_min), max_size(_max)
 			{}
 
 			// Constructs the smallest box that contains the _count points _points.
@@ -27,18 +27,18 @@ namespace egal
 			// Tests whether *this is a valid box.
 			bool is_valid() const
 			{
-				return min <= max;
+				return min_size <= max_size;
 			}
 
 			// Tests whether _p is within box bounds.
 			bool is_inside(const Float3& _p) const
 			{
-				return _p >= min && _p <= max;
+				return _p >= min_size && _p <= max_size;
 			}
 
 			// Box's min and max bounds.
-			Float3 min;
-			Float3 max;
+			Float3 min_size;
+			Float3 max_size;
 		};
 
 		// Merges two boxes _a and _b.
@@ -53,7 +53,7 @@ namespace egal
 			{
 				return _a;
 			}
-			return Box(Min(_a.min, _b.min), Max(_a.max, _b.max));
+			return Box(Min(_a.min_size, _b.min_size), Max(_a.max_size, _b.max_size));
 		}
 	}  // namespace math
 }  // namespace egal

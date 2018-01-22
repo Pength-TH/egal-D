@@ -3,6 +3,8 @@
 #define ANIMATION_RUNTIME_ANIMATION_H_
 
 #include "common/animation/platform.h"
+#include "common/animation/io/archive.h"
+
 namespace egal
 {
 	namespace io
@@ -126,8 +128,8 @@ namespace egal
 
 	namespace io
 	{
-		//IO_TYPE_VERSION(4, animation::Animation);
-		//IO_TYPE_TAG("animation", animation::Animation);
+		IO_TYPE_VERSION(4, animation::Animation);
+		IO_TYPE_TAG("animation", animation::Animation);
 	}  // namespace io
 }  // namespace egal
 #endif  // ANIMATION_RUNTIME_ANIMATION_H_

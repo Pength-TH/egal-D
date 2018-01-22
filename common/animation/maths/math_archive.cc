@@ -79,14 +79,14 @@ namespace egal
 		template <>
 		void Save(OArchive& _archive, const math::Box* _values, size_t _count)
 		{
-			_archive << MakeArray(&_values->min.x, 6 * _count);
+			_archive << MakeArray(&_values->min_size.x, 6 * _count);
 		}
 		template <>
 		void Load(IArchive& _archive, math::Box* _values, size_t _count,
 			uint32_t _version)
 		{
 			(void)_version;
-			_archive >> MakeArray(&_values->min.x, 6 * _count);
+			_archive >> MakeArray(&_values->min_size.x, 6 * _count);
 		}
 
 		template <>

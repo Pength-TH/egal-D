@@ -15,6 +15,7 @@ namespace egal
  #define ALIGN_OF(...) __alignof(__VA_ARGS__) //sizeof(__VA_ARGS__) ^ (sizeof(__VA_ARGS__) & (sizeof(__VA_ARGS__) - 1))
 
  #define _new(var)  new(PlacementNewDummy(), var)
+ #define _allocate(allocator, ...) new (PlacementNewDummy(), (allocator).allocate(sizeof(__VA_ARGS__), ALIGN_OF(__VA_ARGS__))) __VA_ARGS__
 
  #define _aligned_new(allocator, ...) new (PlacementNewDummy(), (allocator).allocate_aligned(sizeof(__VA_ARGS__), ALIGN_OF(__VA_ARGS__))) __VA_ARGS__
  #define _delete(allocator, var) (allocator).deleteObject(var);

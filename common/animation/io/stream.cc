@@ -114,7 +114,7 @@ namespace egal
 				return 0;
 			}
 
-			const int read_size = math::Min(end_ - tell_, static_cast<int>(_size));
+			const int read_size = math::_Min(end_ - tell_, static_cast<int>(_size));
 			std::memcpy(_buffer, buffer_ + tell_, read_size);
 			tell_ += read_size;
 			return read_size;
@@ -147,7 +147,7 @@ namespace egal
 			const int tell_end = tell_ + size;
 			if (Resize(tell_end))
 			{
-				end_ = math::Max(tell_end, end_);
+				end_ = math::_Max(tell_end, end_);
 				std::memcpy(buffer_ + tell_, _buffer, _size);
 				tell_ += size;
 				return _size;

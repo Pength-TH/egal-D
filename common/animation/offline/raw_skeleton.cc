@@ -10,7 +10,6 @@ namespace egal
 		{
 
 			RawSkeleton::RawSkeleton()
-				:roots(*g_allocator)
 			{
 			}
 

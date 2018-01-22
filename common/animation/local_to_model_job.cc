@@ -12,6 +12,17 @@
 
 namespace egal
 {
+#if defined(SIMD_REF)
+	INLINE egal::math::Float4x4 operator*(const egal::math::Float4x4& _a,
+		const egal::math::Float4x4& _b)
+	{
+		const egal::math::Float4x4 ret =
+		{
+			{ _a * _b.cols[0], _a * _b.cols[1], _a * _b.cols[2], _a * _b.cols[3] } };
+		return ret;
+	}
+#endif
+
 	namespace animation
 	{
 
@@ -81,7 +92,7 @@ namespace egal
 				math::Transpose16x16(&local_soa_matrices.cols[0].x, local_aos_matrices);
 
 				// Applies hierarchical transformation.
-				const int proceed_up_to = joint + math::Min(4, num_joints - joint);
+				const int proceed_up_to = joint + math::_Min(4, num_joints - joint);
 				const math::SimdFloat4* local_aos_matrix = local_aos_matrices;
 				for (; joint < proceed_up_to; ++joint, local_aos_matrix += 4)
 				{
@@ -91,9 +102,13 @@ namespace egal
 							&model_matrices[parent]);
 					const Float4x4 local_matrix =
 					{
-					{local_aos_matrix[0], local_aos_matrix[1],
-																		local_aos_matrix[2],
-																		local_aos_matrix[3]} };
+						{
+							local_aos_matrix[0], 
+							local_aos_matrix[1],
+							local_aos_matrix[2],
+							local_aos_matrix[3]
+						} 
+					};
 					model_matrices[joint] = (*parent_matrix) * local_matrix;
 				}
 			}

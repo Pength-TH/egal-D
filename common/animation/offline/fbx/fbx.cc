@@ -10,7 +10,7 @@
 #include "common/animation/offline/raw_animation.h"
 #include "common/animation/offline/raw_skeleton.h"
 
-#include "common/egal-d.h"
+
 
 namespace egal
 {
@@ -21,11 +21,11 @@ namespace egal
 			namespace fbx
 			{
 
-				bool ImportFromFile(const char* _filename, RawSkeleton* _skeleton)
+				ReturnType ImportFromFile(const char* _filename, RawSkeleton* _skeleton)
 				{
 					if (!_skeleton)
 					{
-						return false;
+						return ERROR_LOAD_ERROR;
 					}
 					// Reset skeleton.
 					*_skeleton = RawSkeleton();
@@ -36,25 +36,25 @@ namespace egal
 					FbxSceneLoader scene_loader(_filename, "", fbx_manager, settings);
 					if (!scene_loader.scene())
 					{
-						log_error("Failed to import file %s.", _filename);
-						return false;
+						log_error("Failed to import file %s. the fbx file no scene data.", _filename);
+						return ERROR_LOAD_SCENE;
 					}
 
 					if (!ExtractSkeleton(scene_loader, _skeleton))
 					{
-						log_error("Fbx skeleton extraction failed.");
-						return false;
+						log_info("Fbx skeleton extraction failed.");
+						return ERROR_LOAD_SKELETON;
 					}
 
-					return true;
+					return ERROR_LOAD_END;
 				}
 
-				bool ImportFromFile(const char* _filename, const Skeleton& _skeleton,
+				ReturnType ImportFromFile(const char* _filename, const Skeleton& _skeleton,
 					float _sampling_rate, Animations* _animations)
 				{
 					if (!_animations)
 					{
-						return false;
+						return ERROR_LOAD_ERROR;
 					}
 					// Reset animation.
 					_animations->clear();
@@ -66,17 +66,17 @@ namespace egal
 					if (!scene_loader.scene())
 					{
 						log_error("Failed to import file %s.", _filename);
-						return false;
+						return ERROR_LOAD_SCENE;
 					}
 
 					if (!ExtractAnimations(&scene_loader, _skeleton, _sampling_rate,
 						_animations))
 					{
 						log_error("Fbx animation extraction failed.");
-						return false;
+						return ERROR_LOAD_ANIMATION;
 					}
 
-					return true;
+					return ERROR_LOAD_END;
 				}
 			}  // namespace fbx
 		}  // namespace offline

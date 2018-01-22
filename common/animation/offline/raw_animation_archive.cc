@@ -2,7 +2,7 @@
 
 #include "common/animation/io/archive.h"
 #include "common/animation/maths/math_archive.h"
-#include "common/egal-d.h"
+
 
 namespace egal
 {
@@ -16,9 +16,9 @@ namespace egal
 			for (size_t i = 0; i < _count; ++i)
 			{
 				const animation::offline::RawAnimation& animation = _animations[i];
-				_archive << animation.duration;
-				_archive << animation.tracks;
-				_archive << animation.name;
+				//_archive << animation.duration;
+				//_archive << animation.tracks;
+				//_archive << animation.name;
 			}
 		}
 
@@ -30,12 +30,12 @@ namespace egal
 			for (size_t i = 0; i < _count; ++i)
 			{
 				animation::offline::RawAnimation& animation = _animations[i];
-				_archive >> animation.duration;
-				_archive >> animation.tracks;
-				if (_version > 1)
-				{
-					_archive >> animation.name;
-				}
+				//_archive >> animation.duration;
+				//_archive >> animation.tracks;
+				//if (_version > 1)
+				//{
+				//	_archive >> animation.name;
+				//}
 			}
 		}
 
@@ -52,9 +52,9 @@ namespace egal
 			for (size_t i = 0; i < _count; ++i)
 			{
 				const animation::offline::RawAnimation::JointTrack& track = _tracks[i];
-				_archive << track.translations;
-				_archive << track.rotations;
-				_archive << track.scales;
+				//_archive << track.translations;
+				//_archive << track.rotations;
+				//_archive << track.scales;
 			}
 		}
 
@@ -67,9 +67,9 @@ namespace egal
 			for (size_t i = 0; i < _count; ++i)
 			{
 				animation::offline::RawAnimation::JointTrack& track = _tracks[i];
-				_archive >> track.translations;
-				_archive >> track.rotations;
-				_archive >> track.scales;
+				//_archive >> track.translations;
+				//_archive >> track.rotations;
+				//_archive >> track.scales;
 			}
 		}
 
@@ -83,8 +83,8 @@ namespace egal
 			for (size_t i = 0; i < _count; ++i)
 			{
 				const animation::offline::RawAnimation::TranslationKey& key = _keys[i];
-				_archive << key.time;
-				_archive << key.value;
+				//_archive << key.time;
+				//_archive << key.value;
 			}
 		}
 
@@ -97,8 +97,8 @@ namespace egal
 			for (size_t i = 0; i < _count; ++i)
 			{
 				animation::offline::RawAnimation::TranslationKey& key = _keys[i];
-				_archive >> key.time;
-				_archive >> key.value;
+				//_archive >> key.time;
+				//_archive >> key.value;
 			}
 		}
 
@@ -112,8 +112,8 @@ namespace egal
 			for (size_t i = 0; i < _count; ++i)
 			{
 				const animation::offline::RawAnimation::RotationKey& key = _keys[i];
-				_archive << key.time;
-				_archive << key.value;
+				//_archive << key.time;
+				//_archive << key.value;
 			}
 		}
 
@@ -126,8 +126,8 @@ namespace egal
 			for (size_t i = 0; i < _count; ++i)
 			{
 				animation::offline::RawAnimation::RotationKey& key = _keys[i];
-				_archive >> key.time;
-				_archive >> key.value;
+				//_archive >> key.time;
+				//_archive >> key.value;
 			}
 		}
 
@@ -141,8 +141,8 @@ namespace egal
 			for (size_t i = 0; i < _count; ++i)
 			{
 				const animation::offline::RawAnimation::ScaleKey& key = _keys[i];
-				_archive << key.time;
-				_archive << key.value;
+				//_archive << key.time;
+				//_archive << key.value;
 			}
 		}
 
@@ -154,8 +154,8 @@ namespace egal
 			for (size_t i = 0; i < _count; ++i)
 			{
 				animation::offline::RawAnimation::ScaleKey& key = _keys[i];
-				_archive >> key.time;
-				_archive >> key.value;
+				//_archive >> key.time;
+				//_archive >> key.value;
 			}
 		}
 	}  // namespace io

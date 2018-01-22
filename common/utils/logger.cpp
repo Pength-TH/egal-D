@@ -14,9 +14,11 @@ namespace egal
 	{
 	public:
 		Logger()
+			: m_callbacks(*g_allocator)
 		{
 			mLogFile = nullptr;
 		}
+
 		~Logger()
 		{
 			if (mLogFile)
@@ -24,29 +26,44 @@ namespace egal
 				mLogFile->close();
 			}
 		}
+
 	public:
 		void init()
 		{
 			if (!mLogFile)
-				mLogFile = g_file_system->open(g_file_system->getDefaultDevice(), "./egal-d.log", FS::Mode::CREATE_AND_WRITE);
+				mLogFile = g_file_system->open(g_file_system->getDefaultDevice(), "./egal-d.log", FS::Mode::WRITE);
 		}
+
+		void inovke(e_int32 n, const e_char * pcszLog)
+		{
+			m_callbacks.invoke(n, pcszLog);
+		}
+
 		e_void write(const e_char * pcszLog)
 		{
 			init();
+
 #if PLATFORM_WINDOWS
-			mLogFile->write(pcszLog, StringUnitl::stringLength(pcszLog));
-			mLogFile->flush();
+			if (mLogFile)
+			{
+				mLogFile->write(pcszLog, StringUnitl::stringLength(pcszLog));
+				mLogFile->flush();
+			}
 #elif PLATFORM_ANDROID
 
 #elif PLATFORM_APPLE
 
 #endif
 		}
+
+		Callback& getCallback() { return m_callbacks; }
+
 	private:
 		FS::IFile*  mLogFile;
+		Callback m_callbacks;
 	};
 
-	Logger logger;
+	Logger* logger = nullptr;
 	
 	e_int32 _check_error(const e_char* filename, const e_int32 fileline, const e_char * functionName, const e_char* op)
 	{
@@ -68,6 +85,12 @@ namespace egal
 			n++;
 		}
 		return n;
+	}
+
+
+	egal::Callback& log_call_back()
+	{
+		return logger->getCallback();
 	}
 
 	egal::e_void _log(e_int32 n, const e_char* filename, const e_char * functionName, const e_int32 fileline, const e_char *fmt, ...)
@@ -114,8 +137,23 @@ namespace egal
 			break;
 		}
 
-		logger.write(szBuf);
+		if (logger)
+		{
+			logger->inovke(n - 1, szBuf);
+			logger->write(szBuf);
+		}
+
 		//printf("%s\n", szLog);
 	}
 
+
+	egal::e_void init_log()
+	{
+		logger = new Logger();
+	}
+
+	egal::e_void close_log()
+	{
+		SAFE_DELETE(logger);
+	}
 }

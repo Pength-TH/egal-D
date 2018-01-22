@@ -497,6 +497,7 @@ BX_PRAGMA_DIAGNOSTIC_POP();
 	int runApp(AppI* _app, int _argc, const char* const* _argv)
 	{
 		_app->init(_argc, _argv, s_width, s_height);
+		bgfx::frame();
 
 		WindowHandle defaultWindow = { 0 };
 		setWindowSize(defaultWindow, s_width, s_height);
@@ -742,8 +743,6 @@ restart:
 		if (handle.idx == 0
 		&&  _reset != s_reset)
 		{
-			_reset = s_reset;
-			bgfx::reset(_width, _height, _reset);
 			inputSetMouseResolution(uint16_t(_width), uint16_t(_height) );
 		}
 

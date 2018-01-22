@@ -54,7 +54,7 @@ namespace egal
 			Block* m_next;
 			Block* m_first_child;
 			const e_char* m_name;
-			TVector<Hit> m_hits;
+			TArrary<Hit> m_hits;
 			BlockType m_type;
 			union
 			{

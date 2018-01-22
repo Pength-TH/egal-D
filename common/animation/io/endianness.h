@@ -8,11 +8,11 @@
 
 namespace egal
 {
-	// Declares supported endianness.
 	enum Endianness
 	{
-		kBigEndian,
-		kLittleEndian,
+		native,
+		little,
+		big,
 	};
 
 	// Get the native endianness of the targeted processor.

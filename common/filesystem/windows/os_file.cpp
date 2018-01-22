@@ -113,6 +113,11 @@ namespace egal
 			return ::SetFilePointer((HANDLE)m_handle, dist.u.LowPart, &dist.u.HighPart, dir) != INVALID_SET_FILE_POINTER;
 		}
 
+		template <class T> 
+		void OsFile::write(const T& value)
+		{
+			write(&value, sizeof(T));
+		}
 
 		OsFile& OsFile::operator <<(const e_char* text)
 		{
@@ -120,6 +125,30 @@ namespace egal
 			return *this;
 		}
 
+		OsFile& OsFile::operator <<(e_uint8 value)
+		{
+			e_char buf[20];
+			StringUnitl::toCString(value, buf, TlengthOf(buf));
+			write(buf, StringUnitl::stringLength(buf));
+			return *this;
+		}
+
+		OsFile& OsFile::operator <<(e_int16 value)
+		{
+			e_char buf[20];
+			StringUnitl::toCString(value, buf, TlengthOf(buf));
+			write(buf, StringUnitl::stringLength(buf));
+			return *this;
+		}
+
+
+		OsFile& OsFile::operator <<(e_uint16 value)
+		{
+			e_char buf[20];
+			StringUnitl::toCString(value, buf, TlengthOf(buf));
+			write(buf, StringUnitl::stringLength(buf));
+			return *this;
+		}
 
 		OsFile& OsFile::operator <<(e_int32 value)
 		{
@@ -146,9 +175,21 @@ namespace egal
 			write(buf, StringUnitl::stringLength(buf));
 			return *this;
 		}
-
+		OsFile& OsFile::operator <<(String value)
+		{
+			write(value.c_str(), StringUnitl::stringLength(value.c_str()));
+			return *this;
+		}
 
 		OsFile& OsFile::operator <<(float value)
+		{
+			e_char buf[128];
+			StringUnitl::toCString(value, buf, TlengthOf(buf), 7);
+			write(buf, StringUnitl::stringLength(buf));
+			return *this;
+		}
+
+		OsFile& OsFile::operator <<(bool value)
 		{
 			e_char buf[128];
 			StringUnitl::toCString(value, buf, TlengthOf(buf), 7);
