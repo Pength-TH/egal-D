@@ -311,7 +311,7 @@ namespace egal
 		}
 		ASSERT(res);
 		bgfx::reset(800, 600, m_vsync ? BGFX_RESET_VSYNC : 0);
-		bgfx::setDebug(BGFX_DEBUG_STATS | BGFX_DEBUG_PROFILER);
+		bgfx::setDebug(BGFX_DEBUG_NONE | BGFX_DEBUG_PROFILER);
 		bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
 
 		ResourceManager& manager = engine.getResourceManager();
@@ -351,15 +351,17 @@ namespace egal
 
 	Renderer::~Renderer()
 	{
-		Texture* draw2d_texture = m_draw2d_material->getTexture(0);
-		m_draw2d_material->setTexture(0, nullptr);
-		if (draw2d_texture)
+		if (m_draw2d_material)
 		{
-			draw2d_texture->destroy();
-			_delete(m_engine.getAllocator(), draw2d_texture);
+			Texture* draw2d_texture = m_draw2d_material->getTexture(0);
+			m_draw2d_material->setTexture(0, nullptr);
+			if (draw2d_texture)
+			{
+				draw2d_texture->destroy();
+				_delete(m_engine.getAllocator(), draw2d_texture);
+			}
+			m_draw2d_material->getResourceManager().unload(*m_draw2d_material);
 		}
-
-		m_draw2d_material->getResourceManager().unload(*m_draw2d_material);
 
 		m_shader_manager.unload(*m_default_shader);
 		m_texture_manager.destroy();

@@ -28,7 +28,9 @@ namespace egal
 	struct InstanceData
 	{
 		const bgfx::InstanceDataBuffer* buffer;
+
 		e_int32						instance_count;
+
 		Mesh*						mesh;
 	};
 
@@ -110,12 +112,12 @@ namespace egal
 		e_void renderPointLightLitGeometry();
 		e_void executeCommandBuffer(const e_uint8* data, Material* material) const;
 		e_void renderRigidMeshInstanced(const float4x4& float4x4, Mesh& mesh);
-		e_void renderMeshes(const TVector<EntityInstanceMesh>& meshes);
-		e_void renderMeshes(const TVector<TVector<EntityInstanceMesh>>& meshes);
+		e_void renderMeshes(const TArrary<EntityInstanceMesh>& meshes);
+		e_void renderMeshes(const TArrary<TArrary<EntityInstanceMesh>>& meshes);
 		e_void resize(e_int32 width, e_int32 height);
 
 		e_int32 bindFramebufferTexture(const char* framebuffer_name, e_int32 renderbuffer_idx, e_int32 uniform_idx, e_uint32 flags);
-		e_int32 addFramebuffer(const e_char* name, e_int32 width, e_int32 height, bool is_screen_size, float2 size_ratio, TVector<FrameBuffer::RenderBuffer>& buffers);
+		e_int32 addFramebuffer(const e_char* name, e_int32 width, e_int32 height, bool is_screen_size, float2 size_ratio, TArrary<FrameBuffer::RenderBuffer>& buffers);
 		e_void clearLayerToViewMap();
 		TextureHandle& getRenderbuffer(const e_char* framebuffer_name, e_int32 renderbuffer_idx);
 
@@ -218,7 +220,7 @@ namespace egal
 			e_int32 count, 
 			Material& material);
 	public:
-		TVector<bgfx::UniformHandle> m_uniforms;
+		TArrary<bgfx::UniformHandle> m_uniforms;
 		e_int32						 m_global_textures_count;
 
 		IAllocator&			m_allocator;
@@ -239,9 +241,9 @@ namespace egal
 		FrameBuffer*			m_global_light_shadowmap;
 		FrameBuffer*			m_current_framebuffer;
 		FrameBuffer*			m_default_framebuffer;
-		TVector<FrameBuffer*>	m_framebuffers;
+		TArrary<FrameBuffer*>	m_framebuffers;
 		
-		TVector<PointLightShadowmap> m_point_light_shadowmaps;
+		TArrary<PointLightShadowmap> m_point_light_shadowmaps;
 		
 		InstanceData			m_instances_data[128];
 		e_int32					m_instance_data_idx;
@@ -258,7 +260,7 @@ namespace egal
 		e_bool m_is_ready;
 		Frustum m_camera_frustum;
 
-		TVector<TVector<EntityInstanceMesh>>* m_mesh_buffer;
+		TArrary<TArrary<EntityInstanceMesh>>* m_mesh_buffer;
 
 		float4x4 m_shadow_viewprojection[4];
 		e_int32 m_width;
@@ -270,7 +272,7 @@ namespace egal
 		e_int32		m_lua_env;
 		Stats		m_stats;
 
-		TVector<CustomCommandHandler> m_custom_commands_handlers;
+		TArrary<CustomCommandHandler> m_custom_commands_handlers;
 
 		bgfx::UniformHandle m_bone_matrices_uniform;
 		bgfx::UniformHandle m_layer_uniform;

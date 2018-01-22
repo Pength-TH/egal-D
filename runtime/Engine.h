@@ -12,6 +12,8 @@
 
 #include "runtime/IEngine.h"
 
+
+
 namespace egal
 {
 	class Resource;

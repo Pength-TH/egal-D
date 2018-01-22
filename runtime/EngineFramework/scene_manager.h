@@ -7,6 +7,8 @@
 #include "runtime/EngineFramework/component_manager.h"
 #include "runtime/EngineFramework/engine_root.h"
 
+#include "runtime/EngineFramework/camera.h"
+
 struct lua_State;
 namespace egal
 {
@@ -75,21 +77,7 @@ namespace egal
 		float4		m_cascades;
 	};
 
-	struct Camera
-	{
-		static const e_int32 MAX_SLOT_LENGTH = 30;
 
-		GameObject	game_object;
-		e_float		fov;
-		e_float		aspect;
-		e_float		near_flip;
-		e_float		far_flip;
-		e_float		ortho_size;
-		e_float		screen_width;
-		e_float		screen_height;
-		e_bool		is_ortho;
-		e_char		slot[MAX_SLOT_LENGTH + 1];
-	};
 
 	struct EnvironmentProbe
 	{
@@ -288,7 +276,7 @@ namespace egal
 		Frustum getCameraFrustum(ComponentHandle camera, const float2& a, const float2& b) const;
 
 		e_void camera_navigate(GameObject cmp, e_float forward, e_float right, e_float up, e_float speed);
-		e_void camera_rotate(GameObject cmp, e_int32 x, e_int32 y);
+		e_void camera_rotate(GameObject cmp, e_float x, e_float y);
 
 		e_void updateBoneAttachment(const BoneAttachment& bone_attachment);
 		e_float getTime() const;
@@ -377,9 +365,11 @@ namespace egal
 		e_void setBoneAttachmentRotation(ComponentHandle cmp, const float3& rot);
 		e_void setBoneAttachmentRotationQuat(ComponentHandle cmp, const Quaternion& rot);
 
-		const TVector<DebugTriangle>& getDebugTriangles() const;
-		const TVector<DebugLine>& getDebugLines() const;
-		const TVector<DebugPoint>& getDebugPoints() const;
+		const TArrary<DebugTriangle>& getDebugTriangles() const;
+		const TArrary<DebugLine>& getDebugLines() const;
+		const TArrary<DebugPoint>& getDebugPoints() const;
+		e_void setGlobalLODMultiplier(e_float multiplier);
+		e_float getGlobalLODMultiplier() const;
 
 		float4x4 getCameraProjection(ComponentHandle camera);
 		float4x4 getCameraViewProjection(ComponentHandle camera);
@@ -393,8 +383,6 @@ namespace egal
 		e_float getCameraNearPlane(ComponentHandle camera);
 		e_float getCameraScreenWidth(ComponentHandle camera);
 		e_float getCameraScreenHeight(ComponentHandle camera);
-		e_void setGlobalLODMultiplier(e_float multiplier);
-		e_float getGlobalLODMultiplier() const;
 		e_void setCameraSlot(ComponentHandle camera, const e_char* slot);
 		ComponentHandle getCameraComponent(GameObject entity);
 		const e_char* getCameraSlot(ComponentHandle camera);
@@ -423,8 +411,8 @@ namespace egal
 		e_int32 getEntityInstanceMaterialsCount(ComponentHandle cmp);
 		e_void setEntityInstancePath(ComponentHandle cmp, const ArchivePath& path);
 		e_void setTerrainHeightAt(ComponentHandle cmp, e_int32 x, e_int32 z, e_float height);
-		TVector<TVector<EntityInstanceMesh>>& getEntityInstanceInfos(const Frustum& frustum, const float3& lod_ref_point, ComponentHandle camera, e_uint64 layer_mask);
-		e_void getEntityInstanceGameObjects(const Frustum& frustum, TVector<GameObject>& entities);
+		TArrary<TArrary<EntityInstanceMesh>>& getEntityInstanceInfos(const Frustum& frustum, const float3& lod_ref_point, ComponentHandle camera, e_uint64 layer_mask);
+		e_void getEntityInstanceGameObjects(const Frustum& frustum, TArrary<GameObject>& entities);
 		e_float getCameraLODMultiplier(ComponentHandle camera);
 		GameObject getEntityInstanceGameObject(ComponentHandle cmp);
 		ComponentHandle getFirstEntityInstance();
@@ -435,12 +423,18 @@ namespace egal
 		ArchivePath getDecalMaterialPath(ComponentHandle cmp);
 		e_void setDecalScale(ComponentHandle cmp, const float3& value);
 		float3 getDecalScale(ComponentHandle cmp);
-		e_void getDecals(const Frustum& frustum, TVector<DecalInfo>& decals);
+		e_void getDecals(const Frustum& frustum, TArrary<DecalInfo>& decals);
+		e_void updateDecalInfo(Decal& decal) const;
+		ComponentHandle createDecal(GameObject entity);
+		ComponentHandle createEnvironmentProbe(GameObject entity);
+
+		ComponentHandle createBoneAttachment(GameObject game_object);
+		ComponentHandle createEntityInstance(GameObject game_object);
 
 		e_int32 getClosestPointLights(const float3& pos, ComponentHandle* lights, e_int32 max_lights);
-		e_void getPointLights(const Frustum& frustum, TVector<ComponentHandle>& lights);
-		e_void getPointLightInfluencedGeometry(ComponentHandle light_cmp, TVector<EntityInstanceMesh>& infos);
-		e_void getPointLightInfluencedGeometry(ComponentHandle light_cmp, const Frustum& frustum, TVector<EntityInstanceMesh>& infos);
+		e_void getPointLights(const Frustum& frustum, TArrary<ComponentHandle>& lights);
+		e_void getPointLightInfluencedGeometry(ComponentHandle light_cmp, TArrary<EntityInstanceMesh>& infos);
+		e_void getPointLightInfluencedGeometry(ComponentHandle light_cmp, const Frustum& frustum, TArrary<EntityInstanceMesh>& infos);
 		e_void setLightCastShadows(ComponentHandle cmp, e_bool cast_shadows);
 		e_bool getLightCastShadows(ComponentHandle cmp);
 		e_float getLightAttenuation(ComponentHandle cmp);
@@ -449,11 +443,7 @@ namespace egal
 		e_void setLightFOV(ComponentHandle cmp, e_float fov);
 		ComponentHandle createGlobalLight(GameObject entity);
 		ComponentHandle createPointLight(GameObject entity);
-		e_void updateDecalInfo(Decal& decal) const;
-		ComponentHandle createDecal(GameObject entity);
-		ComponentHandle createEnvironmentProbe(GameObject entity);
-		ComponentHandle createBoneAttachment(GameObject game_object);
-		ComponentHandle createEntityInstance(GameObject game_object);
+
 		e_float getLightRange(ComponentHandle cmp);
 		e_void setLightRange(ComponentHandle cmp, e_float value);
 		e_void setPointLightIntensity(ComponentHandle cmp, e_float intensity);
@@ -461,8 +451,7 @@ namespace egal
 		e_void setGlobalLightIndirectIntensity(ComponentHandle cmp, e_float intensity);
 		e_void setPointLightColor(ComponentHandle cmp, const float3& color);
 		e_void setGlobalLightColor(ComponentHandle cmp, const float3& color);
-		e_void setFogDensity(ComponentHandle cmp, e_float density);
-		e_void setFogColor(ComponentHandle cmp, const float3& color);
+		
 		e_float getPointLightIntensity(ComponentHandle cmp);
 		GameObject getPointLightGameObject(ComponentHandle cmp) const;
 		GameObject getGlobalLightGameObject(ComponentHandle cmp) const;
@@ -470,16 +459,20 @@ namespace egal
 		e_float getGlobalLightIndirectIntensity(ComponentHandle cmp);
 		float3 getPointLightColor(ComponentHandle cmp);
 		float3 getGlobalLightColor(ComponentHandle cmp);
+
+		float3 getPointLightSpecularColor(ComponentHandle cmp);
+		e_void setPointLightSpecularColor(ComponentHandle cmp, const float3& color);
+		e_float getPointLightSpecularIntensity(ComponentHandle cmp);
+		e_void setPointLightSpecularIntensity(ComponentHandle cmp, e_float color);
+
+		e_void setFogDensity(ComponentHandle cmp, e_float density);
+		e_void setFogColor(ComponentHandle cmp, const float3& color);
 		e_float getFogDensity(ComponentHandle cmp);
 		e_float getFogBottom(ComponentHandle cmp);
 		e_float getFogHeight(ComponentHandle cmp);
 		e_void setFogBottom(ComponentHandle cmp, e_float value);
 		e_void setFogHeight(ComponentHandle cmp, e_float value);
 		float3 getFogColor(ComponentHandle cmp);
-		float3 getPointLightSpecularColor(ComponentHandle cmp);
-		e_void setPointLightSpecularColor(ComponentHandle cmp, const float3& color);
-		e_float getPointLightSpecularIntensity(ComponentHandle cmp);
-		e_void setPointLightSpecularIntensity(ComponentHandle cmp, e_float color);
 
 		Texture* getEnvironmentProbeTexture(ComponentHandle cmp) const;
 		Texture* getEnvironmentProbeIrradiance(ComponentHandle cmp) const;
@@ -495,26 +488,26 @@ namespace egal
 		EngineRoot&					m_engine;
 		CullingSystem*				m_culling_system;
 
-		TVector<TVector<ComponentHandle>>	m_light_influenced_geometry;
+		TArrary<TArrary<ComponentHandle>>	m_light_influenced_geometry;
 		ComponentHandle						m_active_global_light_cmp;
 		THashMap<ComponentHandle, e_int32>	m_point_lights_map;
 
 		TMap<GameObject, Decal>				m_decals;
-		TVector<EntityInstance>				m_entity_instances;
+		TArrary<EntityInstance>				m_entity_instances;
 
 		THashMap<GameObject, GlobalLight>	m_global_lights;
-		TVector<PointLight>					m_point_lights;
+		TArrary<PointLight>					m_point_lights;
 		THashMap<GameObject, Camera>		m_cameras;
 		TMap<GameObject, BoneAttachment>	m_bone_attachments;
 		TMap<GameObject, EnvironmentProbe>	m_environment_probes;
 
 
 		TMap<Entity*, EntityLoadedCallback>		m_entity_loaded_callbacks;
-		TVector<TVector<EntityInstanceMesh>>	m_temporary_infos;
+		TArrary<TArrary<EntityInstanceMesh>>	m_temporary_infos;
 
-		TVector<DebugTriangle>	m_debug_triangles;
-		TVector<DebugLine>		m_debug_lines;
-		TVector<DebugPoint>		m_debug_points;
+		TArrary<DebugTriangle>	m_debug_triangles;
+		TArrary<DebugLine>		m_debug_lines;
+		TArrary<DebugPoint>		m_debug_points;
 
 		e_float m_time;
 		e_float m_lod_multiplier;

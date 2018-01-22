@@ -389,54 +389,64 @@ namespace egal
 		{
 			ComponentHandle cmp = getComponent(cmera_object, COMPONENT_CAMERA_TYPE);
 
-			const Camera& camera = m_cameras[{cmp.index}];
+			Camera& camera = m_cameras[{cmp.index}];
 
 			float3 pos = m_com_man.getPosition(cmera_object);
 			Quaternion rot = m_com_man.getRotation(cmera_object);
 
 			right = camera.is_ortho ? 0 : right;
 
+			camera.setPosition(pos);
+
+			if (forward > 0)
+				camera.forward();
+			if (forward < 0)
+				camera.backward();
+
+			if (right > 0)
+				camera.right();
+			if (right < 0)
+				camera.left();
+
+			if (up > 0)
+				camera.up();
+			if (up < 0)
+				camera.down();
+
 			pos += rot.rotate(float3(0, 0, -1)) * forward * speed;
-			pos += rot.rotate(float3(1, 0, 0)) * right * speed;
-			pos += rot.rotate(float3(0, 1, 0)) * up * speed;
+			pos += rot.rotate(float3(1, 0, 0))  * right   * speed;
+			pos += rot.rotate(float3(0, 1, 0))  * up      * speed;
+
 			m_com_man.setPosition(cmera_object, pos);
+			
+			camera_rotate(cmera_object, camera.m_horizontalAngle, camera.m_verticalAngle);
 		}
 
-		egal::e_void SceneManager::camera_rotate(GameObject cmera_object, e_int32 x, e_int32 y)
+		egal::e_void SceneManager::camera_rotate(GameObject cmera_object, e_float horizontalAngle, e_float verticalAngle)
 		{
-			if (!g_mouse_board[MB_Right])
-			{
-				m_mouse_last = float2(x, y);
-				return;
-			}
-
-			m_mouse_now = float2(x, y);
-			m_horizontalAngle = m_mouse_now.x - m_mouse_last.x;
-			m_verticalAngle = m_mouse_now.y - m_mouse_last.y;
-			m_mouse_last = float2(x, y);
-
 			ComponentHandle cmp = getComponent(cmera_object, COMPONENT_CAMERA_TYPE);
 
-			const Camera& camera = m_cameras[{cmp.index}];
+			Camera& camera = m_cameras[{cmp.index}];
+
+			camera.update(1.0, float2(horizontalAngle, verticalAngle));
+			return;
 
 			float3 pos = m_com_man.getPosition(cmera_object);
 			Quaternion rot = m_com_man.getRotation(cmera_object);
 			Quaternion old_rot = rot;
 
-			Quaternion yaw_rot(float3(0, 1, 0), egal::Math::C_DegreeToRadian * (m_horizontalAngle/4));
+			Quaternion yaw_rot(float3(0, 1, 0), egal::Math::C_DegreeToRadian * (horizontalAngle /4));
 			rot = yaw_rot * rot;
 			rot.normalize();
 
 			float3 pitch_axis = rot.rotate(float3(1, 0, 0));
-			Quaternion pitch_rot(pitch_axis, egal::Math::C_DegreeToRadian * (m_verticalAngle/4));
+			Quaternion pitch_rot(pitch_axis, egal::Math::C_DegreeToRadian * (verticalAngle /4));
 			rot = pitch_rot * rot;
 			rot.normalize();
 
 			m_com_man.setRotation(cmera_object, rot);
 			m_com_man.setPosition(cmera_object, pos);
 		}
-
-
 
 		e_void SceneManager::updateBoneAttachment(const BoneAttachment& bone_attachment)
 		{
@@ -1341,7 +1351,7 @@ namespace egal
 		{
 			for (e_int32 i = 0; i < m_light_influenced_geometry.size(); ++i)
 			{
-				TVector<ComponentHandle>& influenced_geometry = m_light_influenced_geometry[i];
+				TArrary<ComponentHandle>& influenced_geometry = m_light_influenced_geometry[i];
 				for (e_int32 j = 0; j < influenced_geometry.size(); ++j)
 				{
 					if (influenced_geometry[j] == component)
@@ -1594,7 +1604,7 @@ namespace egal
 		}
 
 
-		e_void SceneManager::getDecals(const Frustum& frustum, TVector<DecalInfo>& decals)
+		e_void SceneManager::getDecals(const Frustum& frustum, TArrary<DecalInfo>& decals)
 		{
 			decals.reserve(m_decals.size());
 			for (const Decal& decal : m_decals)
@@ -1792,7 +1802,7 @@ namespace egal
 		}
 
 
-		e_void SceneManager::getPointLights(const Frustum& frustum, TVector<ComponentHandle>& lights)
+		e_void SceneManager::getPointLights(const Frustum& frustum, TArrary<ComponentHandle>& lights)
 		{
 			for (e_int32 i = 0, ci = m_point_lights.size(); i < ci; ++i)
 			{
@@ -1823,7 +1833,7 @@ namespace egal
 
 		e_void SceneManager::getPointLightInfluencedGeometry(ComponentHandle light_cmp,
 			const Frustum& frustum,
-			TVector<EntityInstanceMesh>& infos)
+			TArrary<EntityInstanceMesh>& infos)
 		{
 			PROFILE_FUNCTION();
 
@@ -1846,7 +1856,7 @@ namespace egal
 		}
 
 
-		e_void SceneManager::getPointLightInfluencedGeometry(ComponentHandle light_cmp, TVector<EntityInstanceMesh>& infos)
+		e_void SceneManager::getPointLightInfluencedGeometry(ComponentHandle light_cmp, TArrary<EntityInstanceMesh>& infos)
 		{
 			PROFILE_FUNCTION();
 
@@ -1865,7 +1875,7 @@ namespace egal
 		}
 
 
-		e_void SceneManager::getEntityInstanceGameObjects(const Frustum& frustum, TVector<GameObject>& entities)
+		e_void SceneManager::getEntityInstanceGameObjects(const Frustum& frustum, TArrary<GameObject>& entities)
 		{
 			PROFILE_FUNCTION();
 
@@ -1897,7 +1907,7 @@ namespace egal
 		}
 
 
-		TVector<TVector<EntityInstanceMesh>>& SceneManager::getEntityInstanceInfos(const Frustum& frustum,
+		TArrary<TArrary<EntityInstanceMesh>>& SceneManager::getEntityInstanceInfos(const Frustum& frustum,
 			const float3& lod_ref_point,
 			ComponentHandle camera,
 			e_uint64 layer_mask)
@@ -1924,7 +1934,7 @@ namespace egal
 			volatile e_int32 counter = 0;
 			for (e_int32 subresult_index = 0; subresult_index < results.size(); ++subresult_index)
 			{
-				TVector<EntityInstanceMesh>& subinfos = m_temporary_infos[subresult_index];
+				TArrary<EntityInstanceMesh>& subinfos = m_temporary_infos[subresult_index];
 				subinfos.clear();
 
 				JobSystem::fromLambda(
@@ -2061,9 +2071,9 @@ namespace egal
 		e_void SceneManager::setCameraOrtho(ComponentHandle camera, e_bool is_ortho) { m_cameras[{camera.index}].is_ortho = is_ortho; }
 
 
-		const TVector<DebugTriangle>& SceneManager::getDebugTriangles() const { return m_debug_triangles; }
-		const TVector<DebugLine>& SceneManager::getDebugLines() const { return m_debug_lines; }
-		const TVector<DebugPoint>& SceneManager::getDebugPoints() const { return m_debug_points; }
+		const TArrary<DebugTriangle>& SceneManager::getDebugTriangles() const { return m_debug_triangles; }
+		const TArrary<DebugLine>& SceneManager::getDebugLines() const { return m_debug_lines; }
+		const TArrary<DebugPoint>& SceneManager::getDebugPoints() const { return m_debug_points; }
 
 
 		e_void SceneManager::addDebugSphere(const float3& center,

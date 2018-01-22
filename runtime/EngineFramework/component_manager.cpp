@@ -53,7 +53,7 @@ namespace egal
 		return nullptr;
 	}
 
-	TVector<SceneManager*>& ComponentManager::getScenes()
+	TArrary<SceneManager*>& ComponentManager::getScenes()
 	{
 		return m_scenes;
 	}
@@ -668,7 +668,7 @@ namespace egal
 
 	struct PrefabGameObjectGUIDMap : public ILoadGameObjectGUIDMap
 	{
-		explicit PrefabGameObjectGUIDMap(const TVector<GameObject>& _entities)
+		explicit PrefabGameObjectGUIDMap(const TArrary<GameObject>& _entities)
 			: entities(_entities)
 		{
 		}
@@ -682,7 +682,7 @@ namespace egal
 		}
 
 
-		const TVector<GameObject>& entities;
+		const TArrary<GameObject>& entities;
 	};
 
 

@@ -1,12 +1,12 @@
 #ifndef _iapplication_h_
 #define _iapplication_h_
-
+#include "windows.h"
 #include "common/input/framework_listener.h"
 
 namespace egal
 {
 	/** 初始化引擎需要的参数 */
-	#include "runtime/api/IFileSystem.h"
+	//#include "runtime/api/IFileSystem.h"
 	typedef void(*callback_on_resource_loaded)();
 	struct egal_params
 	{
@@ -18,10 +18,10 @@ namespace egal
 		, szLogFileName(NULL)
 		, szResourceLoadFile(NULL)
 
-#if !DISABLE_FILE_AND_UI
-		, pFileDownload(NULL)
-		, pFileList(NULL)
-#endif
+//#if !DISABLE_FILE_AND_UI
+//		, pFileDownload(NULL)
+//		, pFileList(NULL)
+//#endif
 		{
 		}
 
@@ -34,10 +34,10 @@ namespace egal
 		char*  szResourceLoadFile;
 		char*  szConfigFile;
 
-#if !DISABLE_FILE_AND_UI
-		IFileDownload*  pFileDownload;
-		IFileList*		pFileList;
-#endif
+//#if !DISABLE_FILE_AND_UI
+//		IFileDownload*  pFileDownload;
+//		IFileList*		pFileList;
+//#endif
 		callback_on_resource_loaded cbo_res_loaded;
 	};
 

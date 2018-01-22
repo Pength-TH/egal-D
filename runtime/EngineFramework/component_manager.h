@@ -122,7 +122,7 @@ namespace egal
 
 		SceneManager* getScene(ComponentType type) const;
 		SceneManager* getScene(e_uint32 hash) const;
-		TVector<SceneManager*>& getScenes();
+		TArrary<SceneManager*>& getScenes();
 		void addScene(SceneManager* scene);
 	private:
 		void transformGameObject(GameObject game_object, bool update_local);
@@ -174,10 +174,10 @@ namespace egal
 		IAllocator&									m_allocator;
 		ComponentTypeEntry							m_component_type_map[ComponentType::MAX_TYPES_COUNT];
 		
-		TVector<SceneManager*>						m_scenes;
-		TVector<GameObjectData>						m_game_objects;
-		TVector<Hierarchy>							m_hierarchy;
-		TVector<GameObjectName>						m_names;
+		TArrary<SceneManager*>						m_scenes;
+		TArrary<GameObjectData>						m_game_objects;
+		TArrary<Hierarchy>							m_hierarchy;
+		TArrary<GameObjectName>						m_names;
 		TDelegateList<void(GameObject)>				m_game_object_moved;
 		TDelegateList<void(GameObject)>				m_game_object_created;
 		TDelegateList<void(GameObject)>				m_game_object_destroyed;

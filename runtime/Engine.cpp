@@ -33,9 +33,13 @@ namespace egal
 		, m_frame_scale_time(1.0f)
 		, m_p_engine_root(nullptr)
 	{
+		g_allocator = &m_main_allocator;
+
 		/** 先初始化文件系统 */
 		init_file_system(m_allocator);
+		
 		/** logger */
+		init_log();
 		log_info("egal engine init start...");
 
 		e_char current_dir[MAX_PATH_LENGTH];
@@ -80,6 +84,12 @@ namespace egal
 
 		for (int i = 0; i < MB_END; i++)
 			g_mouse_board[i] = false;
+
+		EngineRoot::destroy(m_p_engine_root, m_allocator);
+		Timer::destroy(m_p_frame_timer);
+		
+		//close_log();
+		//destory_file_system(m_allocator);
 	}
 
 	e_bool Engine::resize(uint32_t width, uint32_t height)
@@ -136,7 +146,25 @@ namespace egal
 
 	bool Engine::on_key_pressed(unsigned int textid, const KeyCode &keyCode)
 	{
-		
+		egal::SceneManager* m_p_scene_manager = m_p_engine_root->getSceneManager();
+		ComponentHandle cmp_hand = m_p_scene_manager->getCameraInSlot("main");
+		GameObject m_camera = m_p_scene_manager->getCameraGameObject(cmp_hand);
+		float m_mouse_speed = 1.0;
+		//input
+		{
+			if (keyCode == KC_W)
+				m_p_scene_manager->camera_navigate(m_camera, 1.0f, 0, 0, m_mouse_speed);
+			if (keyCode == KC_S)
+				m_p_scene_manager->camera_navigate(m_camera, -1.0f, 0, 0, m_mouse_speed);
+			if (keyCode == KC_A)
+				m_p_scene_manager->camera_navigate(m_camera, 0.0f, -1.0f, 0, m_mouse_speed);
+			if (keyCode == KC_D)
+				m_p_scene_manager->camera_navigate(m_camera, 0.0f, 1.0f, 0, m_mouse_speed);
+			if (keyCode == KC_Q)
+				m_p_scene_manager->camera_navigate(m_camera, 0, 0, -1.0f, m_mouse_speed);
+			if (keyCode == KC_E)
+				m_p_scene_manager->camera_navigate(m_camera, 0, 0, 1.0f, m_mouse_speed);
+		}
 		return TRUE;
 	}
 

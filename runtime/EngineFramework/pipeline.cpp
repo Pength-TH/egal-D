@@ -27,241 +27,6 @@
 #include "bx/math.h"
 #include "bx/timer.h"
 
-
-
-struct PosColorVertex
-{
-	float m_x;
-	float m_y;
-	float m_z;
-	uint32_t m_abgr;
-
-	static void init()
-	{
-		ms_decl
-			.begin()
-			.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
-			.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
-			.end();
-	};
-
-	static bgfx::VertexDecl ms_decl;
-};
-bgfx::VertexDecl PosColorVertex::ms_decl;
-static PosColorVertex s_cubeVertices[8] =
-{
-	{ -1.0f,  1.0f,  1.0f, 0xff000000 },
-	{ 1.0f,  1.0f,  1.0f, 0xff0000ff },
-	{ -1.0f, -1.0f,  1.0f, 0xff00ff00 },
-	{ 1.0f, -1.0f,  1.0f, 0xff00ffff },
-	{ -1.0f,  1.0f, -1.0f, 0xffff0000 },
-	{ 1.0f,  1.0f, -1.0f, 0xffff00ff },
-	{ -1.0f, -1.0f, -1.0f, 0xffffff00 },
-	{ 1.0f, -1.0f, -1.0f, 0xffffffff },
-};
-
-static const uint16_t s_cubeIndices[36] =
-{
-	0, 1, 2, // 0
-	1, 3, 2,
-	4, 6, 5, // 2
-	5, 6, 7,
-	0, 2, 4, // 4
-	4, 2, 6,
-	1, 5, 3, // 6
-	5, 7, 3,
-	0, 4, 1, // 8
-	4, 5, 1,
-	2, 3, 6, // 10
-	6, 3, 7,
-};
-
-static const uint16_t s_cubeTriStrip[] =
-{
-	0, 1, 2,
-	3,
-	7,
-	1,
-	5,
-	0,
-	4,
-	2,
-	6,
-	7,
-	4,
-	5,
-};
-
-class testfram
-{
-public:
-	testfram()
-	{
-
-	}
-
-	void uniform(egal::Pipeline* pipline)
-	{
-		texture_uniform = pipline->createUniform("u_texture");
-		gbuffer0_uniform = pipline->createUniform("u_gbuffer0");
-		gbuffer1_uniform = pipline->createUniform("u_gbuffer1");
-		gbuffer2_uniform = pipline->createUniform("u_gbuffer2");
-		gbuffer_depth_uniform = pipline->createUniform("u_gbuffer_depth");
-		irradiance_map_uniform = pipline->createUniform("u_irradiance_map");
-		radiance_map_uniform = pipline->createUniform("u_radiance_map");
-	}
-
-	void bindTexture(egal::Pipeline* pipline)
-	{
-		pipline->bindFramebufferTexture("g_buffer", 0, gbuffer0_uniform, 0);
-		pipline->bindFramebufferTexture("g_buffer", 1, gbuffer1_uniform, 0);
-		pipline->bindFramebufferTexture("g_buffer", 2, gbuffer2_uniform, 0);
-		pipline->bindFramebufferTexture("g_buffer", 3, gbuffer_depth_uniform, 0);
-
-		pipline->bindEnvironmentMaps(irradiance_map_uniform, radiance_map_uniform);
-	}
-
-	void init()
-	{
-		// Create vertex stream declaration.
-		PosColorVertex::init();
-
-		// Create static vertex buffer.
-		m_vbh = bgfx::createVertexBuffer(
-			// Static data can be passed with bgfx::makeRef
-			bgfx::makeRef(s_cubeVertices, sizeof(s_cubeVertices))
-			, PosColorVertex::ms_decl
-		);
-
-		// Create static index buffer.
-		m_ibh = bgfx::createIndexBuffer(
-			// Static data can be passed with bgfx::makeRef
-			bgfx::makeRef(s_cubeTriStrip, sizeof(s_cubeTriStrip))
-		);
-
-		m_timeOffset = bx::getHPCounter();
-
-
-		egal::FS::IFile* file = egal::g_file_system->open(egal::g_file_system->getDefaultDevice(),"models/vs_cubes.bin", egal::FS::Mode::READ);
-
-		const bgfx::Memory* mem = bgfx::alloc(file->size() + 1);
-		file->read(mem->data, file->size());
-		file->close();
-		mem->data[mem->size - 1] = '\0';
-		bgfx::ShaderHandle vsh = bgfx::createShader(mem);
-
-		file = egal::g_file_system->open(egal::g_file_system->getDefaultDevice(), "models/fs_cubes.bin", egal::FS::Mode::READ);
-
-		const bgfx::Memory* mem1 = bgfx::alloc(file->size() + 1);
-		file->read(mem1->data, file->size());
-		file->close();
-		mem1->data[mem1->size - 1] = '\0';
-		bgfx::ShaderHandle fsh = bgfx::createShader(mem1);
-
-		m_program = bgfx::createProgram(vsh, fsh, true /* destroy shaders when program is destroyed */);
-
-	}
-
-	void frame(egal::Pipeline* pipline, egal::Material* res)
-	{
-		int64_t now = bx::getHPCounter();
-		float time = (float)((now - m_timeOffset) / double(bx::getHPFrequency()));
-		for (uint32_t yy = 0; yy < 1; ++yy)
-		{
-			for (uint32_t xx = 0; xx < 1; ++xx)
-			{
-				float mtx[16];
-				bx::mtxRotateXY(mtx, 0, 0);
-				mtx[12] = 0.0f;
-				mtx[13] = 0.0f;
-				mtx[14] = 0.0f;
-
-				// Set model matrix for rendering.
-				bgfx::setTransform(mtx);
-
-				// Set vertex and index buffer.
-				bgfx::setVertexBuffer(0, m_vbh);
-				bgfx::setIndexBuffer(m_ibh);
-
-				// Set render states.
-				bgfx::setState(0
-					| BGFX_STATE_RGB_WRITE
-					| BGFX_STATE_ALPHA_WRITE
-					| BGFX_STATE_DEPTH_WRITE
-					| BGFX_STATE_DEPTH_TEST_LESS
-					| BGFX_STATE_CULL_CCW
-					| BGFX_STATE_PT_TRISTRIP
-					//| res->getRenderStates()
-				);
-
-				pipline->executeCommandBuffer(res->getCommandBuffer(), res);
-
-				m_program = res->getShaderInstance().getProgramHandle(2);
-				// Submit primitive for rendering to view 0.
-				bgfx::submit(0, m_program);
-			}
-		}
-	}
-
-	void mesh(egal::Pipeline* pipline, egal::Mesh& mesh, egal::Material* res)
-	{
-		int64_t now = bx::getHPCounter();
-		float time = (float)((now - m_timeOffset) / double(bx::getHPFrequency()));
-		for (uint32_t yy = 0; yy < 1; ++yy)
-		{
-			for (uint32_t xx = 0; xx < 1; ++xx)
-			{
-				float mtx[16];
-				bx::mtxRotateXY(mtx,0 , 0);
-				mtx[12] = 0.0f;
-				mtx[13] = 0.0f;
-				mtx[14] = 2.0f;
-
-				// Set model matrix for rendering.
-				bgfx::setTransform(mtx);
-
-				// Set vertex and index buffer.
-				bgfx::setVertexBuffer(0, mesh.vertex_buffer_handle);
-				bgfx::setIndexBuffer(mesh.index_buffer_handle);
-
-				// Set render states.
-				bgfx::setState(0
-					| BGFX_STATE_RGB_WRITE
-					| BGFX_STATE_ALPHA_WRITE
-					| BGFX_STATE_DEPTH_WRITE
-					| BGFX_STATE_DEPTH_TEST_LESS
-					| BGFX_STATE_CULL_CCW
-					| BGFX_STATE_PT_TRISTRIP
-					//| res->getRenderStates()
-				);
-
-				pipline->executeCommandBuffer(res->getCommandBuffer(), res);
-
-				m_program = res->getShaderInstance().getProgramHandle(2);
-				// Submit primitive for rendering to view 0.
-				bgfx::submit(0, m_program);
-			}
-		}
-	}
-private:
-	bgfx::VertexBufferHandle m_vbh;
-	bgfx::IndexBufferHandle m_ibh;
-	bgfx::ProgramHandle m_program;
-	int64_t m_timeOffset;
-
-
-	egal::e_int32 texture_uniform;
-	egal::e_int32 gbuffer0_uniform;
-	egal::e_int32 gbuffer1_uniform;
-	egal::e_int32 gbuffer2_uniform;
-	egal::e_int32 gbuffer_depth_uniform;
-	egal::e_int32 irradiance_map_uniform;
-	egal::e_int32 radiance_map_uniform;
-
-
-};
-
-testfram test_f;
 namespace egal
 {
 	Pipeline::Pipeline(Renderer& renderer, const ArchivePath& path, const e_char* define, IAllocator& allocator)
@@ -312,13 +77,9 @@ namespace egal
 
 		m_sky_material = (Material*)material_manager.load(ArchivePath("models/defaultmaterial.mat"));
 		//m_sky_material = (Material*)material_manager.load(ArchivePath("models/sky/clouded01/sky.mat"));
-		
 
 		createParticleBuffers();
 		createCubeBuffers();
-
-		test_f.init();
-		test_f.uniform(this);
 
 		m_stats = {};
 	}
@@ -779,7 +540,7 @@ namespace egal
 		
 			m_renderer.viewCounterAdd();
 			bgfx::setViewName(m_renderer.getViewCounter(), "saveRenderbuffer_read");
-			TVector<e_uint8> data(m_renderer.getEngine().getAllocator());
+			TArrary<e_uint8> data(m_renderer.getEngine().getAllocator());
 			data.resize(fb->getWidth() * fb->getHeight() * 4);
 			bgfx::readTexture(texture, &data[0]);
 			bgfx::touch(m_renderer.getViewCounter());
@@ -905,7 +666,7 @@ namespace egal
 				return;
 
 			IAllocator& frame_allocator = m_renderer.getEngine().getLIFOAllocator();
-			TVector<ComponentHandle> local_lights(frame_allocator);
+			TArrary<ComponentHandle> local_lights(frame_allocator);
 			m_scene->getPointLights(m_camera_frustum, local_lights);
 
 			//PROFILE_INT("light count", local_lights.size());
@@ -1000,7 +761,7 @@ namespace egal
 			if (!m_current_view) return;
 
 			IAllocator& frame_allocator = m_renderer.getEngine().getLIFOAllocator();
-			TVector<DecalInfo> decals(frame_allocator);
+			TArrary<DecalInfo> decals(frame_allocator);
 			m_scene->getDecals(m_camera_frustum, decals);
 
 			//PROFILE_INT("decal count", decals.size());
@@ -1138,7 +899,7 @@ namespace egal
 					0.5, 0.0, 0.0, 0.0, 0.0, ymul, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.5, 0.5, 0.5, 1.0);
 				shadowmap_info.matrices[i] = biasMatrix * (projection_matrix * view_matrix);
 
-				TVector<EntityInstanceMesh> tmp_meshes(frame_allocator);
+				TArrary<EntityInstanceMesh> tmp_meshes(frame_allocator);
 				m_is_current_light_global = false;
 				m_scene->getPointLightInfluencedGeometry(light, frustum, tmp_meshes);
 
@@ -1312,7 +1073,7 @@ namespace egal
 		{
 			if (!m_current_view) return;
 
-			const TVector<DebugPoint>& points = m_scene->getDebugPoints();
+			const TArrary<DebugPoint>& points = m_scene->getDebugPoints();
 			if (points.empty() || !m_debug_line_material->isReady()) return;
 
 			static const e_int32 BATCH_SIZE = 0xffff;
@@ -1358,7 +1119,7 @@ namespace egal
 			if (!m_current_view) 
 				return;
 
-			const TVector<DebugLine>& lines = m_scene->getDebugLines();
+			const TArrary<DebugLine>& lines = m_scene->getDebugLines();
 			if (lines.empty() || !m_debug_line_material->isReady()) 
 				return;
 
@@ -1616,7 +1377,7 @@ namespace egal
 		{
 			//PROFILE_FUNCTION();
 
-			TVector<EntityInstanceMesh> tmp_meshes(m_renderer.getEngine().getLIFOAllocator());
+			TArrary<EntityInstanceMesh> tmp_meshes(m_renderer.getEngine().getLIFOAllocator());
 			m_scene->getPointLightInfluencedGeometry(light, tmp_meshes);
 			renderMeshes(tmp_meshes);
 		}
@@ -1626,7 +1387,7 @@ namespace egal
 		{
 			//PROFILE_FUNCTION();
 
-			TVector<ComponentHandle> lights(m_allocator);
+			TArrary<ComponentHandle> lights(m_allocator);
 			m_scene->getPointLights(frustum, lights);
 			IAllocator& frame_allocator = m_renderer.getEngine().getLIFOAllocator();
 			m_is_current_light_global	= false;
@@ -1636,7 +1397,7 @@ namespace egal
 				setPointLightUniforms(light);
 
 				{
-					TVector<EntityInstanceMesh> tmp_meshes(frame_allocator);
+					TArrary<EntityInstanceMesh> tmp_meshes(frame_allocator);
 					m_scene->getPointLightInfluencedGeometry(light, frustum, tmp_meshes);
 					renderMeshes(tmp_meshes);
 				}
@@ -2284,7 +2045,7 @@ namespace egal
 			}
 		}
 
-		e_void Pipeline::renderMeshes(const TVector<EntityInstanceMesh>& meshes)
+		e_void Pipeline::renderMeshes(const TArrary<EntityInstanceMesh>& meshes)
 		{
 			PROFILE_FUNCTION();
 			if (meshes.empty()) return;
@@ -2317,7 +2078,7 @@ namespace egal
 		}
 
 
-		e_void Pipeline::renderMeshes(const TVector<TVector<EntityInstanceMesh>>& meshes)
+		e_void Pipeline::renderMeshes(const TArrary<TArrary<EntityInstanceMesh>>& meshes)
 		{
 			//PROFILE_FUNCTION();
 			e_int32 mesh_count = 0;
@@ -2404,7 +2165,7 @@ namespace egal
 			return 0;
 		}
 
-		e_int32 Pipeline::addFramebuffer(const e_char* name, e_int32 width, e_int32 height, bool is_screen_size, float2 size_ratio, TVector<FrameBuffer::RenderBuffer>& buffers)
+		e_int32 Pipeline::addFramebuffer(const e_char* name, e_int32 width, e_int32 height, bool is_screen_size, float2 size_ratio, TArrary<FrameBuffer::RenderBuffer>& buffers)
 		{
 			FrameBuffer* framebuffer = getFramebuffer(name);
 			if (framebuffer)
@@ -2484,18 +2245,16 @@ namespace egal
 				//m_instances_data[i].buffer.data = nullptr;
 				m_instances_data[i].instance_count = 0;
 			}
+			bgfx::touch(0);
 
 			//sky
 			newView("main", 1);
 			applyCamera("main");
-			setPass("FORWARD");
+			setPass("DEFERRED");
 			clear(BGFX_CLEAR_COLOR, 0x303030ff);
 
-			disableDepthWrite();
-			enableBlending("alpha");
-			
-			//test_f.uniform(this);
-			//test_f.frame(this, m_sky_material);
+			//disableDepthWrite();
+			//enableBlending("alpha");
 
 			executeCommandBuffer(m_debug_line_material->getCommandBuffer(), m_debug_line_material);
 			renderDebugShapes();

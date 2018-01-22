@@ -133,9 +133,9 @@ namespace egal
 		ShaderBinaryManager m_shader_binary_manager;
 		EntityManager		m_entity_manager;
 
-		TVector<ShaderCombinations::Pass>	m_passes;
-		TVector<ShaderDefine>				m_shader_defines;
-		TVector<Layer>						m_layers;
+		TArrary<ShaderCombinations::Pass>	m_passes;
+		TArrary<ShaderDefine>				m_shader_defines;
+		TArrary<Layer>						m_layers;
 
 		e_uint32	m_current_pass_hash;
 		e_int32		m_view_counter;

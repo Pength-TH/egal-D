@@ -47,8 +47,8 @@ namespace egal
 	class PluginManager
 	{
 	private:
-		typedef TVector<IPlugin*> PluginList;
-		typedef TVector<void*> LibraryList;
+		typedef TArrary<IPlugin*> PluginList;
+		typedef TArrary<void*> LibraryList;
 	public:
 		PluginManager(EngineRoot& engine, IAllocator& allocator);
 		~PluginManager();
@@ -63,8 +63,8 @@ namespace egal
 		void serialize(WriteBinary& serializer);
 		void deserialize(ReadBinary& serializer);
 		IPlugin* getPlugin(const char* name);
-		const TVector<IPlugin*>& getPlugins() const;
-		const TVector<void*>& getLibraries() const;
+		const TArrary<IPlugin*>& getPlugins() const;
+		const TArrary<void*>& getLibraries() const;
 		TDelegateList<void(void*)>& libraryLoaded();
 	private:
 		EngineRoot& m_engine;

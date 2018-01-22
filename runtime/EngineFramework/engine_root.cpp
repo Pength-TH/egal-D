@@ -19,6 +19,8 @@
 
 namespace egal
 {
+	IAllocator* g_allocator;
+
 #pragma pack(1)
 	class SerializedEngineHeader
 	{
@@ -27,6 +29,9 @@ namespace egal
 		e_uint32 m_reserved; // for crc
 	};
 #pragma pack()
+
+
+	template<> EngineRoot * Singleton<EngineRoot>::msSingleton = 0;
 
 	EngineRoot::EngineRoot(const char* base_path0, const char* base_path1, FS::FileSystem* fs, IAllocator& allocator)
 		: m_allocator(allocator)
@@ -170,7 +175,7 @@ namespace egal
 
 		m_p_scene_manager->addDebugLine(float3(0, 0, 0), float3(0, 100, 0), 0x303030ff, 9999999);
 
-		const TVector<IPlugin*>& plugins = m_plugin_manager->getPlugins();
+		const TArrary<IPlugin*>& plugins = m_plugin_manager->getPlugins();
 		for (auto* plugin : plugins)
 		{
 			plugin->createScenes(*m_p_component_manager);
@@ -184,13 +189,25 @@ namespace egal
 		renderbuff1.m_format = bgfx::TextureFormat::D24S8;
 		buffers.push_back(renderbuff1);
 		/***/
-		m_p_pipeline->addFramebuffer("g_buffer", 1024, 1024, true, float2(1, 1), buffers);
+		//m_p_pipeline->addFramebuffer("default", 1024, 1024, true, float2(1, 1), buffers);
 
 		auto m_entity = m_p_component_manager->createGameObject(float3(0, 0, 0), Quaternion(0, 0, 0, 1));
 		auto mesh_back_cmp = m_p_scene_manager->createComponent(COMPONENT_ENTITY_INSTANCE_TYPE, m_entity);
 		m_p_scene_manager->setEntityInstancePath(mesh_back_cmp, ArchivePath("models/house2.msh"));
+		m_entity = m_p_component_manager->createGameObject(float3(10, 0, 0), Quaternion(0, 0, 0, 1));
+		mesh_back_cmp = m_p_scene_manager->createComponent(COMPONENT_ENTITY_INSTANCE_TYPE, m_entity);
+		m_p_scene_manager->setEntityInstancePath(mesh_back_cmp, ArchivePath("test/wsg_bs_taidaonv_001.msh"));
 
-		for (int i = 0; i < 110; i++)
+		m_entity = m_p_component_manager->createGameObject(float3(0, 0, 10), Quaternion(0, 0, 0, 1));
+		mesh_back_cmp = m_p_scene_manager->createComponent(COMPONENT_ENTITY_INSTANCE_TYPE, m_entity);
+		m_p_scene_manager->setEntityInstancePath(mesh_back_cmp, ArchivePath("res/level_res/wsg_s_kunlun_diaoxiang_001/wsg_s_kunlun_diaoxiang_001.msh"));
+
+		m_entity = m_p_component_manager->createGameObject(float3(0, 0, 20), Quaternion(0, 0, 0, 1));
+		mesh_back_cmp = m_p_scene_manager->createComponent(COMPONENT_ENTITY_INSTANCE_TYPE, m_entity);
+		m_p_scene_manager->setEntityInstancePath(mesh_back_cmp, ArchivePath("res\level_res\wsg_s_kunlun_shantijianzhu_001\wsg_s_kunlun_shantijianzhu_001.msh"));
+
+		
+		/*for (int i = 0; i < 110; i++)
 		{
 			for (int j = 0; j < 110; j++)
 			{
@@ -218,7 +235,7 @@ namespace egal
 				auto mesh_back_cmp = m_p_scene_manager->createComponent(COMPONENT_ENTITY_INSTANCE_TYPE, m_entity);
 				m_p_scene_manager->setEntityInstancePath(mesh_back_cmp, ArchivePath("models/house2.msh"));
 			}
-		}
+		}*/
 
 		while (g_file_system->hasWork())
 		{
@@ -323,26 +340,9 @@ namespace egal
 				scene->lateUpdate(dt, m_paused);
 			}
 		}
-		//input
-		{
-			if (g_key_board[KC_W])
-				m_p_scene_manager->camera_navigate(m_camera, 1.0f, 0, 0, m_mouse_speed);
-			if (g_key_board[KC_S])
-				m_p_scene_manager->camera_navigate(m_camera, -1.0f, 0, 0, m_mouse_speed);
-			if (g_key_board[KC_A])
-				m_p_scene_manager->camera_navigate(m_camera, 0.0f, -1.0f, 0, m_mouse_speed);
-			if (g_key_board[KC_D])
-				m_p_scene_manager->camera_navigate(m_camera, 0.0f, 1.0f, 0, m_mouse_speed);
-			if (g_key_board[KC_Q])
-				m_p_scene_manager->camera_navigate(m_camera, 0, 0, -1.0f, m_mouse_speed);
-			if (g_key_board[KC_E])
-				m_p_scene_manager->camera_navigate(m_camera, 0, 0, 1.0f, m_mouse_speed);
 
-			//m_p_scene_manager->camera_rotate(m_camera, );
-		}
 
 		m_p_scene_manager->frame(dt, false);
-
 		m_p_pipeline->frame();
 
 		m_plugin_manager->frame(dt, m_paused);

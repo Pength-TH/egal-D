@@ -15,12 +15,12 @@ namespace egal
 		static e_void destroy(CullingSystem& culling_system);
 
 	public:
-		typedef TVector<Sphere>				InputSpheres;
-		typedef TVector<ComponentHandle>	Subresults;
-		typedef TVector<Subresults>			Results;
-		typedef TVector<e_uint64>			LayerMasks;
-		typedef TVector<e_int32>			EntityInstancetoSphereMap;
-		typedef TVector<ComponentHandle>	SphereToModelInstanceMap;
+		typedef TArrary<Sphere>				InputSpheres;
+		typedef TArrary<ComponentHandle>	Subresults;
+		typedef TArrary<Subresults>			Results;
+		typedef TArrary<e_uint64>			LayerMasks;
+		typedef TArrary<e_int32>			EntityInstancetoSphereMap;
+		typedef TArrary<ComponentHandle>	SphereToModelInstanceMap;
 
 		struct CullingJobData
 		{

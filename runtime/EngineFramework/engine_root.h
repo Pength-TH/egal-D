@@ -5,6 +5,7 @@
 #include "common/egal-d.h"
 #include "common/allocator/lifo_allocator.h"
 #include "common/resource/resource_manager.h"
+#include "common/utils/singleton.h"
 
 struct lua_State;
 
@@ -17,7 +18,7 @@ namespace egal
 	class LuaManager;
 
 	/** 引擎的管理类 */
-	class EngineRoot
+	class EngineRoot : public Singleton<EngineRoot>
 	{
 	public:
 		static EngineRoot* create(const char* base_path0,
@@ -50,15 +51,17 @@ namespace egal
 
 		void setPatchArchivePath(const char* path);
 
-		InputSystem& getInputSystem();
-		PluginManager& getPluginManager();
+		InputSystem&	 getInputSystem();
+		PluginManager&	 getPluginManager();
 		ResourceManager& getResourceManager();
-		IAllocator& getAllocator();
+		IAllocator&		 getAllocator();
+		Renderer&		 getRender();
+		SceneManager*	getSceneManager() {	return m_p_scene_manager; }
 
 		void startGame(ComponentManager& context);
 		void stopGame(ComponentManager& context);
 
-		Renderer& getRender();
+		
 
 		void frame(ComponentManager& context);
 		float getFPS() const;
@@ -119,7 +122,9 @@ namespace egal
 		THashMap<int, Resource*>	m_lua_resources;
 		int							m_last_lua_resource_idx;
 
-		TVector<FrameBuffer::RenderBuffer> buffers;
+		TArrary<FrameBuffer::RenderBuffer> buffers;
+		
+		
 		GameObject m_camera;
 
 

@@ -187,13 +187,13 @@ namespace egal
 		}
 
 
-		const TVector<void*>& PluginManager::getLibraries() const
+		const TArrary<void*>& PluginManager::getLibraries() const
 		{
 			return m_libraries;
 		}
 
 
-		const TVector<IPlugin*>& PluginManager::getPlugins() const
+		const TArrary<IPlugin*>& PluginManager::getPlugins() const
 		{
 			return m_plugins;
 		}
