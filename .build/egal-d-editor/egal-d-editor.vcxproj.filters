@@ -4,9 +4,6 @@
     <Filter Include="common">
       <UniqueIdentifier>{27493bf6-931c-4b8e-99ee-0563e0a49af5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="common\imgui">
-      <UniqueIdentifier>{50248ee1-1f84-4299-b108-76d00d23f387}</UniqueIdentifier>
-    </Filter>
     <Filter Include="common\debugdraw">
       <UniqueIdentifier>{74000177-a8ed-4dd5-bb91-f9a60a6533ea}</UniqueIdentifier>
     </Filter>
@@ -22,278 +19,422 @@
     <Filter Include="common\entry">
       <UniqueIdentifier>{12f6115a-b4df-4d34-8964-71285340c18c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="tools">
+      <UniqueIdentifier>{c02d4e9d-7f26-4038-ab37-89a1dea11ef2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\import_assert">
+      <UniqueIdentifier>{7894d041-e8c3-41e8-b885-e55a73a39ee4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\compile_shader">
+      <UniqueIdentifier>{859a0c24-b373-4131-9ef5-eafb0014cd11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\modify_material">
+      <UniqueIdentifier>{6933c0ac-3f25-40b3-9362-0707e198964b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\editor_particle">
+      <UniqueIdentifier>{168106be-8f05-462b-9d4e-d7baaa7bf6d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\imgui">
+      <UniqueIdentifier>{8134849f-6302-4b0a-9be4-30faddf56c2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\iconfontheaders">
+      <UniqueIdentifier>{cb26b041-0260-4b72-a8c4-db7aeadd3259}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\base">
+      <UniqueIdentifier>{27401244-0823-48c2-9a7d-c02cbc30b88b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\base\stb">
+      <UniqueIdentifier>{badd08e4-39df-4258-b619-74a90c17d90e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\log">
+      <UniqueIdentifier>{6de6bbe0-cf54-4d79-94d8-f87882392e56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\import_assert\offline">
+      <UniqueIdentifier>{6ea35947-3521-44fa-84e8-8fd83e1d2020}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\import_assert\offline\tools">
+      <UniqueIdentifier>{90d32a4f-2b73-4b0f-bb90-9bf2b363152f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\import_assert\offline\fbx">
+      <UniqueIdentifier>{659769c4-122c-4fca-a7db-8e428f3b3667}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\import_assert\ofbx">
+      <UniqueIdentifier>{59ec0789-6a9e-44d2-9376-cd6a723d5f5d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\editor\imgui\droidsans.ttf.h">
-      <Filter>common\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\imgui\fs_imgui_color.bin.h">
-      <Filter>common\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\imgui\fs_imgui_cubemap.bin.h">
-      <Filter>common\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\imgui\fs_imgui_image.bin.h">
-      <Filter>common\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\imgui\fs_imgui_image_swizz.bin.h">
-      <Filter>common\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\imgui\fs_imgui_latlong.bin.h">
-      <Filter>common\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\imgui\fs_imgui_texture.bin.h">
-      <Filter>common\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\imgui\fs_ocornut_imgui.bin.h">
-      <Filter>common\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\imgui\icons_font_awesome.ttf.h">
-      <Filter>common\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\imgui\icons_kenney.ttf.h">
-      <Filter>common\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\imgui\roboto_regular.ttf.h">
-      <Filter>common\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\imgui\robotomono_regular.ttf.h">
-      <Filter>common\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\imgui\scintilla.h">
-      <Filter>common\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\imgui\vs_imgui_color.bin.h">
-      <Filter>common\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\imgui\vs_imgui_cubemap.bin.h">
-      <Filter>common\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\imgui\vs_imgui_image.bin.h">
-      <Filter>common\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\imgui\vs_imgui_latlong.bin.h">
-      <Filter>common\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\imgui\vs_imgui_texture.bin.h">
-      <Filter>common\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\imgui\vs_ocornut_imgui.bin.h">
-      <Filter>common\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\debugdraw\debugdraw.h">
-      <Filter>common\debugdraw</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\debugdraw\fs_debugdraw_fill.bin.h">
-      <Filter>common\debugdraw</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\debugdraw\fs_debugdraw_fill_lit.bin.h">
-      <Filter>common\debugdraw</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\debugdraw\fs_debugdraw_fill_texture.bin.h">
-      <Filter>common\debugdraw</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\debugdraw\fs_debugdraw_lines.bin.h">
-      <Filter>common\debugdraw</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\debugdraw\fs_debugdraw_lines_stipple.bin.h">
-      <Filter>common\debugdraw</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\debugdraw\vs_debugdraw_fill.bin.h">
-      <Filter>common\debugdraw</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\debugdraw\vs_debugdraw_fill_lit.bin.h">
-      <Filter>common\debugdraw</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\debugdraw\vs_debugdraw_fill_texture.bin.h">
-      <Filter>common\debugdraw</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\debugdraw\vs_debugdraw_lines.bin.h">
-      <Filter>common\debugdraw</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\debugdraw\vs_debugdraw_lines_stipple.bin.h">
-      <Filter>common\debugdraw</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\aviwriter.h">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\bgfx_utils.h">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\bounds.h">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\camera.h">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\common.h">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\cube_atlas.h">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\packrect.h">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\ocornut-imgui\imconfig.h">
-      <Filter>common\ocornut-imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\ocornut-imgui\imgui_internal.h">
-      <Filter>common\ocornut-imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\ocornut-imgui\imgui_user.h">
-      <Filter>common\ocornut-imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\ocornut-imgui\stb_rect_pack.h">
-      <Filter>common\ocornut-imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\ocornut-imgui\stb_textedit.h">
-      <Filter>common\ocornut-imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\ocornut-imgui\stb_truetype.h">
-      <Filter>common\ocornut-imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\ocornut-imgui\widgets\color_picker.h">
-      <Filter>common\ocornut-imgui\widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\ocornut-imgui\widgets\color_wheel.h">
-      <Filter>common\ocornut-imgui\widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\ocornut-imgui\widgets\dock.h">
-      <Filter>common\ocornut-imgui\widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\ocornut-imgui\widgets\file_list.h">
-      <Filter>common\ocornut-imgui\widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\ocornut-imgui\widgets\gizmo.h">
-      <Filter>common\ocornut-imgui\widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\ocornut-imgui\widgets\memory_editor.h">
-      <Filter>common\ocornut-imgui\widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\ocornut-imgui\widgets\range_slider.h">
-      <Filter>common\ocornut-imgui\widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\ib-compress\indexbuffercompression.h">
-      <Filter>common\lb-compress</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\ib-compress\indexbuffercompressionformat.h">
-      <Filter>common\lb-compress</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\ib-compress\indexbufferdecompression.h">
-      <Filter>common\lb-compress</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\ib-compress\indexcompressionconstants.h">
-      <Filter>common\lb-compress</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\ib-compress\readbitstream.h">
-      <Filter>common\lb-compress</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\ib-compress\writebitstream.h">
-      <Filter>common\lb-compress</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\entry\cmd.h">
+    <ClCompile Include="..\..\editor\common\entry\cmd.cpp">
       <Filter>common\entry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\entry\dbg.h">
+    </ClCompile>
+    <ClCompile Include="..\..\editor\common\entry\entry.cpp">
       <Filter>common\entry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\entry\entry.h">
+    </ClCompile>
+    <ClCompile Include="..\..\editor\common\entry\entry_android.cpp">
       <Filter>common\entry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\entry\entry_p.h">
+    </ClCompile>
+    <ClCompile Include="..\..\editor\common\entry\entry_asmjs.cpp">
       <Filter>common\entry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\entry\input.h">
+    </ClCompile>
+    <ClCompile Include="..\..\editor\common\entry\entry_glfw.cpp">
       <Filter>common\entry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\ocornut-imgui\imgui.h">
-      <Filter>common\ocornut-imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\editor\imgui\bgfx_imgui.h">
-      <Filter>common\imgui</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\editor\imgui\scintilla.cpp">
-      <Filter>common\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\editor\debugdraw\debugdraw.cpp">
-      <Filter>common\debugdraw</Filter>
+    <ClCompile Include="..\..\editor\common\entry\entry_noop.cpp">
+      <Filter>common\entry</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\editor\bgfx_utils.cpp">
-      <Filter>common</Filter>
+    <ClCompile Include="..\..\editor\common\entry\entry_sdl.cpp">
+      <Filter>common\entry</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\editor\bounds.cpp">
-      <Filter>common</Filter>
+    <ClCompile Include="..\..\editor\common\entry\entry_windows.cpp">
+      <Filter>common\entry</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\editor\camera.cpp">
-      <Filter>common</Filter>
+    <ClCompile Include="..\..\editor\common\entry\entry_x11.cpp">
+      <Filter>common\entry</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\editor\cube_atlas.cpp">
-      <Filter>common</Filter>
+    <ClCompile Include="..\..\editor\common\entry\input.cpp">
+      <Filter>common\entry</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\editor\ocornut-imgui\imgui_demo.cpp">
+    <ClCompile Include="..\..\editor\editor.cpp" />
+    <ClCompile Include="..\..\editor\common\ocornut-imgui\imgui.cpp">
       <Filter>common\ocornut-imgui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\editor\ocornut-imgui\imgui_draw.cpp">
+    <ClCompile Include="..\..\editor\common\ocornut-imgui\imgui_demo.cpp">
       <Filter>common\ocornut-imgui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\editor\ocornut-imgui\imgui_node_graph_test.cpp">
+    <ClCompile Include="..\..\editor\common\ocornut-imgui\imgui_draw.cpp">
       <Filter>common\ocornut-imgui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\editor\ib-compress\indexbuffercompression.cpp">
-      <Filter>common\lb-compress</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\editor\ib-compress\indexbufferdecompression.cpp">
-      <Filter>common\lb-compress</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\editor\entry\cmd.cpp">
-      <Filter>common\entry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\editor\entry\entry.cpp">
-      <Filter>common\entry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\editor\entry\entry_android.cpp">
-      <Filter>common\entry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\editor\entry\entry_asmjs.cpp">
-      <Filter>common\entry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\editor\entry\entry_glfw.cpp">
-      <Filter>common\entry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\editor\entry\entry_noop.cpp">
-      <Filter>common\entry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\editor\entry\entry_sdl.cpp">
-      <Filter>common\entry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\editor\entry\entry_windows.cpp">
-      <Filter>common\entry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\editor\entry\entry_x11.cpp">
-      <Filter>common\entry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\editor\entry\input.cpp">
-      <Filter>common\entry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\editor\ocornut-imgui\imgui.cpp">
+    <ClCompile Include="..\..\editor\common\ocornut-imgui\imgui_node_graph_test.cpp">
       <Filter>common\ocornut-imgui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\editor\imgui\bgfx_imgui.cpp">
+    <ClCompile Include="..\..\editor\common\imgui\bgfx_imgui.cpp">
       <Filter>common\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\editor\tools\import_assert\import_asset_dialog.cpp">
+      <Filter>tools\import_assert</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\editor\tools\base\file_system_watcher.cpp">
+      <Filter>tools\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\editor\tools\base\platform_interface.cpp">
+      <Filter>tools\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\editor\tools\base\stb\stb_vorbis.cpp">
+      <Filter>tools\base\stb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\editor\tools\log\log_ui.cpp">
+      <Filter>tools\log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\offline\additive_animation_builder.cc">
+      <Filter>tools\import_assert\offline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\offline\animation_builder.cc">
+      <Filter>tools\import_assert\offline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\offline\animation_optimizer.cc">
+      <Filter>tools\import_assert\offline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\offline\mesh.cc">
+      <Filter>tools\import_assert\offline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\offline\raw_animation.cc">
+      <Filter>tools\import_assert\offline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\offline\raw_animation_archive.cc">
+      <Filter>tools\import_assert\offline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\offline\raw_animation_utils.cc">
+      <Filter>tools\import_assert\offline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\offline\raw_skeleton.cc">
+      <Filter>tools\import_assert\offline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\offline\raw_skeleton_archive.cc">
+      <Filter>tools\import_assert\offline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\offline\skeleton_builder.cc">
+      <Filter>tools\import_assert\offline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\offline\tools\import_fbx.cpp">
+      <Filter>tools\import_assert\offline\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\offline\fbx\fbx.cc">
+      <Filter>tools\import_assert\offline\fbx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\offline\fbx\fbx_animation.cc">
+      <Filter>tools\import_assert\offline\fbx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\offline\fbx\fbx_base.cc">
+      <Filter>tools\import_assert\offline\fbx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\offline\fbx\fbx_skeleton.cc">
+      <Filter>tools\import_assert\offline\fbx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\offline\fbx\fbx2anim.cc">
+      <Filter>tools\import_assert\offline\fbx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\offline\fbx\fbx2skel.cc">
+      <Filter>tools\import_assert\offline\fbx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\editor\tools\import_assert\ofbx\fbx2resource.cpp">
+      <Filter>tools\import_assert\ofbx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\editor\tools\import_assert\ofbx\ofbx.cpp">
+      <Filter>tools\import_assert\ofbx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\editor\tools\import_assert\ofbx\miniz.c">
+      <Filter>tools\import_assert\ofbx</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\editor\entry\entry_ios.mm">
+    <ClInclude Include="..\..\editor\common\entry\cmd.h">
+      <Filter>common\entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\entry\dbg.h">
+      <Filter>common\entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\entry\entry.h">
+      <Filter>common\entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\entry\entry_p.h">
+      <Filter>common\entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\entry\input.h">
+      <Filter>common\entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\common.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\editor.h" />
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\widgets\color_picker.h">
+      <Filter>common\ocornut-imgui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\widgets\color_wheel.h">
+      <Filter>common\ocornut-imgui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\widgets\dock.h">
+      <Filter>common\ocornut-imgui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\widgets\file_list.h">
+      <Filter>common\ocornut-imgui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\widgets\gizmo.h">
+      <Filter>common\ocornut-imgui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\widgets\memory_editor.h">
+      <Filter>common\ocornut-imgui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\widgets\range_slider.h">
+      <Filter>common\ocornut-imgui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\imconfig.h">
+      <Filter>common\ocornut-imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\imgui.h">
+      <Filter>common\ocornut-imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\imgui_internal.h">
+      <Filter>common\ocornut-imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\imgui_user.h">
+      <Filter>common\ocornut-imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\stb_rect_pack.h">
+      <Filter>common\ocornut-imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\stb_textedit.h">
+      <Filter>common\ocornut-imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\stb_truetype.h">
+      <Filter>common\ocornut-imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\editor_key.h" />
+    <ClInclude Include="..\..\editor\common\iconfontheaders\icons_font_awesome.h">
+      <Filter>common\iconfontheaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\iconfontheaders\icons_kenney.h">
+      <Filter>common\iconfontheaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\iconfontheaders\icons_material_design.h">
+      <Filter>common\iconfontheaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\imgui\droidsans.ttf.h">
+      <Filter>common\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\imgui\fs_imgui_color.bin.h">
+      <Filter>common\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\imgui\fs_imgui_cubemap.bin.h">
+      <Filter>common\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\imgui\fs_imgui_image.bin.h">
+      <Filter>common\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\imgui\fs_imgui_image_swizz.bin.h">
+      <Filter>common\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\imgui\fs_imgui_latlong.bin.h">
+      <Filter>common\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\imgui\fs_imgui_texture.bin.h">
+      <Filter>common\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\imgui\fs_ocornut_imgui.bin.h">
+      <Filter>common\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\imgui\icons_font_awesome.ttf.h">
+      <Filter>common\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\imgui\icons_kenney.ttf.h">
+      <Filter>common\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\imgui\roboto_regular.ttf.h">
+      <Filter>common\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\imgui\robotomono_regular.ttf.h">
+      <Filter>common\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\imgui\scintilla.h">
+      <Filter>common\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\imgui\vs_imgui_color.bin.h">
+      <Filter>common\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\imgui\vs_imgui_cubemap.bin.h">
+      <Filter>common\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\imgui\vs_imgui_image.bin.h">
+      <Filter>common\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\imgui\vs_imgui_latlong.bin.h">
+      <Filter>common\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\imgui\vs_imgui_texture.bin.h">
+      <Filter>common\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\imgui\vs_ocornut_imgui.bin.h">
+      <Filter>common\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\common\imgui\bgfx_imgui.h">
+      <Filter>common\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\tools\base\editor_base.h">
+      <Filter>tools\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\tools\import_assert\import_asset_dialog.h">
+      <Filter>tools\import_assert</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\tools\base\platform_interface.h">
+      <Filter>tools\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\tools\base\file_system_watcher.h">
+      <Filter>tools\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\tools\base\stb\mf_resource.h">
+      <Filter>tools\base\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\tools\base\stb\stb_image.h">
+      <Filter>tools\base\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\tools\base\stb\stb_image_resize.h">
+      <Filter>tools\base\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\tools\log\log_ui.h">
+      <Filter>tools\log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\offline\additive_animation_builder.h">
+      <Filter>tools\import_assert\offline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\offline\animation_builder.h">
+      <Filter>tools\import_assert\offline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\offline\animation_optimizer.h">
+      <Filter>tools\import_assert\offline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\offline\mesh.h">
+      <Filter>tools\import_assert\offline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\offline\raw_animation.h">
+      <Filter>tools\import_assert\offline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\offline\raw_animation_utils.h">
+      <Filter>tools\import_assert\offline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\offline\raw_skeleton.h">
+      <Filter>tools\import_assert\offline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\offline\skeleton_builder.h">
+      <Filter>tools\import_assert\offline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\offline\tools\convert2material.h">
+      <Filter>tools\import_assert\offline\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\offline\tools\convert2mesh.h">
+      <Filter>tools\import_assert\offline\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\offline\tools\import_fbx.h">
+      <Filter>tools\import_assert\offline\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\offline\tools\import_option.h">
+      <Filter>tools\import_assert\offline\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\offline\fbx\fbx.h">
+      <Filter>tools\import_assert\offline\fbx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\offline\fbx\fbx_animation.h">
+      <Filter>tools\import_assert\offline\fbx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\offline\fbx\fbx_base.h">
+      <Filter>tools\import_assert\offline\fbx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\offline\fbx\fbx_skeleton.h">
+      <Filter>tools\import_assert\offline\fbx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\tools\import_assert\ofbx\fbx2resource.h">
+      <Filter>tools\import_assert\ofbx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\tools\import_assert\ofbx\ofbx.h">
+      <Filter>tools\import_assert\ofbx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\tools\import_assert\ofbx\miniz.h">
+      <Filter>tools\import_assert\ofbx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\editor\tools\import_assert\ofbx\texture_tools.h">
+      <Filter>tools\import_assert\ofbx</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\editor\common\entry\entry_ios.mm">
       <Filter>common\entry</Filter>
     </None>
-    <None Include="..\..\editor\entry\entry_osx.mm">
+    <None Include="..\..\editor\common\entry\entry_osx.mm">
       <Filter>common\entry</Filter>
     </None>
-    <None Include="..\..\editor\entry\entry_winrt.cx">
+    <None Include="..\..\editor\common\entry\entry_winrt.cx">
       <Filter>common\entry</Filter>
+    </None>
+    <None Include="..\..\editor\common\ocornut-imgui\widgets\color_picker.inl">
+      <Filter>common\ocornut-imgui\widgets</Filter>
+    </None>
+    <None Include="..\..\editor\common\ocornut-imgui\widgets\color_wheel.inl">
+      <Filter>common\ocornut-imgui\widgets</Filter>
+    </None>
+    <None Include="..\..\editor\common\ocornut-imgui\widgets\dock.inl">
+      <Filter>common\ocornut-imgui\widgets</Filter>
+    </None>
+    <None Include="..\..\editor\common\ocornut-imgui\widgets\file_list.inl">
+      <Filter>common\ocornut-imgui\widgets</Filter>
+    </None>
+    <None Include="..\..\editor\common\ocornut-imgui\widgets\gizmo.inl">
+      <Filter>common\ocornut-imgui\widgets</Filter>
+    </None>
+    <None Include="..\..\editor\common\ocornut-imgui\widgets\memory_editor.inl">
+      <Filter>common\ocornut-imgui\widgets</Filter>
+    </None>
+    <None Include="..\..\editor\common\ocornut-imgui\widgets\range_slider.inl">
+      <Filter>common\ocornut-imgui\widgets</Filter>
+    </None>
+    <None Include="..\..\editor\common\ocornut-imgui\imgui_user.inl">
+      <Filter>common\ocornut-imgui</Filter>
     </None>
   </ItemGroup>
 </Project>

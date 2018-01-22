@@ -19,6 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\common\animation\animation.cc" />
+    <ClCompile Include="..\..\common\animation\blending_job.cc" />
+    <ClCompile Include="..\..\common\animation\io\archive.cc" />
+    <ClCompile Include="..\..\common\animation\io\stream.cc" />
+    <ClCompile Include="..\..\common\animation\local_to_model_job.cc" />
+    <ClCompile Include="..\..\common\animation\maths\box.cc" />
+    <ClCompile Include="..\..\common\animation\maths\math_archive.cc" />
+    <ClCompile Include="..\..\common\animation\maths\simd_math.cc" />
+    <ClCompile Include="..\..\common\animation\maths\simd_math_archive.cc" />
+    <ClCompile Include="..\..\common\animation\maths\soa_math_archive.cc" />
+    <ClCompile Include="..\..\common\animation\sampling_job.cc" />
+    <ClCompile Include="..\..\common\animation\skeleton.cc" />
+    <ClCompile Include="..\..\common\animation\skeleton_utils.cc" />
+    <ClCompile Include="..\..\common\animation\skinning_job.cc" />
     <ClCompile Include="..\..\common\debug\debug.cpp" />
     <ClCompile Include="..\..\common\debug\profiler.cpp" />
     <ClCompile Include="..\..\common\egal-d.cpp" />
@@ -33,8 +47,10 @@
     <ClCompile Include="..\..\common\math\default\matrix.cpp" />
     <ClCompile Include="..\..\common\math\default\quaternion.cpp" />
     <ClCompile Include="..\..\common\math\default\float_x.cpp" />
+    <ClCompile Include="..\..\common\resource\entity_serializer.cpp" />
     <ClCompile Include="..\..\common\resource\material_manager.cpp" />
     <ClCompile Include="..\..\common\resource\entity_manager.cpp" />
+    <ClCompile Include="..\..\common\resource\material_serializer.cpp" />
     <ClCompile Include="..\..\common\resource\resource_manager.cpp" />
     <ClCompile Include="..\..\common\resource\resource_public.cpp" />
     <ClCompile Include="..\..\common\resource\shader_manager.cpp" />
@@ -53,6 +69,7 @@
     <ClCompile Include="..\..\common\utils\perf_timer.cpp" />
     <ClCompile Include="..\..\runtime\Engine.cpp" />
     <ClCompile Include="..\..\runtime\EngineFramework\buffer.cpp" />
+    <ClCompile Include="..\..\runtime\EngineFramework\camera.cpp" />
     <ClCompile Include="..\..\runtime\EngineFramework\component_manager.cpp" />
     <ClCompile Include="..\..\runtime\EngineFramework\culling_system.cpp" />
     <ClCompile Include="..\..\runtime\EngineFramework\engine_root.cpp" />
@@ -67,6 +84,39 @@
     <ClInclude Include="..\..\common\allocator\lifo_allocator.h" />
     <ClInclude Include="..\..\common\allocator\pool_allocator.h" />
     <ClInclude Include="..\..\common\allocator\proxy_allocator.h" />
+    <ClInclude Include="..\..\common\allocator\std_allocator.h" />
+    <ClInclude Include="..\..\common\animation\animation.h" />
+    <ClInclude Include="..\..\common\animation\animation_keyframe.h" />
+    <ClInclude Include="..\..\common\animation\blending_job.h" />
+    <ClInclude Include="..\..\common\animation\io\archive.h" />
+    <ClInclude Include="..\..\common\animation\io\archive_traits.h" />
+    <ClInclude Include="..\..\common\animation\io\endianness.h" />
+    <ClInclude Include="..\..\common\animation\io\stream.h" />
+    <ClInclude Include="..\..\common\animation\local_to_model_job.h" />
+    <ClInclude Include="..\..\common\animation\maths\box.h" />
+    <ClInclude Include="..\..\common\animation\maths\gtest_math_helper.h" />
+    <ClInclude Include="..\..\common\animation\maths\internal\simd_math_config.h" />
+    <ClInclude Include="..\..\common\animation\maths\internal\simd_math_ref-inl.h" />
+    <ClInclude Include="..\..\common\animation\maths\internal\simd_math_sse-inl.h" />
+    <ClInclude Include="..\..\common\animation\maths\math_archive.h" />
+    <ClInclude Include="..\..\common\animation\maths\math_constant.h" />
+    <ClInclude Include="..\..\common\animation\maths\math_ex.h" />
+    <ClInclude Include="..\..\common\animation\maths\quaternion.h" />
+    <ClInclude Include="..\..\common\animation\maths\rect.h" />
+    <ClInclude Include="..\..\common\animation\maths\simd_math.h" />
+    <ClInclude Include="..\..\common\animation\maths\simd_math_archive.h" />
+    <ClInclude Include="..\..\common\animation\maths\soa_float.h" />
+    <ClInclude Include="..\..\common\animation\maths\soa_float4x4.h" />
+    <ClInclude Include="..\..\common\animation\maths\soa_math_archive.h" />
+    <ClInclude Include="..\..\common\animation\maths\soa_quaternion.h" />
+    <ClInclude Include="..\..\common\animation\maths\soa_transform.h" />
+    <ClInclude Include="..\..\common\animation\maths\transform.h" />
+    <ClInclude Include="..\..\common\animation\maths\vec_float.h" />
+    <ClInclude Include="..\..\common\animation\platform.h" />
+    <ClInclude Include="..\..\common\animation\sampling_job.h" />
+    <ClInclude Include="..\..\common\animation\skeleton.h" />
+    <ClInclude Include="..\..\common\animation\skeleton_utils.h" />
+    <ClInclude Include="..\..\common\animation\skinning_job.h" />
     <ClInclude Include="..\..\common\config.h" />
     <ClInclude Include="..\..\common\debug\debug.h" />
     <ClInclude Include="..\..\common\debug\profiler.h" />
@@ -150,7 +200,7 @@
     <ClInclude Include="..\..\common\stl\thash_map.h" />
     <ClInclude Include="..\..\common\stl\tmap.h" />
     <ClInclude Include="..\..\common\stl\tqueue.h" />
-    <ClInclude Include="..\..\common\stl\tvector.h" />
+    <ClInclude Include="..\..\common\stl\tarrary.h" />
     <ClInclude Include="..\..\common\struct.h" />
     <ClInclude Include="..\..\common\template.h" />
     <ClInclude Include="..\..\common\thread\atomic.h" />
@@ -183,6 +233,7 @@
     <ClInclude Include="..\..\runtime\api\IType.h" />
     <ClInclude Include="..\..\runtime\Engine.h" />
     <ClInclude Include="..\..\runtime\EngineFramework\buffer.h" />
+    <ClInclude Include="..\..\runtime\EngineFramework\camera.h" />
     <ClInclude Include="..\..\runtime\EngineFramework\component_manager.h" />
     <ClInclude Include="..\..\runtime\EngineFramework\culling_system.h" />
     <ClInclude Include="..\..\runtime\EngineFramework\engine_root.h" />
@@ -191,6 +242,9 @@
     <ClInclude Include="..\..\runtime\EngineFramework\renderer.h" />
     <ClInclude Include="..\..\runtime\EngineFramework\scene_manager.h" />
     <ClInclude Include="..\..\runtime\IEngine.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\common\resource\entity.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -245,6 +299,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetName>egal_d</TargetName>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetName>egal</TargetName>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -252,7 +309,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\common\math;..\..\;../../3rdparty/lua/include;..\..\3rdparty\bgfx\include;..\..\3rdparty\bimg\include;..\..\3rdparty\bx\include\compat\msvc;..\..\3rdparty\bx\include;..\..\runtime\api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\;..\..\common\math;..\..\3rdparty\lua\include;..\..\3rdparty\bgfx\include;..\..\3rdparty\bimg\include;..\..\3rdparty\bx\include\compat\msvc;..\..\3rdparty\bx\include;..\..\3rdparty\SDL2-2.0.7\include;..\..\runtime\api;C:\Program Files\Autodesk\FBX\FBX SDK\2018.1.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>__STDC_LIMIT_MACROS;__STDC_FORMAT_MACROS;__STDC_CONSTANT_MACROS;NDEBUG;WIN32;_WIN32;_HAS_EXCEPTIONS=0;_HAS_ITERATOR_DEBUGGING=0;_SCL_SECURE=0;_SECURE_SCL=0;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -272,13 +329,13 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\common\math;..\..\;../../3rdparty/lua/include;..\..\3rdparty\bgfx\include;..\..\3rdparty\bimg\include;..\..\3rdparty\bx\include\compat\msvc;..\..\3rdparty\bx\include;..\..\runtime\api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>__STDC_LIMIT_MACROS;__STDC_FORMAT_MACROS;__STDC_CONSTANT_MACROS;_DEBUG;WIN32;_WIN32;_HAS_EXCEPTIONS=0;_HAS_ITERATOR_DEBUGGING=0;_SCL_SECURE=0;_SECURE_SCL=0;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_WIN64;BGFX_CONFIG_DEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\;..\..\common\math;..\..\3rdparty\lua\include;..\..\3rdparty\bgfx\include;..\..\3rdparty\bimg\include;..\..\3rdparty\bx\include\compat\msvc;..\..\3rdparty\bx\include;..\..\3rdparty\SDL2-2.0.7\include;..\..\runtime\api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;WIN64;_WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

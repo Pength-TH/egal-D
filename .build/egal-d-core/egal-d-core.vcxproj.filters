@@ -79,6 +79,18 @@
     <Filter Include="common\memory">
       <UniqueIdentifier>{f46d0adb-5515-4938-959e-4505ac9a089a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="common\animation">
+      <UniqueIdentifier>{a74e5102-1e6e-4e88-ae63-7c5216f2c893}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\animation\maths">
+      <UniqueIdentifier>{de8e2264-007f-417f-9ea2-deba83e8a8ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\animation\maths\internal">
+      <UniqueIdentifier>{cbbc3bc4-dfaf-437d-8564-981ec871b274}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\animation\io">
+      <UniqueIdentifier>{e5838e66-1da5-445d-9468-3db2068f8b3e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\common\egal-d_test.cpp">
@@ -203,6 +215,57 @@
     </ClCompile>
     <ClCompile Include="..\..\runtime\EngineFramework\scene_manager.cpp">
       <Filter>runtime\engine_framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\runtime\EngineFramework\camera.cpp">
+      <Filter>runtime\engine_framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\animation.cc">
+      <Filter>common\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\blending_job.cc">
+      <Filter>common\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\local_to_model_job.cc">
+      <Filter>common\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\sampling_job.cc">
+      <Filter>common\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\skeleton.cc">
+      <Filter>common\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\skeleton_utils.cc">
+      <Filter>common\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\skinning_job.cc">
+      <Filter>common\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\maths\box.cc">
+      <Filter>common\animation\maths</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\maths\math_archive.cc">
+      <Filter>common\animation\maths</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\maths\simd_math.cc">
+      <Filter>common\animation\maths</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\maths\simd_math_archive.cc">
+      <Filter>common\animation\maths</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\maths\soa_math_archive.cc">
+      <Filter>common\animation\maths</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\io\archive.cc">
+      <Filter>common\animation\io</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\animation\io\stream.cc">
+      <Filter>common\animation\io</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\resource\entity_serializer.cpp">
+      <Filter>common\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\resource\material_serializer.cpp">
+      <Filter>common\resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -590,8 +653,115 @@
     <ClInclude Include="..\..\common\stl\tqueue.h">
       <Filter>common\stl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\common\stl\tvector.h">
+    <ClInclude Include="..\..\runtime\EngineFramework\camera.h">
+      <Filter>runtime\engine_framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\animation.h">
+      <Filter>common\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\animation_keyframe.h">
+      <Filter>common\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\blending_job.h">
+      <Filter>common\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\local_to_model_job.h">
+      <Filter>common\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\sampling_job.h">
+      <Filter>common\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\skeleton.h">
+      <Filter>common\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\skeleton_utils.h">
+      <Filter>common\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\skinning_job.h">
+      <Filter>common\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\maths\box.h">
+      <Filter>common\animation\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\maths\gtest_math_helper.h">
+      <Filter>common\animation\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\maths\math_archive.h">
+      <Filter>common\animation\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\maths\math_constant.h">
+      <Filter>common\animation\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\maths\math_ex.h">
+      <Filter>common\animation\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\maths\quaternion.h">
+      <Filter>common\animation\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\maths\rect.h">
+      <Filter>common\animation\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\maths\simd_math.h">
+      <Filter>common\animation\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\maths\simd_math_archive.h">
+      <Filter>common\animation\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\maths\soa_float.h">
+      <Filter>common\animation\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\maths\soa_float4x4.h">
+      <Filter>common\animation\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\maths\soa_math_archive.h">
+      <Filter>common\animation\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\maths\soa_quaternion.h">
+      <Filter>common\animation\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\maths\soa_transform.h">
+      <Filter>common\animation\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\maths\transform.h">
+      <Filter>common\animation\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\maths\vec_float.h">
+      <Filter>common\animation\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\maths\internal\simd_math_config.h">
+      <Filter>common\animation\maths\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\maths\internal\simd_math_ref-inl.h">
+      <Filter>common\animation\maths\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\maths\internal\simd_math_sse-inl.h">
+      <Filter>common\animation\maths\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\platform.h">
+      <Filter>common\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\io\archive.h">
+      <Filter>common\animation\io</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\io\archive_traits.h">
+      <Filter>common\animation\io</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\io\stream.h">
+      <Filter>common\animation\io</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\animation\io\endianness.h">
+      <Filter>common\animation\io</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\allocator\std_allocator.h">
+      <Filter>common\allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\stl\tarrary.h">
       <Filter>common\stl</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\common\resource\entity.txt">
+      <Filter>common\resource</Filter>
+    </Text>
   </ItemGroup>
 </Project>

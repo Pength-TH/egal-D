@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{1318F76C-0EA6-42DC-B247-394078973E3F}</ProjectGuid>
+    <ProjectGuid>{62C5712E-FF9C-4FDF-BDFD-AFB1F131B830}</ProjectGuid>
     <RootNamespace>egaldwindows</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -69,37 +69,37 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\3rdparty\bx\include\compat\msvc;..\..\3rdparty\bx\include;..\..\3rdparty\bimg\include;..\..\3rdparty\bgfx\include;..\..\editor;..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>__STDC_LIMIT_MACROS;__STDC_FORMAT_MACROS;__STDC_CONSTANT_MACROS;NDEBUG;WIN32;_WIN32;_HAS_EXCEPTIONS=0;_HAS_ITERATOR_DEBUGGING=0;_SCL_SECURE=0;_SECURE_SCL=0;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_WIN64;ENTRY_CONFIG_IMPLEMENT_MAIN=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-    </ClCompile>
-    <Link>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>x64/d3d9.lib;
-x64/d3dx9.lib;
-x64/DxErr.lib;
-x64/dxguid.lib;
-x64/dsound.lib;x64/dxguid.lib;x64/dinput8.lib;bgfx.lib;shaderc.lib;bx.lib;DelayImp.lib;gdi32.lib;psapi.lib;bimg.lib;egal-d-core.lib;egal-d-editor.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../3rdparty/windows/DirectX/Lib/;../x64/Release/</AdditionalLibraryDirectories>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetName>egal_window</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>egal_window_d</TargetName>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\3rdparty\bx\include\compat\msvc;..\..\3rdparty\bx\include;..\..\3rdparty\bimg\include;..\..\3rdparty\bgfx\include;C:\Program Files\Autodesk\FBX\FBX SDK\2018.1.1\include;..\..\3rdparty\SDL2-2.0.7\include;../../3rdparty/lua/include;..\..\editor;..\..\;..\..\editor\common;..\..\editor\common\ocornut-imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>__STDC_LIMIT_MACROS;__STDC_FORMAT_MACROS;__STDC_CONSTANT_MACROS;_DEBUG;WIN32;_WIN32;_SCL_SECURE=0;_SECURE_SCL=0;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_WIN64;BGFX_CONFIG_DEBUG=1;_WINDOWS;BUILD_SIMD_REF;CMAKE_INTDIR="Debug";ENTRY_CONFIG_IMPLEMENT_MAIN=1;WIN64;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>../../3rdparty/windows/DirectX/Lib/;../x64/Debug/;../../3rdparty/SDL2-2.0.7/lib/x64/</AdditionalLibraryDirectories>
+      <AdditionalDependencies>C:\Program Files\Autodesk\FBX\FBX SDK\2018.1.1\lib\vs2015\x64\debug\libfbxsdk-md.lib;../../3rdparty/crnlib/lib/win64_vs2017/debug/crnlib.lib;bgfx_d.lib;bimg_d.lib;bx_d.lib;egal_d.lib;egal_editor_d.lib;lua_d.lib;shaderc_d.lib;x64/d3d9.lib;x64/d3dx9.lib;x64/DxErr.lib;x64/dxguid.lib;x64/dsound.lib;x64/dinput8.lib;DelayImp.lib;gdi32.lib;psapi.lib;kernel32.lib;user32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\..\Client\$(TargetName)$(TargetExt)</OutputFile>
+      <Version>
+      </Version>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+    </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
@@ -119,8 +119,27 @@ x64/dsound.lib;x64/dxguid.lib;x64/dinput8.lib;bgfx.lib;shaderc.lib;bx.lib;DelayI
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\3rdparty\bx\include\compat\msvc;..\..\3rdparty\bx\include;..\..\3rdparty\bimg\include;..\..\3rdparty\bgfx\include;C:\Program Files\Autodesk\FBX\FBX SDK\2018.1.1\include;..\..\3rdparty\SDL2-2.0.7\include;../../3rdparty/lua/include;..\..\editor;..\..\;..\..\editor\common;..\..\editor\common\ocornut-imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>__STDC_LIMIT_MACROS;__STDC_FORMAT_MACROS;__STDC_CONSTANT_MACROS;NDEBUG;WIN32;_WIN32;_HAS_EXCEPTIONS=0;_HAS_ITERATOR_DEBUGGING=0;_SCL_SECURE=0;_SECURE_SCL=0;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_WIN64;ENTRY_CONFIG_IMPLEMENT_MAIN=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>../../3rdparty/windows/DirectX/Lib/;../x64/Release/</AdditionalLibraryDirectories>
+      <AdditionalDependencies>C:\Program Files\Autodesk\FBX\FBX SDK\2018.1.1\lib\vs2015\x64\release\libfbxsdk-mt.lib;bgfx.lib;shaderc.lib;bx.lib;bimg.lib;egal.lib;lua.lib;egal_editor.lib;x64/d3d9.lib;x64/d3dx9.lib;x64/DxErr.lib;x64/dxguid.lib;x64/dsound.lib;x64/dinput8.lib;DelayImp.lib;gdi32.lib;psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\..\Client\$(TargetName)$(TargetExt)</OutputFile>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\platform\windows\egal-d-windows.cpp" />
+    <ClCompile Include="windows.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

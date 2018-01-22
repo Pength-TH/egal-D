@@ -19,99 +19,135 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\editor\aviwriter.h" />
-    <ClInclude Include="..\..\editor\bgfx_utils.h" />
-    <ClInclude Include="..\..\editor\bounds.h" />
-    <ClInclude Include="..\..\editor\camera.h" />
-    <ClInclude Include="..\..\editor\common.h" />
-    <ClInclude Include="..\..\editor\cube_atlas.h" />
-    <ClInclude Include="..\..\editor\debugdraw\debugdraw.h" />
-    <ClInclude Include="..\..\editor\debugdraw\fs_debugdraw_fill.bin.h" />
-    <ClInclude Include="..\..\editor\debugdraw\fs_debugdraw_fill_lit.bin.h" />
-    <ClInclude Include="..\..\editor\debugdraw\fs_debugdraw_fill_texture.bin.h" />
-    <ClInclude Include="..\..\editor\debugdraw\fs_debugdraw_lines.bin.h" />
-    <ClInclude Include="..\..\editor\debugdraw\fs_debugdraw_lines_stipple.bin.h" />
-    <ClInclude Include="..\..\editor\debugdraw\vs_debugdraw_fill.bin.h" />
-    <ClInclude Include="..\..\editor\debugdraw\vs_debugdraw_fill_lit.bin.h" />
-    <ClInclude Include="..\..\editor\debugdraw\vs_debugdraw_fill_texture.bin.h" />
-    <ClInclude Include="..\..\editor\debugdraw\vs_debugdraw_lines.bin.h" />
-    <ClInclude Include="..\..\editor\debugdraw\vs_debugdraw_lines_stipple.bin.h" />
-    <ClInclude Include="..\..\editor\entry\cmd.h" />
-    <ClInclude Include="..\..\editor\entry\dbg.h" />
-    <ClInclude Include="..\..\editor\entry\entry.h" />
-    <ClInclude Include="..\..\editor\entry\entry_p.h" />
-    <ClInclude Include="..\..\editor\entry\input.h" />
-    <ClInclude Include="..\..\editor\ib-compress\indexbuffercompression.h" />
-    <ClInclude Include="..\..\editor\ib-compress\indexbuffercompressionformat.h" />
-    <ClInclude Include="..\..\editor\ib-compress\indexbufferdecompression.h" />
-    <ClInclude Include="..\..\editor\ib-compress\indexcompressionconstants.h" />
-    <ClInclude Include="..\..\editor\ib-compress\readbitstream.h" />
-    <ClInclude Include="..\..\editor\ib-compress\writebitstream.h" />
-    <ClInclude Include="..\..\editor\imgui\droidsans.ttf.h" />
-    <ClInclude Include="..\..\editor\imgui\fs_imgui_color.bin.h" />
-    <ClInclude Include="..\..\editor\imgui\fs_imgui_cubemap.bin.h" />
-    <ClInclude Include="..\..\editor\imgui\fs_imgui_image.bin.h" />
-    <ClInclude Include="..\..\editor\imgui\fs_imgui_image_swizz.bin.h" />
-    <ClInclude Include="..\..\editor\imgui\fs_imgui_latlong.bin.h" />
-    <ClInclude Include="..\..\editor\imgui\fs_imgui_texture.bin.h" />
-    <ClInclude Include="..\..\editor\imgui\fs_ocornut_imgui.bin.h" />
-    <ClInclude Include="..\..\editor\imgui\icons_font_awesome.ttf.h" />
-    <ClInclude Include="..\..\editor\imgui\icons_kenney.ttf.h" />
-    <ClInclude Include="..\..\editor\imgui\bgfx_imgui.h" />
-    <ClInclude Include="..\..\editor\imgui\robotomono_regular.ttf.h" />
-    <ClInclude Include="..\..\editor\imgui\roboto_regular.ttf.h" />
-    <ClInclude Include="..\..\editor\imgui\scintilla.h" />
-    <ClInclude Include="..\..\editor\imgui\vs_imgui_color.bin.h" />
-    <ClInclude Include="..\..\editor\imgui\vs_imgui_cubemap.bin.h" />
-    <ClInclude Include="..\..\editor\imgui\vs_imgui_image.bin.h" />
-    <ClInclude Include="..\..\editor\imgui\vs_imgui_latlong.bin.h" />
-    <ClInclude Include="..\..\editor\imgui\vs_imgui_texture.bin.h" />
-    <ClInclude Include="..\..\editor\imgui\vs_ocornut_imgui.bin.h" />
-    <ClInclude Include="..\..\editor\ocornut-imgui\imconfig.h" />
-    <ClInclude Include="..\..\editor\ocornut-imgui\imgui.h" />
-    <ClInclude Include="..\..\editor\ocornut-imgui\imgui_internal.h" />
-    <ClInclude Include="..\..\editor\ocornut-imgui\imgui_user.h" />
-    <ClInclude Include="..\..\editor\ocornut-imgui\stb_rect_pack.h" />
-    <ClInclude Include="..\..\editor\ocornut-imgui\stb_textedit.h" />
-    <ClInclude Include="..\..\editor\ocornut-imgui\stb_truetype.h" />
-    <ClInclude Include="..\..\editor\ocornut-imgui\widgets\color_picker.h" />
-    <ClInclude Include="..\..\editor\ocornut-imgui\widgets\color_wheel.h" />
-    <ClInclude Include="..\..\editor\ocornut-imgui\widgets\dock.h" />
-    <ClInclude Include="..\..\editor\ocornut-imgui\widgets\file_list.h" />
-    <ClInclude Include="..\..\editor\ocornut-imgui\widgets\gizmo.h" />
-    <ClInclude Include="..\..\editor\ocornut-imgui\widgets\memory_editor.h" />
-    <ClInclude Include="..\..\editor\ocornut-imgui\widgets\range_slider.h" />
-    <ClInclude Include="..\..\editor\packrect.h" />
+    <ClCompile Include="..\..\common\animation\offline\additive_animation_builder.cc" />
+    <ClCompile Include="..\..\common\animation\offline\animation_builder.cc" />
+    <ClCompile Include="..\..\common\animation\offline\animation_optimizer.cc" />
+    <ClCompile Include="..\..\common\animation\offline\fbx\fbx.cc" />
+    <ClCompile Include="..\..\common\animation\offline\fbx\fbx2anim.cc" />
+    <ClCompile Include="..\..\common\animation\offline\fbx\fbx2skel.cc" />
+    <ClCompile Include="..\..\common\animation\offline\fbx\fbx_animation.cc" />
+    <ClCompile Include="..\..\common\animation\offline\fbx\fbx_base.cc" />
+    <ClCompile Include="..\..\common\animation\offline\fbx\fbx_skeleton.cc" />
+    <ClCompile Include="..\..\common\animation\offline\mesh.cc" />
+    <ClCompile Include="..\..\common\animation\offline\raw_animation.cc" />
+    <ClCompile Include="..\..\common\animation\offline\raw_animation_archive.cc" />
+    <ClCompile Include="..\..\common\animation\offline\raw_animation_utils.cc" />
+    <ClCompile Include="..\..\common\animation\offline\raw_skeleton.cc" />
+    <ClCompile Include="..\..\common\animation\offline\raw_skeleton_archive.cc" />
+    <ClCompile Include="..\..\common\animation\offline\skeleton_builder.cc" />
+    <ClCompile Include="..\..\common\animation\offline\tools\import_fbx.cpp" />
+    <ClCompile Include="..\..\editor\common\entry\cmd.cpp" />
+    <ClCompile Include="..\..\editor\common\entry\entry.cpp" />
+    <ClCompile Include="..\..\editor\common\entry\entry_android.cpp" />
+    <ClCompile Include="..\..\editor\common\entry\entry_asmjs.cpp" />
+    <ClCompile Include="..\..\editor\common\entry\entry_glfw.cpp" />
+    <ClCompile Include="..\..\editor\common\entry\entry_noop.cpp" />
+    <ClCompile Include="..\..\editor\common\entry\entry_sdl.cpp" />
+    <ClCompile Include="..\..\editor\common\entry\entry_windows.cpp" />
+    <ClCompile Include="..\..\editor\common\entry\entry_x11.cpp" />
+    <ClCompile Include="..\..\editor\common\entry\input.cpp" />
+    <ClCompile Include="..\..\editor\common\imgui\bgfx_imgui.cpp" />
+    <ClCompile Include="..\..\editor\common\ocornut-imgui\imgui.cpp" />
+    <ClCompile Include="..\..\editor\common\ocornut-imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\..\editor\common\ocornut-imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\..\editor\common\ocornut-imgui\imgui_node_graph_test.cpp" />
+    <ClCompile Include="..\..\editor\editor.cpp" />
+    <ClCompile Include="..\..\editor\tools\base\file_system_watcher.cpp" />
+    <ClCompile Include="..\..\editor\tools\base\platform_interface.cpp" />
+    <ClCompile Include="..\..\editor\tools\base\stb\stb_vorbis.cpp" />
+    <ClCompile Include="..\..\editor\tools\import_assert\import_asset_dialog.cpp" />
+    <ClCompile Include="..\..\editor\tools\import_assert\ofbx\fbx2resource.cpp" />
+    <ClCompile Include="..\..\editor\tools\import_assert\ofbx\miniz.c" />
+    <ClCompile Include="..\..\editor\tools\import_assert\ofbx\ofbx.cpp" />
+    <ClCompile Include="..\..\editor\tools\log\log_ui.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\editor\bgfx_utils.cpp" />
-    <ClCompile Include="..\..\editor\bounds.cpp" />
-    <ClCompile Include="..\..\editor\camera.cpp" />
-    <ClCompile Include="..\..\editor\cube_atlas.cpp" />
-    <ClCompile Include="..\..\editor\debugdraw\debugdraw.cpp" />
-    <ClCompile Include="..\..\editor\entry\cmd.cpp" />
-    <ClCompile Include="..\..\editor\entry\entry.cpp" />
-    <ClCompile Include="..\..\editor\entry\entry_android.cpp" />
-    <ClCompile Include="..\..\editor\entry\entry_asmjs.cpp" />
-    <ClCompile Include="..\..\editor\entry\entry_glfw.cpp" />
-    <ClCompile Include="..\..\editor\entry\entry_noop.cpp" />
-    <ClCompile Include="..\..\editor\entry\entry_sdl.cpp" />
-    <ClCompile Include="..\..\editor\entry\entry_windows.cpp" />
-    <ClCompile Include="..\..\editor\entry\entry_x11.cpp" />
-    <ClCompile Include="..\..\editor\entry\input.cpp" />
-    <ClCompile Include="..\..\editor\ib-compress\indexbuffercompression.cpp" />
-    <ClCompile Include="..\..\editor\ib-compress\indexbufferdecompression.cpp" />
-    <ClCompile Include="..\..\editor\imgui\bgfx_imgui.cpp" />
-    <ClCompile Include="..\..\editor\imgui\scintilla.cpp" />
-    <ClCompile Include="..\..\editor\ocornut-imgui\imgui.cpp" />
-    <ClCompile Include="..\..\editor\ocornut-imgui\imgui_demo.cpp" />
-    <ClCompile Include="..\..\editor\ocornut-imgui\imgui_draw.cpp" />
-    <ClCompile Include="..\..\editor\ocornut-imgui\imgui_node_graph_test.cpp" />
+    <ClInclude Include="..\..\common\animation\offline\additive_animation_builder.h" />
+    <ClInclude Include="..\..\common\animation\offline\animation_builder.h" />
+    <ClInclude Include="..\..\common\animation\offline\animation_optimizer.h" />
+    <ClInclude Include="..\..\common\animation\offline\fbx\fbx.h" />
+    <ClInclude Include="..\..\common\animation\offline\fbx\fbx_animation.h" />
+    <ClInclude Include="..\..\common\animation\offline\fbx\fbx_base.h" />
+    <ClInclude Include="..\..\common\animation\offline\fbx\fbx_skeleton.h" />
+    <ClInclude Include="..\..\common\animation\offline\mesh.h" />
+    <ClInclude Include="..\..\common\animation\offline\raw_animation.h" />
+    <ClInclude Include="..\..\common\animation\offline\raw_animation_utils.h" />
+    <ClInclude Include="..\..\common\animation\offline\raw_skeleton.h" />
+    <ClInclude Include="..\..\common\animation\offline\skeleton_builder.h" />
+    <ClInclude Include="..\..\common\animation\offline\tools\convert2material.h" />
+    <ClInclude Include="..\..\common\animation\offline\tools\convert2mesh.h" />
+    <ClInclude Include="..\..\common\animation\offline\tools\import_fbx.h" />
+    <ClInclude Include="..\..\common\animation\offline\tools\import_option.h" />
+    <ClInclude Include="..\..\editor\common\common.h" />
+    <ClInclude Include="..\..\editor\common\entry\cmd.h" />
+    <ClInclude Include="..\..\editor\common\entry\dbg.h" />
+    <ClInclude Include="..\..\editor\common\entry\entry.h" />
+    <ClInclude Include="..\..\editor\common\entry\entry_p.h" />
+    <ClInclude Include="..\..\editor\common\entry\input.h" />
+    <ClInclude Include="..\..\editor\common\iconfontheaders\icons_font_awesome.h" />
+    <ClInclude Include="..\..\editor\common\iconfontheaders\icons_kenney.h" />
+    <ClInclude Include="..\..\editor\common\iconfontheaders\icons_material_design.h" />
+    <ClInclude Include="..\..\editor\common\imgui\droidsans.ttf.h" />
+    <ClInclude Include="..\..\editor\common\imgui\fs_imgui_color.bin.h" />
+    <ClInclude Include="..\..\editor\common\imgui\fs_imgui_cubemap.bin.h" />
+    <ClInclude Include="..\..\editor\common\imgui\fs_imgui_image.bin.h" />
+    <ClInclude Include="..\..\editor\common\imgui\fs_imgui_image_swizz.bin.h" />
+    <ClInclude Include="..\..\editor\common\imgui\fs_imgui_latlong.bin.h" />
+    <ClInclude Include="..\..\editor\common\imgui\fs_imgui_texture.bin.h" />
+    <ClInclude Include="..\..\editor\common\imgui\fs_ocornut_imgui.bin.h" />
+    <ClInclude Include="..\..\editor\common\imgui\icons_font_awesome.ttf.h" />
+    <ClInclude Include="..\..\editor\common\imgui\icons_kenney.ttf.h" />
+    <ClInclude Include="..\..\editor\common\imgui\bgfx_imgui.h" />
+    <ClInclude Include="..\..\editor\common\imgui\robotomono_regular.ttf.h" />
+    <ClInclude Include="..\..\editor\common\imgui\roboto_regular.ttf.h" />
+    <ClInclude Include="..\..\editor\common\imgui\scintilla.h" />
+    <ClInclude Include="..\..\editor\common\imgui\vs_imgui_color.bin.h" />
+    <ClInclude Include="..\..\editor\common\imgui\vs_imgui_cubemap.bin.h" />
+    <ClInclude Include="..\..\editor\common\imgui\vs_imgui_image.bin.h" />
+    <ClInclude Include="..\..\editor\common\imgui\vs_imgui_latlong.bin.h" />
+    <ClInclude Include="..\..\editor\common\imgui\vs_imgui_texture.bin.h" />
+    <ClInclude Include="..\..\editor\common\imgui\vs_ocornut_imgui.bin.h" />
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\imconfig.h" />
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\imgui.h" />
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\imgui_internal.h" />
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\imgui_user.h" />
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\stb_rect_pack.h" />
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\stb_textedit.h" />
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\stb_truetype.h" />
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\widgets\color_picker.h" />
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\widgets\color_wheel.h" />
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\widgets\dock.h" />
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\widgets\file_list.h" />
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\widgets\gizmo.h" />
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\widgets\memory_editor.h" />
+    <ClInclude Include="..\..\editor\common\ocornut-imgui\widgets\range_slider.h" />
+    <ClInclude Include="..\..\editor\editor.h" />
+    <ClInclude Include="..\..\editor\editor_key.h" />
+    <ClInclude Include="..\..\editor\tools\base\editor_base.h" />
+    <ClInclude Include="..\..\editor\tools\base\file_system_watcher.h" />
+    <ClInclude Include="..\..\editor\tools\base\platform_interface.h" />
+    <ClInclude Include="..\..\editor\tools\base\stb\mf_resource.h" />
+    <ClInclude Include="..\..\editor\tools\base\stb\stb_image.h" />
+    <ClInclude Include="..\..\editor\tools\base\stb\stb_image_resize.h" />
+    <ClInclude Include="..\..\editor\tools\import_assert\import_asset_dialog.h" />
+    <ClInclude Include="..\..\editor\tools\import_assert\ofbx\fbx2resource.h" />
+    <ClInclude Include="..\..\editor\tools\import_assert\ofbx\miniz.h" />
+    <ClInclude Include="..\..\editor\tools\import_assert\ofbx\ofbx.h" />
+    <ClInclude Include="..\..\editor\tools\import_assert\ofbx\texture_tools.h" />
+    <ClInclude Include="..\..\editor\tools\log\log_ui.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\editor\entry\entry_ios.mm" />
-    <None Include="..\..\editor\entry\entry_osx.mm" />
-    <None Include="..\..\editor\entry\entry_winrt.cx" />
+    <None Include="..\..\editor\common\entry\entry_ios.mm" />
+    <None Include="..\..\editor\common\entry\entry_osx.mm" />
+    <None Include="..\..\editor\common\entry\entry_winrt.cx" />
+    <None Include="..\..\editor\common\ocornut-imgui\imgui_user.inl" />
+    <None Include="..\..\editor\common\ocornut-imgui\widgets\color_picker.inl" />
+    <None Include="..\..\editor\common\ocornut-imgui\widgets\color_wheel.inl" />
+    <None Include="..\..\editor\common\ocornut-imgui\widgets\dock.inl" />
+    <None Include="..\..\editor\common\ocornut-imgui\widgets\file_list.inl" />
+    <None Include="..\..\editor\common\ocornut-imgui\widgets\gizmo.inl" />
+    <None Include="..\..\editor\common\ocornut-imgui\widgets\memory_editor.inl" />
+    <None Include="..\..\editor\common\ocornut-imgui\widgets\range_slider.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -163,7 +199,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>egal_editor_d</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetName>egal_editor</TargetName>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -171,7 +212,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\3rdparty\bx\include\compat\msvc;..\..\3rdparty\bx\include;..\..\3rdparty\bimg\include;..\..\3rdparty\bgfx\include;..\..\editor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\3rdparty\bx\include\compat\msvc;..\..\3rdparty\bx\include;..\..\3rdparty\bimg\include;..\..\3rdparty\bgfx\include;../../3rdparty/SDL2-2.0.7/include;../../3rdparty/lua/include;..\..\;..\..\editor\;..\..\editor\common;..\..\editor\common\ocornut-imgui;..\..\editor\tools;C:\Program Files\Autodesk\FBX\FBX SDK\2018.1.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>__STDC_LIMIT_MACROS;__STDC_FORMAT_MACROS;__STDC_CONSTANT_MACROS;NDEBUG;WIN32;_WIN32;_HAS_EXCEPTIONS=0;_HAS_ITERATOR_DEBUGGING=0;_SCL_SECURE=0;_SECURE_SCL=0;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -191,8 +232,12 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\3rdparty\bx\include\compat\msvc;..\..\3rdparty\bx\include;..\..\3rdparty\bimg\include;..\..\3rdparty\bgfx\include;..\..\editor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\3rdparty\bx\include\compat\msvc;..\..\3rdparty\bx\include;..\..\3rdparty\bimg\include;..\..\3rdparty\bgfx\include;../../3rdparty/SDL2-2.0.7/include;../../3rdparty/lua/include;..\..\;..\..\editor\;..\..\editor\common;..\..\editor\common\ocornut-imgui;..\..\editor\tools;C:\Program Files\Autodesk\FBX\FBX SDK\2018.1.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>__STDC_LIMIT_MACROS;__STDC_FORMAT_MACROS;__STDC_CONSTANT_MACROS;_DEBUG;WIN32;_WIN32;_SCL_SECURE=0;_SECURE_SCL=0;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
