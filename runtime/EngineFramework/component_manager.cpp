@@ -3,7 +3,7 @@
 namespace egal
 {
 	const ComponentUID ComponentUID::INVALID(INVALID_GAME_OBJECT, { -1 }, 0, INVALID_COMPONENT);
-
+	template<> ComponentManager* Singleton<ComponentManager>::msSingleton = 0;
 	ComponentManager::ComponentManager(IAllocator& allocator)
 		: m_component_added(allocator)
 		, m_game_objects(allocator)
@@ -17,17 +17,6 @@ namespace egal
 		, m_hierarchy(allocator)
 		, m_allocator(allocator)
 	{
-		//m_component_added = TDelegateList<void(const ComponentUID&)>(allocator);
-		//m_game_objects = TVector<GameObjectData>(allocator);
-
-		//m_scenes = TVector<SceneManager*>(allocator);
-		//m_hierarchy = TVector<Hierarchy>(allocator);
-		//m_names = TVector<GameObjectName>(allocator);
-		//m_game_object_moved = TDelegateList<void(GameObject)>(allocator);
-		//m_game_object_created = TDelegateList<void(GameObject)>(allocator);
-		//m_game_object_destroyed = TDelegateList<void(GameObject)>(allocator);
-		//m_component_destroyed = TDelegateList<void(const ComponentUID&)>(allocator);
-
 		m_game_objects.reserve(RESERVED_ENTITIES_COUNT);
 	}
 
@@ -316,6 +305,11 @@ namespace egal
 		m_game_object_created.invoke(game_object);
 
 		return game_object;
+	}
+
+	egal::GameObject ComponentManager::createGameObject()
+	{
+		return createGameObject(float3(0, 0, 0), Quaternion(0, 0, 0, 1));
 	}
 
 	void ComponentManager::destroyGameObject(GameObject game_object)

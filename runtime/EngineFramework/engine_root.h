@@ -58,19 +58,19 @@ namespace egal
 		Renderer&		 getRender();
 		SceneManager*	getSceneManager() {	return m_p_scene_manager; }
 
-		void startGame(ComponentManager& context);
-		void stopGame(ComponentManager& context);
+		void startGame();
+		void stopGame();
 
 		
 
-		void frame(ComponentManager& context);
+		void frame();
 		float getFPS() const;
 		
-		e_uint32 serialize(ComponentManager& ctx, WriteBinary& serializer);
-		bool deserialize(ComponentManager& ctx, ReadBinary& serializer);
-		void serializerSceneVersions(WriteBinary& serializer, ComponentManager& ctx);
+		e_uint32 serialize(WriteBinary& serializer);
+		bool deserialize(ReadBinary& serializer);
+		void serializerSceneVersions(WriteBinary& serializer);
 		void serializePluginList(WriteBinary& serializer);
-		bool hasSupportedSceneVersions(ReadBinary& serializer, ComponentManager& ctx);
+		bool hasSupportedSceneVersions(ReadBinary& serializer);
 		bool hasSerializedPlugins(ReadBinary& serializer);
 
 		double getTime() const;
@@ -81,7 +81,7 @@ namespace egal
 		ArchivePathManager& getArchivePathManager();
 		void runScript(const char* src, int src_length, const char* path);
 
-		ComponentUID createComponent(ComponentManager& com_man, GameObject game_object, ComponentType type);
+		ComponentUID createComponent(GameObject game_object, ComponentType type);
 		
 		IAllocator& getLIFOAllocator();
 
@@ -103,36 +103,24 @@ namespace egal
 		PluginManager*		m_plugin_manager;
 		InputSystem*		m_input_system;
 
-		Timer* m_timer;
-		Timer* m_fps_timer;
+		Timer*				m_timer;
+		Timer*				m_fps_timer;
 
-		int		m_fps_frame;
-		float	m_time_multiplier;
-		float	m_fps;
-		float	m_last_time_delta;
-		double	m_time;
-		bool	m_is_game_running;
-		bool	m_paused;
-		bool	m_next_frame;
+		int32_t				m_fps_frame;
+		float				m_time_multiplier;
+		float				m_fps;
+		float				m_last_time_delta;
+		double				m_time;
+		bool				m_is_game_running;
+		bool				m_paused;
+		bool				m_next_frame;
 
 		PlatformData		m_platform_data;
 		ArchivePathManager	m_path_manager;
 
-		LuaManager*			m_p_lua_manager;
+		LuaManager*					m_p_lua_manager;
 		THashMap<int, Resource*>	m_lua_resources;
 		int							m_last_lua_resource_idx;
-
-		TArrary<FrameBuffer::RenderBuffer> buffers;
-		
-		
-		GameObject m_camera;
-
-
-		e_float  m_mouse_speed;
-
-
-		Resource*   m_entity_resource;
-
 	};
 }
 #endif

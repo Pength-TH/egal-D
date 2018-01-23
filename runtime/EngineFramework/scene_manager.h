@@ -19,8 +19,8 @@ namespace egal
 	class Texture;
 	class Shader;
 	class CullingSystem;
-	
-	
+
+
 
 	enum class RenderSceneVersion : e_int32
 	{
@@ -172,7 +172,7 @@ namespace egal
 		e_float  life;
 	};
 
-	class SceneManager
+	class SceneManager : public Singleton<SceneManager>
 	{
 	public:
 		static SceneManager* createInstance(Renderer& renderer,
@@ -228,7 +228,7 @@ namespace egal
 		e_void destroyCamera(ComponentHandle component);
 		e_void destroyTerrain(ComponentHandle component);
 		e_void destroyParticleEmitter(ComponentHandle component);
-		
+
 		e_void frame(e_float time_delta, e_bool paused);
 		e_void lateUpdate(e_float time_delta, e_bool paused);
 
@@ -247,7 +247,7 @@ namespace egal
 		e_void serializeTerrain(ISerializer& serializer, ComponentHandle cmp);
 		e_void deserializeTerrain(IDeserializer& serializer, GameObject entity, e_int32 version);
 		e_void serializeEnvironmentProbe(ISerializer& serializer, ComponentHandle cmp);
-		
+
 
 		ComponentHandle getComponent(GameObject entity, ComponentType type);
 		ComponentManager& getComponentManager();
@@ -451,7 +451,7 @@ namespace egal
 		e_void setGlobalLightIndirectIntensity(ComponentHandle cmp, e_float intensity);
 		e_void setPointLightColor(ComponentHandle cmp, const float3& color);
 		e_void setGlobalLightColor(ComponentHandle cmp, const float3& color);
-		
+
 		e_float getPointLightIntensity(ComponentHandle cmp);
 		GameObject getPointLightGameObject(ComponentHandle cmp) const;
 		GameObject getGlobalLightGameObject(ComponentHandle cmp) const;
@@ -492,18 +492,18 @@ namespace egal
 		ComponentHandle						m_active_global_light_cmp;
 		THashMap<ComponentHandle, e_int32>	m_point_lights_map;
 
-		TMap<GameObject, Decal>				m_decals;
-		TArrary<EntityInstance>				m_entity_instances;
+		TArraryMap<GameObject, Decal>				m_decals;
+		TArrary<EntityInstance>						m_entity_instances;
 
-		THashMap<GameObject, GlobalLight>	m_global_lights;
-		TArrary<PointLight>					m_point_lights;
-		THashMap<GameObject, Camera>		m_cameras;
-		TMap<GameObject, BoneAttachment>	m_bone_attachments;
-		TMap<GameObject, EnvironmentProbe>	m_environment_probes;
+		THashMap<GameObject, GlobalLight>			m_global_lights;
+		TArrary<PointLight>							m_point_lights;
+		THashMap<GameObject, Camera>				m_cameras;
+		TArraryMap<GameObject, BoneAttachment>		m_bone_attachments;
+		TArraryMap<GameObject, EnvironmentProbe>	m_environment_probes;
 
 
-		TMap<Entity*, EntityLoadedCallback>		m_entity_loaded_callbacks;
-		TArrary<TArrary<EntityInstanceMesh>>	m_temporary_infos;
+		TArraryMap<Entity*, EntityLoadedCallback>		m_entity_loaded_callbacks;
+		TArrary<TArrary<EntityInstanceMesh>>			m_temporary_infos;
 
 		TArrary<DebugTriangle>	m_debug_triangles;
 		TArrary<DebugLine>		m_debug_lines;

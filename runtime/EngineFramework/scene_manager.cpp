@@ -80,6 +80,8 @@ namespace egal
 	//----------------------------------------------------------------------
 	//----------------------------------------------------------------------
 	//----------------------------------------------------------------------
+	template<> SceneManager* Singleton<SceneManager>::msSingleton = 0;
+
 	SceneManager::SceneManager(Renderer& renderer,
 		EngineRoot& engine,
 		ComponentManager& com_man,
@@ -128,7 +130,7 @@ namespace egal
 			m_com_man.GameObjectTransformed().unbind<SceneManager, &SceneManager::onEntityMoved>(this);
 			m_com_man.GameObjectDestroyed().unbind<SceneManager, &SceneManager::onEntityDestroyed>(this);
 
-			CullingSystem::destroy(*m_culling_system);
+			CullingSystem::destroy(*m_culling_system, m_allocator);
 		}
 
 

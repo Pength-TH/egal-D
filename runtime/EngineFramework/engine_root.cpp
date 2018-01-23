@@ -30,7 +30,6 @@ namespace egal
 	};
 #pragma pack()
 
-
 	template<> EngineRoot * Singleton<EngineRoot>::msSingleton = 0;
 
 	EngineRoot::EngineRoot(const char* base_path0, const char* base_path1, FS::FileSystem* fs, IAllocator& allocator)
@@ -49,23 +48,17 @@ namespace egal
 		, m_lifo_allocator(allocator, 10 * 1024 * 1024)
 		, m_p_render(nullptr)
 		, m_p_pipeline(nullptr)
-		, m_mouse_speed(0.1)
-		, buffers(allocator)
 	{
 		log_info("Core Creating engine...");
-
-		/**初始化组件管理器*/
-		m_p_component_manager = new ComponentManager(m_allocator);
-
+		
 		Profiler::setThreadName("Main");
 
-		/**设置异常捕获函数*/
+		/** init dump */
 		enableCrashReporting(false);
 		installUnhandledExceptionHandler();
 		
 		m_platform_data = {};
 
-		/** 初始化脚本 */
 		m_p_lua_manager = new LuaManager();
 		m_p_lua_manager->init(m_allocator);
 
@@ -74,21 +67,16 @@ namespace egal
 		if (!fs)
 			init_file_system(allocator);
 
-		/** 初始化资源 */
 		m_resource_manager.create(*g_file_system);
 
-		/**初始化时间*/
 		m_timer = Timer::create(m_allocator);
 		m_fps_timer = Timer::create(m_allocator);
 		m_fps_frame = 0;
 
-		/**初始化反射*/
 		Reflection::init(m_allocator);
 		
-		/**初始化插件*/
 		m_plugin_manager = PluginManager::create(*this);
 		
-		/**初始化输入系统*/
 		m_input_system = InputSystem::create(*this);
 		
 		log_info("Core Engine create successed.");
@@ -96,22 +84,26 @@ namespace egal
 
 	EngineRoot::~EngineRoot()
 	{
-		Pipeline::destroy(m_p_pipeline);
-		Renderer::destroy(m_p_render, m_allocator);
+		InputSystem::destroy(*m_input_system);
+
+		PluginManager::destroy(m_plugin_manager);
+		
+		Reflection::shutdown();
+
+		Timer::destroy(m_timer);
+		Timer::destroy(m_fps_timer);
+
+		m_resource_manager.destroy();
+
+		JobSystem::shutdown();
 
 		for (Resource* res : m_lua_resources)
 		{
 			res->getResourceManager().unload(*res);
 		}
 
-		Reflection::shutdown();
-		Timer::destroy(m_timer);
-		Timer::destroy(m_fps_timer);
-		PluginManager::destroy(m_plugin_manager);
-		if (m_input_system)
-			InputSystem::destroy(*m_input_system);
-		m_resource_manager.destroy();
-		JobSystem::shutdown();
+		SAFE_DELETE(m_p_lua_manager);
+		SAFE_DELETE(m_p_component_manager);
 	}
 
 	Renderer& EngineRoot::getRender()
@@ -139,28 +131,18 @@ namespace egal
 
 	ComponentManager& EngineRoot::createComponentManager()
 	{
+		m_p_component_manager = new ComponentManager(m_allocator);
 		m_p_component_manager->setName("com_manager");
 
-		/**初始化渲染系统*/
 		if (!m_p_render)
 			m_p_render = Renderer::create(*this);
 			
-		/**初始化场景管理*/
-
 		m_p_scene_manager = new SceneManager(*m_p_render, *this, *m_p_component_manager, m_allocator);//  SceneManager::createInstance(*m_p_render, *this, *m_p_component_manager, m_allocator);
 		m_p_component_manager->addScene(m_p_scene_manager);
 
-		/**初始化摄像机*/
-		m_camera = m_p_component_manager->createGameObject(float3(0, 0, -35), Quaternion(0, 0, 0, 1));
-		m_p_component_manager->setGameObjectName(m_camera, "main");
-		ComponentUID cmd = createComponent(*m_p_component_manager, m_camera, COMPONENT_CAMERA_TYPE);
-		cmd.handle = m_p_scene_manager->createCamera(m_camera);
-
-		m_p_scene_manager->setCameraSlot(cmd.handle, "main");
-
-		/**初始化管线*/
 		m_p_pipeline = Pipeline::create(*m_p_render, ArchivePath("./preview.lua"), "egal", m_allocator);
 		m_p_pipeline->load();
+
 		m_p_render->setMainPipeline(m_p_pipeline);
 
 		while (g_file_system->hasWork())
@@ -173,77 +155,12 @@ namespace egal
 		m_p_pipeline->resize(1024, 768);
 		m_p_render->resize(1024, 768);
 
-		m_p_scene_manager->addDebugLine(float3(0, 0, 0), float3(0, 100, 0), 0x303030ff, 9999999);
-
 		const TArrary<IPlugin*>& plugins = m_plugin_manager->getPlugins();
 		for (auto* plugin : plugins)
 		{
 			plugin->createScenes(*m_p_component_manager);
 		}
 
-		//-----------------------------------------------------------------
-		FrameBuffer::RenderBuffer renderbuff;
-		renderbuff.m_format = bgfx::TextureFormat::RGBA8;
-		buffers.push_back(renderbuff);
-		FrameBuffer::RenderBuffer renderbuff1;
-		renderbuff1.m_format = bgfx::TextureFormat::D24S8;
-		buffers.push_back(renderbuff1);
-		/***/
-		//m_p_pipeline->addFramebuffer("default", 1024, 1024, true, float2(1, 1), buffers);
-
-		auto m_entity = m_p_component_manager->createGameObject(float3(0, 0, 0), Quaternion(0, 0, 0, 1));
-		auto mesh_back_cmp = m_p_scene_manager->createComponent(COMPONENT_ENTITY_INSTANCE_TYPE, m_entity);
-		m_p_scene_manager->setEntityInstancePath(mesh_back_cmp, ArchivePath("models/house2.msh"));
-		m_entity = m_p_component_manager->createGameObject(float3(10, 0, 0), Quaternion(0, 0, 0, 1));
-		mesh_back_cmp = m_p_scene_manager->createComponent(COMPONENT_ENTITY_INSTANCE_TYPE, m_entity);
-		m_p_scene_manager->setEntityInstancePath(mesh_back_cmp, ArchivePath("test/wsg_bs_taidaonv_001.msh"));
-
-		m_entity = m_p_component_manager->createGameObject(float3(0, 0, 10), Quaternion(0, 0, 0, 1));
-		mesh_back_cmp = m_p_scene_manager->createComponent(COMPONENT_ENTITY_INSTANCE_TYPE, m_entity);
-		m_p_scene_manager->setEntityInstancePath(mesh_back_cmp, ArchivePath("res/level_res/wsg_s_kunlun_diaoxiang_001/wsg_s_kunlun_diaoxiang_001.msh"));
-
-		m_entity = m_p_component_manager->createGameObject(float3(0, 0, 20), Quaternion(0, 0, 0, 1));
-		mesh_back_cmp = m_p_scene_manager->createComponent(COMPONENT_ENTITY_INSTANCE_TYPE, m_entity);
-		m_p_scene_manager->setEntityInstancePath(mesh_back_cmp, ArchivePath("res\level_res\wsg_s_kunlun_shantijianzhu_001\wsg_s_kunlun_shantijianzhu_001.msh"));
-
-		
-		/*for (int i = 0; i < 110; i++)
-		{
-			for (int j = 0; j < 110; j++)
-			{
-				auto m_entity = m_p_component_manager->createGameObject(float3(i, 0, j), Quaternion(0, 0, 0, 1));
-				auto mesh_back_cmp = m_p_scene_manager->createComponent(COMPONENT_ENTITY_INSTANCE_TYPE, m_entity);
-				m_p_scene_manager->setEntityInstancePath(mesh_back_cmp, ArchivePath("models/house2.msh"));
-			}
-		}
-
-		for (int i = 0; i < 110; i++)
-		{
-			for (int j = 0; j < 110; j++)
-			{
-				auto m_entity = m_p_component_manager->createGameObject(float3(i, 5, j), Quaternion(0, 0, 0, 1));
-				auto mesh_back_cmp = m_p_scene_manager->createComponent(COMPONENT_ENTITY_INSTANCE_TYPE, m_entity);
-				m_p_scene_manager->setEntityInstancePath(mesh_back_cmp, ArchivePath("models/house2.msh"));
-			}
-		}
-
-		for (int i = 0; i < 110; i++)
-		{
-			for (int j = 0; j < 110; j++)
-			{
-				auto m_entity = m_p_component_manager->createGameObject(float3(i, 10, j), Quaternion(0, 0, 0, 1));
-				auto mesh_back_cmp = m_p_scene_manager->createComponent(COMPONENT_ENTITY_INSTANCE_TYPE, m_entity);
-				m_p_scene_manager->setEntityInstancePath(mesh_back_cmp, ArchivePath("models/house2.msh"));
-			}
-		}*/
-
-		while (g_file_system->hasWork())
-		{
-			MT::sleep(100);
-			g_file_system->updateAsyncTransactions();
-		}
-
-		/***/
 		return *m_p_component_manager;
 	}
 
@@ -257,8 +174,18 @@ namespace egal
 			scene->clear();
 			scene->getPlugin().destroyScene(scene);
 		}
-		_delete(m_allocator, &com_man);
+
+		if (m_p_pipeline)
+			Pipeline::destroy(m_p_pipeline);
+
+		SAFE_DELETE(m_p_scene_manager);
+
 		m_resource_manager.removeUnreferenced();
+
+		if (m_p_render)
+			Renderer::destroy(m_p_render, m_allocator);
+
+		SAFE_DELETE(m_p_component_manager);
 	}
 
 	PluginManager& EngineRoot::getPluginManager()
@@ -266,11 +193,11 @@ namespace egal
 		return *m_plugin_manager;
 	}
 
-	void EngineRoot::startGame(ComponentManager& context)
+	void EngineRoot::startGame()
 	{
 		ASSERT(!m_is_game_running);
 		m_is_game_running = true;
-		for (auto* scene : context.getScenes())
+		for (auto* scene : m_p_component_manager->getScenes())
 		{
 			scene->startGame();
 		}
@@ -280,11 +207,11 @@ namespace egal
 		}
 	}
 
-	void EngineRoot::stopGame(ComponentManager& context)
+	void EngineRoot::stopGame()
 	{
 		ASSERT(m_is_game_running);
 		m_is_game_running = false;
-		for (auto* scene : context.getScenes())
+		for (auto* scene : m_p_component_manager->getScenes())
 		{
 			scene->stopGame();
 		}
@@ -309,7 +236,7 @@ namespace egal
 		m_time_multiplier = Math::maximum(multiplier, 0.001f);
 	}
 
-	void EngineRoot::frame(ComponentManager& context)
+	void EngineRoot::frame()
 	{
 		//PROFILE_FUNCTION();
 		++m_fps_frame;
@@ -328,19 +255,18 @@ namespace egal
 		m_last_time_delta = dt;
 		{
 			//PROFILE_BLOCK("update scenes");
-			for (auto* scene : context.getScenes())
+			for (auto* scene : m_p_component_manager->getScenes())
 			{
 				scene->frame(dt, m_paused);
 			}
 		}
 		{
 			//PROFILE_BLOCK("late update scenes");
-			for (auto* scene : context.getScenes())
+			for (auto* scene : m_p_component_manager->getScenes())
 			{
 				scene->lateUpdate(dt, m_paused);
 			}
 		}
-
 
 		m_p_scene_manager->frame(dt, false);
 		m_p_pipeline->frame();
@@ -359,8 +285,8 @@ namespace egal
 
 	egal::e_void EngineRoot::on_mouse_moved(e_float x, e_float y)
 	{
-		if (m_p_scene_manager)
-			m_p_scene_manager->camera_rotate(m_camera, x, y);
+// 		if (m_p_scene_manager)
+// 			m_p_scene_manager->camera_rotate(m_camera, x, y);
 	}
 
 	InputSystem& EngineRoot::getInputSystem() { return *m_input_system; }
@@ -372,10 +298,10 @@ namespace egal
 
 	float EngineRoot::getFPS() const { return m_fps; }
 
-	void EngineRoot::serializerSceneVersions(WriteBinary& serializer, ComponentManager& ctx)
+	void EngineRoot::serializerSceneVersions(WriteBinary& serializer)
 	{
-		serializer.write(ctx.getScenes().size());
-		for (auto* scene : ctx.getScenes())
+		serializer.write(m_p_component_manager->getScenes().size());
+		for (auto* scene : m_p_component_manager->getScenes())
 		{
 			serializer.write(crc32(scene->getPlugin().getName()));
 			serializer.write(scene->getVersion());
@@ -391,7 +317,7 @@ namespace egal
 		}
 	}
 
-	bool EngineRoot::hasSupportedSceneVersions(ReadBinary& serializer, ComponentManager& ctx)
+	bool EngineRoot::hasSupportedSceneVersions(ReadBinary& serializer)
 	{
 		e_int32 count;
 		serializer.read(count);
@@ -399,7 +325,7 @@ namespace egal
 		{
 			e_uint32 hash;
 			serializer.read(hash);
-			auto* scene = ctx.getScene(hash);
+			auto* scene = m_p_component_manager->getScene(hash);
 			int version;
 			serializer.read(version);
 			if (version != scene->getVersion())
@@ -428,20 +354,20 @@ namespace egal
 		return true;
 	}
 
-	e_uint32 EngineRoot::serialize(ComponentManager& ctx, WriteBinary& serializer)
+	e_uint32 EngineRoot::serialize(WriteBinary& serializer)
 	{
 		SerializedEngineHeader header;
 		header.m_magic = SERIALIZED_ENGINE_MAGIC; // == '_LEN'
 		header.m_reserved = 0;
 		serializer.write(header);
 		serializePluginList(serializer);
-		serializerSceneVersions(serializer, ctx);
+		serializerSceneVersions(serializer);
 		//m_path_manager.serialize(serializer);
 		int pos = serializer.getPos();
-		ctx.serialize(serializer);
+		m_p_component_manager->serialize(serializer);
 		m_plugin_manager->serialize(serializer);
-		serializer.write((e_int32)ctx.getScenes().size());
-		for (auto* scene : ctx.getScenes())
+		serializer.write((e_int32)m_p_component_manager->getScenes().size());
+		for (auto* scene : m_p_component_manager->getScenes())
 		{
 			serializer.writeString(scene->getPlugin().getName());
 			scene->serialize(serializer);
@@ -450,7 +376,7 @@ namespace egal
 		return crc;
 	}
 
-	bool EngineRoot::deserialize(ComponentManager& ctx, ReadBinary& serializer)
+	bool EngineRoot::deserialize(ReadBinary& serializer)
 	{
 		SerializedEngineHeader header;
 		serializer.read(header);
@@ -460,10 +386,9 @@ namespace egal
 			return false;
 		}
 		if (!hasSerializedPlugins(serializer)) return false;
-		if (!hasSupportedSceneVersions(serializer, ctx)) return false;
+		if (!hasSupportedSceneVersions(serializer)) return false;
 
-		//m_path_manager.deserialize(serializer);
-		ctx.deserialize(serializer);
+		m_p_component_manager->deserialize(serializer);
 		m_plugin_manager->deserialize(serializer);
 		e_int32 scene_count;
 		serializer.read(scene_count);
@@ -471,16 +396,16 @@ namespace egal
 		{
 			char tmp[32];
 			serializer.readString(tmp, sizeof(tmp));
-			SceneManager* scene = ctx.getScene(crc32(tmp));
+			SceneManager* scene = m_p_component_manager->getScene(crc32(tmp));
 			scene->deserialize(serializer);
 		}
 		m_path_manager.clear();
 		return true;
 	}
 
-	ComponentUID EngineRoot::createComponent(ComponentManager& com_man, GameObject game_object, ComponentType type)
+	ComponentUID EngineRoot::createComponent(GameObject game_object, ComponentType type)
 	{
-		SceneManager* scene = com_man.getScene(type);
+		SceneManager* scene = m_p_component_manager->getScene(type);
 		if (!scene) return ComponentUID::INVALID;
 
 		return ComponentUID(game_object, type, scene, scene->createComponent(type, game_object));
@@ -529,8 +454,6 @@ namespace egal
 	ArchivePathManager& EngineRoot::getArchivePathManager() { return m_path_manager; }
 	float EngineRoot::getLastTimeDelta() const { return m_last_time_delta / m_time_multiplier; }
 	double EngineRoot::getTime() const { return m_time; }
-
-
 
 
 	EngineRoot* EngineRoot::create(const char* base_path0,

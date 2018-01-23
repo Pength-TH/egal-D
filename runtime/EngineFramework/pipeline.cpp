@@ -76,6 +76,7 @@ namespace egal
 		m_default_cubemap = (Texture*)renderer.getTextureManager().load(ArchivePath("pipelines/pbr/default_probe.dds"));
 
 		m_sky_material = (Material*)material_manager.load(ArchivePath("models/defaultmaterial.mat"));
+		
 		//m_sky_material = (Material*)material_manager.load(ArchivePath("models/sky/clouded01/sky.mat"));
 
 		createParticleBuffers();
@@ -226,6 +227,7 @@ namespace egal
 			m_debug_line_material->getResourceManager().unload(*m_debug_line_material);
 			m_draw2d_material->getResourceManager().unload(*m_draw2d_material);
 			m_default_cubemap->getResourceManager().unload(*m_default_cubemap);
+			m_sky_material->getResourceManager().unload(*m_sky_material);
 
 			destroyUniforms();
 
@@ -2260,7 +2262,6 @@ namespace egal
 			renderDebugShapes();
 
 			e_uint64 all_render_mask = getLayerMask("default") + getLayerMask("transparent") + getLayerMask("water") + getLayerMask("fur") + getLayerMask("no_shadows");
-
 			renderAll(m_camera_frustum, false, m_applied_camera, all_render_mask);
 
 			bool success = true;// lua_frame(this);

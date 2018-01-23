@@ -5,7 +5,7 @@
 #include "common/struct.h"
 #include "common/template.h"
 #include "common/stl/delegate.h"
-#include "common/stl/delegate_list.h"
+
 namespace egal
 {
 	bool copyFile(const char* from, const char* to);
@@ -39,7 +39,7 @@ namespace egal
 		void pluginAdded(IPlugin& plugin) {}
 
 		void createScenes(ComponentManager&) {}
-		void destroyScene(SceneManager*) { ASSERT(false); }
+		void destroyScene(SceneManager*) { }
 		void startGame() {}
 		void stopGame() {}
 	};

@@ -284,6 +284,8 @@ namespace egal
 		, m_callback_stub(*this)
 		, m_vsync(true)
 		, m_main_pipeline(nullptr)
+		, m_draw2d_material(nullptr)
+		, m_default_shader(nullptr)
 	{
 		registerProperties(engine.getAllocator());
 
@@ -311,7 +313,7 @@ namespace egal
 		}
 		ASSERT(res);
 		bgfx::reset(800, 600, m_vsync ? BGFX_RESET_VSYNC : 0);
-		bgfx::setDebug(BGFX_DEBUG_NONE | BGFX_DEBUG_PROFILER);
+		bgfx::setDebug(BGFX_DEBUG_TEXT);
 		bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
 
 		ResourceManager& manager = engine.getResourceManager();

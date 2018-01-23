@@ -75,9 +75,9 @@ namespace egal
 		return _aligned_new(allocator, CullingSystem)(allocator);
 	}
 
-	e_void CullingSystem::destroy(CullingSystem& culling_system)
+	e_void CullingSystem::destroy(CullingSystem& culling_system, IAllocator& allocator)
 	{
-		_delete(static_cast<CullingSystem&>(culling_system).getAllocator(), &culling_system);
+		_delete(allocator, &culling_system);
 	}
 
 	/********************************************************************************************************/
@@ -106,7 +106,6 @@ namespace egal
 
 	CullingSystem::~CullingSystem()
 	{
-		destroy(*this);
 	}
 
 	e_void CullingSystem::clear()

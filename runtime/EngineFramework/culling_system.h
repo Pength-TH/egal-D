@@ -12,7 +12,7 @@ namespace egal
 	{
 	public:
 		static CullingSystem* create(IAllocator& allocator);
-		static e_void destroy(CullingSystem& culling_system);
+		static e_void destroy(CullingSystem& culling_system, IAllocator& allocator);
 
 	public:
 		typedef TArrary<Sphere>				InputSpheres;

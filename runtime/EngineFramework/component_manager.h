@@ -5,9 +5,11 @@
 #include "runtime/EngineFramework/plugin_manager.h"
 #include "common/serializer/serializer.h"
 
+#include "common/utils/singleton.h"
+
 namespace egal
 {
-	class ComponentManager
+	class ComponentManager : public Singleton<ComponentManager>
 	{
 	public:
 		typedef void (SceneManager::*Serialize)(ISerializer&, ComponentHandle);
@@ -29,7 +31,9 @@ namespace egal
 
 		void emplaceGameObject(GameObject game_object);
 
+		GameObject createGameObject();
 		GameObject createGameObject(const float3& position, const Quaternion& rotation);
+
 		void destroyGameObject(GameObject game_object);
 		GameObject getFirstGameObject() const;
 		GameObject getNextGameObject(GameObject game_object) const;
