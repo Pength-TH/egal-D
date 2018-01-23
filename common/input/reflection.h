@@ -939,7 +939,7 @@ namespace egal
 
 
 		template <typename Counter, typename Adder, typename Remover, typename... Props>
-		auto array(const e_char* name, Counter counter, Adder adder, Remover remover, Props... properties)
+		auto r_array(const e_char* name, Counter counter, Adder adder, Remover remover, Props... properties)
 		{
 			ArrayProperty<Counter, Adder, Remover, Props...> p;
 			p.name = name;

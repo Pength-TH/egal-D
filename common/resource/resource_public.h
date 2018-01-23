@@ -87,7 +87,7 @@ namespace egal
 
 	private:
 		IAllocator& m_allocator;
-		TMap<e_uint32, Archive*> m_paths;
+		TArraryMap<e_uint32, Archive*> m_paths;
 		MT::SpinMutex m_mutex;
 		ArchivePath* m_empty_path;
 	};

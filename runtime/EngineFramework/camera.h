@@ -35,7 +35,7 @@ namespace egal
 			m_verticalAngle = 0.0f;
 			m_mouseSpeed = 0.0020f;
 			m_gamepadSpeed = 0.04f;
-			m_moveSpeed = 30.0f;
+			m_moveSpeed = 1.0f;
 		}
 
 		void update(e_float _deltaTime, const float2& _mouseState);

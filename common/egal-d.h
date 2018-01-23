@@ -48,14 +48,13 @@
 /**stl*/
 #if EGAL_USER_STL == 1
 
-#include "common/stl/tmap.h"
+#include "common/stl/TArraryMap.h"
 #include "common/stl/tqueue.h"
 #include "common/stl/tarrary.h"
 
 #endif
 
 #include "common/stl/delegate.h"
-#include "common/stl/delegate_list.h"
 #include "common/stl/thash_map.h"
 
 /**utils*/

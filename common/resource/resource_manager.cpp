@@ -259,7 +259,8 @@ namespace egal
 
 	e_void ResourceManagerBase::removeUnreferenced()
 	{
-		if (!m_is_unload_enabled) return;
+		if (!m_is_unload_enabled) 
+			return;
 
 		TArrary<Resource*> to_remove(m_allocator);
 		for (auto* i : m_resources)

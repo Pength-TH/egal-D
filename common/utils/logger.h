@@ -5,7 +5,7 @@
 #include "common/type.h"
 #include "common/config.h"
 
-#include "common/stl/delegate_list.h"
+#include "common/stl/delegate.h"
 
 namespace egal
 {

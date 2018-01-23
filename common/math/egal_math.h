@@ -331,7 +331,14 @@ namespace egal
 	};
 #endif
 
-
+	static bool RealEqual(float a, float b,
+		float tolerance = std::numeric_limits<float>::epsilon())
+	{
+		if (fabs(b - a) <= tolerance)
+			return true;
+		else
+			return false;
+	}
 }
 
 #endif

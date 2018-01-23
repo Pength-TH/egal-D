@@ -9,9 +9,6 @@ namespace egal
 	{
 		m_deltaTime = _deltaTime;
 
-		m_horizontalAngle += m_gamepadSpeed;
-		m_verticalAngle   -= m_gamepadSpeed;
-
 		m_camera_direction[0] = bx::fcos(m_verticalAngle) * bx::fsin(m_horizontalAngle);
 		m_camera_direction[1] = bx::fsin(m_verticalAngle);
 		m_camera_direction[2] = bx::fcos(m_verticalAngle) * bx::fcos(m_horizontalAngle);

@@ -2258,8 +2258,8 @@ namespace egal
 			//disableDepthWrite();
 			//enableBlending("alpha");
 
-			executeCommandBuffer(m_debug_line_material->getCommandBuffer(), m_debug_line_material);
-			renderDebugShapes();
+			//executeCommandBuffer(m_debug_line_material->getCommandBuffer(), m_debug_line_material);
+			//renderDebugShapes();
 
 			e_uint64 all_render_mask = getLayerMask("default") + getLayerMask("transparent") + getLayerMask("water") + getLayerMask("fur") + getLayerMask("no_shadows");
 			renderAll(m_camera_frustum, false, m_applied_camera, all_render_mask);

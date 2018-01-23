@@ -37,6 +37,8 @@ namespace egal
 
 		bool update() override;
 
+		void camera_unity_update();
+
 		void createWindow();
 		void destroyWindow();
 
@@ -45,14 +47,12 @@ namespace egal
 		entry::WindowState		m_windows[50];
 		bgfx::FrameBufferHandle m_fbh[50];
 
-
-
-		//TVector<IWinodw>		m_windows;
-
 		ImportAssetDialog*      m_p_import_assert;
 		LogUI*					m_p_log_ui;
 
 		IEngine*  m_p_engine;
+
+		GameObject m_camera_object;
 	};
 }
 #endif

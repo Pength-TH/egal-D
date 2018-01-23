@@ -3,7 +3,7 @@
 
 #include "common/type.h"
 #include "common/stl/delegate.h"
-#include "common/stl/delegate_list.h"
+
 #include "common/egal_string.h"
 
 namespace egal

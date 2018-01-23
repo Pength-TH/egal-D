@@ -420,25 +420,17 @@ namespace egal
 			pos += rot.rotate(float3(0, 1, 0))  * up      * speed;
 
 			m_com_man.setPosition(cmera_object, pos);
-			
-			camera_rotate(cmera_object, camera.m_horizontalAngle, camera.m_verticalAngle);
 		}
 
 		egal::e_void SceneManager::camera_rotate(GameObject cmera_object, e_float horizontalAngle, e_float verticalAngle)
 		{
 			ComponentHandle cmp = getComponent(cmera_object, COMPONENT_CAMERA_TYPE);
 
-			Camera& camera = m_cameras[{cmp.index}];
-
-			camera.update(1.0, float2(horizontalAngle, verticalAngle));
-			return;
-
 			float3 pos = m_com_man.getPosition(cmera_object);
-			Quaternion rot = m_com_man.getRotation(cmera_object);
-			Quaternion old_rot = rot;
+			Quaternion rot = Quaternion(0,0,0,1);
 
-			Quaternion yaw_rot(float3(0, 1, 0), egal::Math::C_DegreeToRadian * (horizontalAngle /4));
-			rot = yaw_rot * rot;
+			Quaternion yaw_rot(float3(0, 1, 0), -egal::Math::C_DegreeToRadian * (horizontalAngle /4));
+			rot = yaw_rot;
 			rot.normalize();
 
 			float3 pitch_axis = rot.rotate(float3(1, 0, 0));
@@ -2011,7 +2003,6 @@ namespace egal
 
 		e_void	SceneManager::setGlobalLODMultiplier(e_float multiplier) { m_lod_multiplier = multiplier; }
 		e_float SceneManager::getGlobalLODMultiplier() const { return m_lod_multiplier; }
-
 
 		float4x4 SceneManager::getCameraViewProjection(ComponentHandle cmp)
 		{

@@ -9,5 +9,5 @@ bool g_mouse_board[MB_END];
 
 namespace egal
 {
-
+	
 }

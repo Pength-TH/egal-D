@@ -156,22 +156,7 @@ namespace egal
 		egal::SceneManager* m_p_scene_manager = m_p_engine_root->getSceneManager();
 		ComponentHandle cmp_hand = m_p_scene_manager->getCameraInSlot("main");
 		GameObject m_camera = m_p_scene_manager->getCameraGameObject(cmp_hand);
-		float m_mouse_speed = 1.0;
-		//input
-		{
-			if (keyCode == KC_W)
-				m_p_scene_manager->camera_navigate(m_camera, 1.0f, 0, 0, m_mouse_speed);
-			if (keyCode == KC_S)
-				m_p_scene_manager->camera_navigate(m_camera, -1.0f, 0, 0, m_mouse_speed);
-			if (keyCode == KC_A)
-				m_p_scene_manager->camera_navigate(m_camera, 0.0f, -1.0f, 0, m_mouse_speed);
-			if (keyCode == KC_D)
-				m_p_scene_manager->camera_navigate(m_camera, 0.0f, 1.0f, 0, m_mouse_speed);
-			if (keyCode == KC_Q)
-				m_p_scene_manager->camera_navigate(m_camera, 0, 0, -1.0f, m_mouse_speed);
-			if (keyCode == KC_E)
-				m_p_scene_manager->camera_navigate(m_camera, 0, 0, 1.0f, m_mouse_speed);
-		}
+
 		return TRUE;
 	}
 

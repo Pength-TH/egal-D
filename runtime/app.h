@@ -37,7 +37,6 @@ namespace egal
 		virtual bool on_mouse_moved(double x, double y, double distance);
 		virtual bool on_mouse_pressed(const MouseButtonID &mouseid, double distance);
 		virtual bool on_mouse_released(const MouseButtonID &mouseid, double distance);
-
 		virtual bool on_key_pressed(unsigned int textid, const KeyCode &keyCode);
 		virtual bool on_key_released(unsigned int textid, const KeyCode &keyCode);
 

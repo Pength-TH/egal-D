@@ -4,7 +4,7 @@
 
 #include "common/config.h"
 #include "common/allocator/egal_allocator.h"
-#include "common/stl/tmap.h"
+#include "common/stl/TArraryMap.h"
 
 #if EGAL_USER_STL == 1
  

@@ -3,7 +3,7 @@
 
 #include "common/type.h"
 #include "common/filesystem/ifile_device.h"
-#include "common/stl/delegate_list.h"
+
 #include "common/resource/resource_public.h"
 namespace egal
 {

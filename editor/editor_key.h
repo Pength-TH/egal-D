@@ -93,8 +93,9 @@ namespace egal
 	uint32_t			m_height;
 	uint32_t			m_debug;
 	uint32_t			m_reset;
+	e_float             m_move_speed = 0.05f;
 	e_float				m_gamepadSpeed;
-	e_float				m_mouseSpeed;
+	e_float				m_mouseSpeed = 0.5f;
 	e_float				m_verticalAngle;
 	e_float				m_horizontalAngle;
 	MouseCoords			m_mouseNow;

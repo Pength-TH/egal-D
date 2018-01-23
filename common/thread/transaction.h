@@ -7,7 +7,8 @@ namespace egal
 {
 	namespace MT
 	{
-		template <class T> struct Transaction
+		template <class T> 
+		struct Transaction
 		{
 			e_void setCompleted() { m_event.trigger(); }
 			e_bool isCompleted() { return m_event.poll(); }
